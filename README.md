@@ -1,6 +1,6 @@
-Group 22 for CISC 327
+# Group 22 for CISC 327
 
-Contributors: 
-Lam, Ching Hei
-Xie, Mingyang
-Zhou, Eric
+### Contributors:   
+Lam, Ching Hei  
+Xie, Mingyang  
+Zhou, Xuhong
