@@ -1,6 +1,6 @@
 # Group 22 for CISC 327
 
 ### Contributors:   
-Lam, Ching Hei  
-Xie, Mingyang  
-Zhou, Xuhong  
+Lam, Ching Hei --- chingheilam
+Xie, Mingyang --- mentlesoul
+Zhou, Xuhong --- Violet0725
