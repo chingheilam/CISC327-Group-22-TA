@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="{{ current_locale }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ _("Multi-language Support") }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>{{ _("Hello, World!") }}</h1>
+    <p>{{ _("Choose your language:") }}</p>
+
+    <!-- 提供语言切换链接 -->
+    <a href="{{ url_for('index', lang='en') }}">English</a> |
+    <a href="{{ url_for('index', lang='zh') }}">中文</a>
+</body>
+</html>
