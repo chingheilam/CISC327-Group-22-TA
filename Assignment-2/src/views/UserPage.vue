@@ -1,55 +1,31 @@
 <template>
   <div class="background">
     <!-- Navigation Bar -->
-    <div
-    :style="{ padding: '24px', background: 'var(--bg-color-page)', borderRadius: '3px' }"
-  >
-    <t-head-menu style="marginBottom: 20px">
-      <template #logo>
-        <h2> 
-          Northwind Airlines
-        </h2>
-      </template>
+    <nav class="topbar">
+      <div class="logoText">Northwind Airline</div>
 
-       <!-- Menu Items (Home, About, Hotels & Villas, Flights) -->
-       <t-menu-item value="home">
-        <span>Home</span>
-      </t-menu-item>
-      <t-menu-item value="about">
-        <span>About</span>
-      </t-menu-item>
-      <t-menu-item value="hotels">
-        <span>Hotels & Villas</span>
-      </t-menu-item>
-      <t-menu-item value="flights">
-        <span>Flights</span>
-      </t-menu-item>
-      <!-- Right Side User Info and Button -->
-      <template #operations>
-        <div class="navbar-right">
-          <span class="user-name">LName FName</span>
-          <t-button theme="primary" shape="round">Home Page</t-button>
-        </div>
-      </template>
-    </t-head-menu>
-  </div>
+      <!-- Username and Home Page Button -->
+      <div class="user-info">
+        <span class="user-name">LName FName</span>
+      </div>
+      <button class="home-button"  @click="goToHomePage" >Home Page</button>
+    </nav>
 
     <!-- Main Content Area -->
     <div class="content-container">
       <!-- Sidebar for Navigation -->
-      <t-card class="sidebar">
-        <t-menu :value="selectedMenu">
-          <t-menu-item name="1">Personal Information</t-menu-item>
-          <t-menu-item name="2">Order History</t-menu-item>
-          <t-menu-item name="3">Flight Reschedule</t-menu-item>
-          <t-menu-item name="4">Flight Upgrade</t-menu-item>
-          <t-menu-item name="5">Flights Cancellation</t-menu-item>
-        </t-menu>
-      </t-card>
+      <div class="sidebar">
+        <div class="sidebarops">Personal Information</div>
+        <div class="sidebarops">Order History</div>
+        <div class="sidebarops">Flight Reschedule</div>
+        <div class="sidebarops">Flight Upgrade</div>
+        <div class="sidebarops">Flights Cancellation</div>
+      </div>
 
       <!-- Personal Info Section -->
-      <t-card class="form-section" title="Personal Info">
-        <p>You can change your details on this page</p>
+      <t-card class="form-section custom-card">
+        <p class="title">Personal Information</p>
+        <p class="subtext">You can change your details on this page</p>
         <t-form label-width="100px">
           <t-form-item label="First Name">
             <t-input v-model="firstName" placeholder="ex: Vincent"></t-input>
@@ -94,32 +70,125 @@
       </t-card>
 
       <!-- Payment Method Section -->
-      <t-card class="payment-section" title="Payment Method">
-        <t-menu value="payment" default-expand-all>
-          <t-menu-item name="google-pay">Google Pay</t-menu-item>
-          <t-menu-item name="credit-card">Credit Card</t-menu-item>
-        </t-menu>
+      <div class="payment-section">
+        <p class="title">Payment Method</p>
 
-        <t-divider></t-divider>
+        <!-- Google Pay -->
+        <div class="payment-option google-pay" @click="redirectToGooglePay">
+          <div class="dropdown-title">
+            Google Pay <span class="arrow">&#x25B6;</span>
+          </div>
+        </div>
 
-        <t-menu value="debit-cards" default-expand-all>
-          <t-menu-item name="debit-card-1">Axim Bank **** 4578</t-menu-item>
-          <t-menu-item name="debit-card-2">HDFC Bank **** 4521</t-menu-item>
-          <t-menu-item name="new-card">New Card</t-menu-item>
-        </t-menu>
+        <!-- Credit Card Dropdown -->
+        <div class="payment-option">
+          <div class="dropdown-title" @click="toggleDropdown('creditCard')">
+            Credit Card <span class="arrow">&#x25BC;</span>
+          </div>
 
-        <t-button theme="default" block>Add New Method</t-button>
-      </t-card>
+          <div v-if="isCreditCardDropdownVisible" class="dropdown-content">
+            <p v-if="!creditCards.length">No credit cards added yet.</p>
+            <div v-for="card in creditCards" :key="card.id" class="card-option">
+
+              <label>
+                <input type="radio" name="credit-card">
+                <img :src="card.logo" alt="Card Logo" style="width: 30px; height: 20px; margin-left: 10px;">
+                {{ card.cardholder }} - **** **** **** {{ card.cardNumber.slice(-4) }}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Debit Card Dropdown -->
+        <div class="payment-option">
+          <div class="dropdown-title" @click="toggleDropdown('debitCard')">
+            Debit Card <span class="arrow">&#x25BC;</span>
+          </div>
+
+          <div v-if="isDebitCardDropdownVisible" class="dropdown-content">
+            <p v-if="!debitCards.length">No debit cards added yet.</p>
+            <div v-for="card in debitCards" :key="card.id" class="card-option">
+
+              <label>
+                <input type="radio" name="debit-card">
+                <!-- Display the logo beside the cardholder's name and card number -->
+                <img :src="card.logo" alt="Card Logo" style="width: 30px; height: 20px; margin-left: 10px;">
+                {{ card.cardholder }} - **** **** **** {{ card.cardNumber.slice(-4) }}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add New Method Button -->
+        <button class="add-method-button" @click="showAddCardForm">
+          <i class="plus-icon">+</i> Add New Method
+        </button>
+
+        <!-- Add New Card Form (Initially Hidden) -->
+        <div v-if="isAddCardFormVisible" class="add-card-form">
+          <h3>Add New Card</h3>
+          <form @submit.prevent="saveCard">
+            <div class="form-group">
+              <label for="cardholder">Cardholder Name</label>
+              <input type="text" id="cardholder" v-model="newCard.cardholder" placeholder="e.g. John Doe">
+            </div>
+            <div class="form-group">
+              <label for="card-number">Card Number</label>
+              <input type="text" id="card-number" v-model="newCard.cardNumber" placeholder="XXXX XXXX XXXX XXXX">
+            </div>
+            <div class="form-group">
+              <label for="expiry-date">Expiry Date</label>
+              <input type="text" id="expiry-date" v-model="newCard.expiryDate" placeholder="MM/YY">
+            </div>
+            <div class="form-group">
+              <label for="cvv">CVV</label>
+              <input type="text" id="cvv" v-model="newCard.cvv" placeholder="XXX">
+            </div>
+
+            <!-- Card Type Selection -->
+            <div class="form-group">
+              <label>Card Type</label>
+              <div class="radio-container">
+                <div class="radio-option">
+                  <span>Credit</span>
+                  <input type="radio" v-model="newCard.type" value="credit">
+                  
+                </div>
+                <div class="radio-option">
+                  <span>Debit</span>
+                  <input type="radio" v-model="newCard.type" value="debit">
+                  
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="submit-button">Save Card</button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </template>
+
+
+
 
 <script>
 export default {
   data() {
     return {
-      logo: 'https://via.placeholder.com/50x50',
-      selectedMenu: '1',
+      isCreditCardDropdownVisible: false,
+      isDebitCardDropdownVisible: false,
+      isAddCardFormVisible: false,
+      creditCards: [], // Array for credit cards
+      debitCards: [],  // Array for debit cards
+      newCard: {
+        cardholder: '',
+        cardNumber: '',
+        expiryDate: '',
+        cvv: '',
+        type: '' // Type of card: 'credit' or 'debit'
+      },
       firstName: '',
       lastName: '',
       address: '',
@@ -129,54 +198,304 @@ export default {
       gender: '',
       email: '',
       password: '',
+
+      // Store multiple user entries in an array (if needed)
+      userDetailsArray: []  // Array to store multiple user info objects
     };
   },
   methods: {
-    goHome() {
-      console.log('Navigating to Home Page');
-    },
     saveChanges() {
-      console.log('Changes saved:', this.firstName, this.lastName, this.address);
+      // Create an object for the user's information
+      const userDetails = {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        address: this.address,
+        province: this.province,
+        postalCode: this.postalCode,
+        dob: this.dob,
+        gender: this.gender,
+        email: this.email,
+        password: this.password,
+      };
+      
+      // Push the userDetails object into the userDetailsArray
+      this.userDetailsArray.push(userDetails);
+
+      // Optionally, log the array to the console to check the stored data
+      console.log("User Details Saved:", this.userDetailsArray);
+
+      
     },
-  },
+
+    goToHomePage() {
+      window.location.href = '/';  // Redirect to home page URL
+    },
+
+    redirectToGooglePay() {
+      // You can replace this URL with the actual Google Pay setup page or external link
+      window.location.href = 'https://pay.google.com'; // Redirects to Google Pay
+    }
+    ,
+    // Helper method to determine the card brand and return the logo URL
+    getCardLogo(cardNumber) {
+      // Assuming you determine card type by prefix (e.g., first 4 digits)
+      if (cardNumber.startsWith('5')) {
+        return 'https://logodownload.org/wp-content/uploads/2014/07/mastercard-logo-7.png';  // URL of the Mastercard logo
+      } else if (cardNumber.startsWith('4')) {
+        return 'https://www.pngplay.com/wp-content/uploads/12/Visa-Card-Logo-Transparent-Free-PNG.png';  // URL of the Visa logo
+      }
+      return 'https://cdn3.iconfinder.com/data/icons/toolbar-signs-5/512/credit_card_payment_visa_platinum-1024.png';  // Default card logo if unknown
+    },
+
+
+    toggleDropdown(type) {
+      if (type === 'creditCard') {
+        this.isCreditCardDropdownVisible = !this.isCreditCardDropdownVisible;
+      } else if (type === 'debitCard') {
+        this.isDebitCardDropdownVisible = !this.isDebitCardDropdownVisible;
+      }
+    },
+    showAddCardForm() {
+      this.isAddCardFormVisible = true;
+    },
+    saveCard() {
+      console.log("Card saved:", this.newCard);
+
+      const logoUrl = this.getCardLogo(this.newCard.cardNumber); // Get logo based on card number
+
+      // Add the new card to the appropriate array (credit or debit)
+      const cardData = {
+        id: this.debitCards.length + 1,  // Unique ID
+        cardholder: this.newCard.cardholder,
+        cardNumber: this.newCard.cardNumber,
+        expiryDate: this.newCard.expiryDate,
+        cvv: this.newCard.cvv,
+        logo: logoUrl  // Add the logo URL
+      };
+
+      if (this.newCard.type === 'credit') {
+        this.creditCards.push(cardData);
+      } else if (this.newCard.type === 'debit') {
+        this.debitCards.push(cardData);
+      }
+
+      // Reset form after saving
+      this.newCard = {
+        cardholder: '',
+        cardNumber: '',
+        expiryDate: '',
+        cvv: '',
+        type: ''
+      };
+      this.isAddCardFormVisible = false;
+    },
+  }
 };
 </script>
 
+
+
+
 <style>
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;  /* Ensures the text is aligned with the radio button */
+  justify-content: flex-start;  /* Aligns the radio button and text to the left */
+  margin-bottom: 10px;  /* Adds spacing between the radio options */
+}
+
+.radio-option input[type="radio"] {
+  margin-right: 19px;  /* Space between the radio button and the label */
+}
+
+.radio-container {
+  display: flex;
+  flex-direction: row;
+}
+.title{
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-start;
+  font-family: Inter;
+  font-size: 40px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+
+.subtext{
+  display: flex;
+  justify-content:flex-start;
+  font-family: Inter;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-align: left;
+  color: #475467;
+
+}
+
+.topbar {
+  justify-content: center;
+  position: absolute;
+  top: 4.63%;
+  width: 87%;
+  height: 7.59%;
+  display: flex;
+  align-items: center;
+  background: rgba(234, 240, 240, 0.4);
+  backdrop-filter: blur(5.5px);
+  border-radius: 1.5rem;
+  padding: 0 2%
+}
+
+.logoText {
+  position: absolute;
+  width: 22.06%;
+  height: 65.85%;
+  left: 2.847%;
+
+  top: 50%;
+  transform: translateY(-50%);
+
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.88vw; /* 36px 换算为 vw */
+
+  display: flex;
+  text-align: center;
+  align-items: center; /* 垂直居中 */
+
+  letter-spacing: 0.06em;
+  color: #283841;
+}
+
+
+
+.user-info {
+  position: absolute;
+  right: 13%;
+  display: flex;
+  align-items: center;
+  
+}
+
+.user-name {
+  margin-right: 15px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1vw;
+  color: #242222;
+}
+
+.home-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  padding: calc(82px * 0.146) calc(1686px * 0.019); /* 动态 padding，基于父元素的比例 */
+  gap: calc(1686px * 0.006); /* 动态 gap，基于父元素宽度 */
+
+  position: absolute;
+  width: calc(1686px * 0.0985); /* 166px 换算为父元素宽度的比例 */
+  height: calc(82px * 0.62); /* 48px 换算为父元素高度的比例 */
+
+  right: 2.847%;
+  top: 50%;
+  transform: translateY(-50%);
+
+  background: #3470c4;
+  border-radius: calc(82px * 0.293); /* 动态圆角，基于父元素高度 */
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: calc(1686px * 0.011); /* 动态字体大小，基于父元素宽度 */
+}
+
+.home-button:hover {
+  background-color: #285a9c; /* 鼠标悬停时的背景颜色变化 */
+}
+
 .background {
   background-image: url('/images/background.jpg'); 
   background-size: cover;
-  background-position: center;
-  height: 100vh;
-  padding: 20px;
+  position:absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
+
 
 .content-container {
   display: flex;
-  justify-content: space-between;
-  margin: 20px auto;
-  max-width: 1200px;
+  justify-content:space-evenly;
+  margin-top: 8vw;
+  max-width: 94%;
 }
 
 .sidebar {
-  width: 20%;
-  background-color: rgba(0, 0, 0, 0.3);
+  width: 12%; /* Adjust width as per your design */
+  background: rgba(0, 0, 0, 0.3); /* Slightly dark transparent background */
+  border-radius: 15px; /* Rounded corners */
+  border: 1px solid #FFFFFF;
   padding: 20px;
-  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  backdrop-filter: blur(35px)
+}
+
+/* Menu Items Styling */
+.sidebarops {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align text and icons */
+  padding: 12px 18px; /* Padding inside each item */
+  border: 1px solid #FFFFFF; /* Light border around items */
+  border-radius: 10px; /* Rounded corners for each item */
+  margin-bottom: 10px; /* Space between items */
+  color: white; /* Text color */
+  background-color: transparent; /* Darker transparent background */
+  font-family: 'Poppins', sans-serif; /* Custom font */
+  font-size: 16px; /* Font size */
+  font-weight: 500; /* Font weight */
+}
+
+/* Hover Effect */
+.sidebarops:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Light background change on hover */
+  cursor: pointer;
+}
+
+/* Active Menu Item Styling */
+.sidebarops.is-active {
+  background-color: rgba(255, 255, 255, 0.4); /* Active item background */
   color: white;
 }
 
-.navbar-right {
-  display: flex;
-  align-items: center;
+/* Align icons and text inside the menu item */
+.sidebarops i {
+  margin-right: 12px; /* Space between icon and text */
+  font-size: 20px;
+  color: #007bff; /* Adjust color as per design */
 }
 
+
 .form-section, .payment-section {
-  width: 35%;
-  background-color: rgba(255, 255, 255, 0.8);
+  
+  width: 30%;
+  border: 1px solid #FFFFFF;
+  background: #FFFFFF70;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 15px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(30px)
+
 }
 
 h2 {
@@ -185,11 +504,126 @@ h2 {
   font-weight: 600;
   line-height: 54px;
   letter-spacing: 0.06em;
-  text-align: center;
+  color: #252121;
+  margin-right: 6em;
+}
+
+.payment-option {
+  margin-bottom: 20px;
+  cursor: pointer; /* Makes it clickable */
+}
+
+.dropdown-title {
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(52, 112, 196, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-family: Inter;
+  font-size: 16px;
+  text-align: left;
+  color:  #344054;
+
 
 }
 
-.t-button {
+.arrow {
+  font-size: 15px;
+}
+
+.dropdown-content {
+  display: block;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
   margin-top: 10px;
+}
+
+.card-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.card-option img {
+  width: 30px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.add-method-button {
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: transparent;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.add-method-button:hover {
+  background-color: rgba(52, 112, 196, 0.2);
+}
+
+.plus-icon {
+  font-size: 18px;
+  margin-right: 5px;
+}
+
+/* Add New Card Form */
+.add-card-form {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.add-card-form h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.submit-button {
+  padding: 10px;
+  background-color: #3470c4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+}
+
+.submit-button:hover {
+  background-color: #285a9c;
 }
 </style>
