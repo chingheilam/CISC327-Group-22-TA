@@ -194,14 +194,14 @@ body {
 
   position: absolute;
   width: calc(1686px * 0.0985); /* 166px 换算为父元素宽度的比例 */
-  height: calc(82px * 0.62); /* 48px 换算为父元素高度的比例 */
+  height: 62.2%; /* 48px 换算为父元素高度的比例 */
 
   right: 2.847%;
   top: 50%;
   transform: translateY(-50%);
 
   background: #3470c4;
-  border-radius: calc(82px * 0.293); /* 动态圆角，基于父元素高度 */
+  border-radius: calc(24 / 51 * 59px);
   color: #fff;
   border: none;
   cursor: pointer;
@@ -325,7 +325,7 @@ body {
   padding: 0.75rem;
   background-color: #3470c4;
   border: none;
-  border-radius: 15.47%/50%;
+  border-radius: 26px;
   cursor: pointer;
 
   color: #eaf0f0;
