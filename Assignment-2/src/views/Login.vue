@@ -67,13 +67,40 @@ export default {
   name: 'LoginPage',
 }
 
-const button = document.querySelector('.login-button')
-function adjustButtonSize() {
-  const buttonWidth = button.offsetWidth
-  button.style.height = `${buttonWidth * (52 / 168)}px` // 高度根据宽高比调整
+document.addEventListener('DOMContentLoaded', function () {
+  adjustAspectRatio() // 页面加载时调用一次
+  window.addEventListener('resize', adjustAspectRatio) // 监听窗口调整事件
+})
+
+function adjustAspectRatio() {
+  const pageContent = document.querySelector('.login-page')
+
+  if (pageContent) {
+    const windowWidth = window.innerWidth
+    const windowHeight = window.innerHeight
+
+    const aspectRatio = 16 / 9 // 目标比例 16:9
+    const windowRatio = windowWidth / windowHeight
+
+    if (windowRatio > aspectRatio) {
+      // 窗口过扁，需要左右留白
+      const contentHeight = windowHeight
+      const contentWidth = contentHeight * aspectRatio // 根据高度调整宽度
+      pageContent.style.width = `${contentWidth}px`
+      pageContent.style.height = `${contentHeight}px`
+      pageContent.style.margin = `0 auto` // 水平居中
+    } else {
+      // 窗口过窄，需要上下留白
+      const contentWidth = windowWidth
+      const contentHeight = contentWidth / aspectRatio // 根据宽度调整高度
+      pageContent.style.width = `${contentWidth}px`
+      pageContent.style.height = `${contentHeight}px`
+      pageContent.style.margin = `auto 0` // 垂直居中
+    }
+  } else {
+    console.error('Page content not found')
+  }
 }
-window.addEventListener('resize', adjustButtonSize)
-adjustButtonSize() // 页面加载时调整一次
 </script>
 
 <style scoped>
@@ -153,6 +180,7 @@ body {
 
   letter-spacing: 0.06em;
   color: #283841;
+  white-space: nowrap; /* 防止文本换行 */
 }
 
 .home-button {
@@ -185,7 +213,6 @@ body {
 }
 
 /* 欢迎文本 */
-/* 欢迎文本 */
 .welcome-text {
   position: absolute;
   width: 31.25%;
@@ -204,7 +231,7 @@ body {
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: 800;
-  font-size: 5.2vw; /* 100px 换算成 vw */
+  font-size: 5.2vw;
   line-height: 5.2vw; /* 行高与字体大小一致 */
   letter-spacing: 0.06em;
   text-transform: capitalize;
@@ -213,15 +240,16 @@ body {
 }
 
 .welcome-text p {
-  height: 15.96%; /* 45px 换算成 vh */
+  height: 15.96%;
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: 600;
-  font-size: 1.56vw; /* 30px 换算成 vw */
+  font-size: 1.56vw;
   letter-spacing: 0.06em;
   text-transform: capitalize;
   color: #ffffff;
   margin: 1rem 0 0 0; /* 添加一点上方的间距 */
+  white-space: nowrap; /* 防止文本换行 */
 }
 
 /* 登录表单 */
