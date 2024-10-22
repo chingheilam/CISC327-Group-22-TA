@@ -7,10 +7,18 @@
 
       <!-- Centered Menu -->
       <div class="centered-menu">
-        <a href="#" class="menu-item active">Flights</a>
-        <a href="#" class="menu-item">Passenger</a>
-        <a href="#" class="menu-item">Seats</a>
-        <a href="#" class="menu-item">Payment</a>
+        <a href="#" class="menu-item active">
+          <img src="../icons/flight-blue.png" alt="Flights Icon" class="menu-icon" /> Flights
+        </a>
+        <a href="#" class="menu-item">
+          <img src="../icons/passenger-dark.png" alt="Passenger Icon" class="menu-icon" /> Passenger
+        </a>
+        <a href="#" class="menu-item">
+          <img src="../icons/Seats-dark.png" alt="Seats Icon" class="menu-icon" /> Seats
+        </a>
+        <a href="#" class="menu-item">
+          <img src="../icons/payment-dark.png" alt="Payment Icon" class="menu-icon" /> Payment
+        </a>
       </div>
 
       <!-- User Page Button -->
@@ -133,9 +141,11 @@
   }
 
   .menu-item {
+    display: flex;
+    align-items: center;
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: grey;
     text-decoration: none;
     transition: color 0.3s ease;
@@ -150,6 +160,12 @@
     font-weight: bold;
   }
 
+  .menu-icon {
+    width: 17px;
+    height: 17px;
+    margin-right: 8px;
+  }
+
   .user-section {
     display: flex;
     align-items: center;
@@ -157,14 +173,16 @@
   }
 
   .user-name {
-    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
+    font-weight: bold;
     color: #283841;
     margin-right: 5px;
   }
 
   .userPage-button {
     padding: 8px 15px;
-    font-size: 1rem;
+    font-size: 0.8rem;
     color: white;
     background-color: #3470c4;
     border: none;
