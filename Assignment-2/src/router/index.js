@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import UserPage from '../views/UserPage.vue'; // Import the user page view
-import PersonalInfo from '../components/PersonalInfo.vue'; // Import component
 import OrderHistory from '../components/OrderHistory.vue'; // Import component
 import FlightReschedule from '../components/FlightRescheduleUpgrade.vue'; // Import component
 import FlightsCancellation from '../components/FlightsCancellation.vue'; // Import component
@@ -20,11 +19,6 @@ const router = createRouter({
       component: UserPage,
       // Nested routes for the sidebar items
       children: [
-        {
-          path: 'personal-info',
-          name: 'personal-info',
-          component: PersonalInfo
-        },
         {
           path: 'order-history',
           name: 'order-history',

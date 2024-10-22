@@ -225,7 +225,11 @@ export default {
 
       
     },
-
+    reloadPage() {
+      this.$router.push('/userPage');  // Ensure the current route is pushed
+      this.$router.go(0);              // Forces the page to reload
+    },
+    
     goToHomePage() {
       window.location.href = '/';  // Redirect to home page URL
     },
