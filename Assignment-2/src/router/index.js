@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import FlightSearch from '../components/FlightSearch.vue';
-import FlightResults from '../components/FlightResults.vue';
+import FlightSearch from '../views/FlightSearch.vue';
+import FlightResults from '../views/FlightResults.vue';
 
 const routes = [
     {
