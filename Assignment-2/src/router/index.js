@@ -1,5 +1,10 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import UserPage from '../views/UserPage.vue'; // Import the user page view
+import PersonalInfo from '../components/PersonalInfo.vue'; // Import component
+import OrderHistory from '../components/OrderHistory.vue'; // Import component
+import FlightReschedule from '../components/FlightRescheduleUpgrade.vue'; // Import component
+import FlightsCancellation from '../components/FlightsCancellation.vue'; // Import component
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,10 +17,32 @@ const router = createRouter({
     {
       path: '/userPage',
       name: 'userPage',
-      
-      component: () => import('../views/UserPage.vue')
+      component: UserPage,
+      // Nested routes for the sidebar items
+      children: [
+        {
+          path: 'personal-info',
+          name: 'personal-info',
+          component: PersonalInfo
+        },
+        {
+          path: 'order-history',
+          name: 'order-history',
+          component: OrderHistory
+        },
+        {
+          path: 'flight-rescheduleUpgrade',
+          name: 'flight-rescheduleUpgrade',
+          component: FlightReschedule
+        },
+        {
+          path: 'flights-cancellation',
+          name: 'flights-cancellation',
+          component: FlightsCancellation
+        }
+      ]
     }
   ]
-})
+});
 
-export default router
+export default router;

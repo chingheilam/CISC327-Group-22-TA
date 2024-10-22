@@ -15,11 +15,10 @@
     <div class="content-container">
       <!-- Sidebar for Navigation -->
       <div class="sidebar">
-        <div class="sidebarops">Personal Information</div>
-        <div class="sidebarops">Order History</div>
-        <div class="sidebarops">Flight Reschedule</div>
-        <div class="sidebarops">Flight Upgrade</div>
-        <div class="sidebarops">Flights Cancellation</div>
+        <router-link to="/userPage/personal-info" class="sidebarops">Personal Information</router-link>
+        <router-link to="/userPage/order-history" class="sidebarops">Order History</router-link>
+        <router-link to="/userPage/flight-rescheduleUpgrade" class="sidebarops">Flight Reschedule/Upgrade</router-link>
+        <router-link to="/userPage/flights-cancellation" class="sidebarops">Flights Cancellation</router-link>
       </div>
 
       <!-- Personal Info Section -->
