@@ -15,7 +15,7 @@
     <div class="content-container">
       <!-- Sidebar for Navigation -->
       <div class="sidebar">
-        <router-link to="/userPage" class="sidebarops" @click.native="reloadPage">Personal Information</router-link>
+        <router-link to="/userPage" class="sidebarops">Personal Information</router-link>
         <router-link to="/userPage/order-history" class="sidebarops">Order History</router-link>
         <router-link to="/userPage/flight-rescheduleUpgrade" class="sidebarops">Flight Reschedule/Upgrade</router-link>
         <router-link to="/userPage/flights-cancellation" class="sidebarops">Flights Cancellation</router-link>
@@ -165,6 +165,7 @@
           </form>
         </div>
       </div>
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -225,11 +226,6 @@ export default {
 
       
     },
-    reloadPage() {
-      this.$router.push('/userPage');  // Ensure the current route is pushed
-      this.$router.go(0);              // Forces the page to reload
-    },
-    
     goToHomePage() {
       window.location.href = '/';  // Redirect to home page URL
     },
