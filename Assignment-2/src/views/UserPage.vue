@@ -15,7 +15,7 @@
     <div class="content-container">
       <!-- Sidebar for Navigation -->
       <div class="sidebar">
-        <router-link to="/userPage/personal-info" class="sidebarops">Personal Information</router-link>
+        <router-link to="/userPage" class="sidebarops" @click.native="reloadPage">Personal Information</router-link>
         <router-link to="/userPage/order-history" class="sidebarops">Order History</router-link>
         <router-link to="/userPage/flight-rescheduleUpgrade" class="sidebarops">Flight Reschedule/Upgrade</router-link>
         <router-link to="/userPage/flights-cancellation" class="sidebarops">Flights Cancellation</router-link>
