@@ -1,9 +1,9 @@
 <template>
     <!-- topbar -->
     <nav class="topbar">
-        <div class="logoText">Northwind Airline</div>
+        <div class="logoText">Northwind Airlines</div>
         
-        <!-- New Centered Menu -->
+        <!-- Centered Menu -->
         <div class="centered-menu">
             <a href="#" class="menu-item active">Home</a>
             <a href="#" class="menu-item">About</a>

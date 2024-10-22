@@ -1,7 +1,10 @@
 <template>
     <!-- topbar -->
     <nav class="topbar">
-      <div class="logoText">Northwind Airline</div>
+
+      <!-- Logo -->
+      <div class="logoText">Northwind Airlines</div>
+
       <!-- Centered Menu -->
       <div class="centered-menu">
         <a href="#" class="menu-item active">Flights</a>
@@ -9,7 +12,12 @@
         <a href="#" class="menu-item">Seats</a>
         <a href="#" class="menu-item">Payment</a>
       </div>
-      <button class="userPage-button">User Page</button>
+
+      <!-- User Page Button -->
+      <div class="user-section">
+          <span class="user-name">LName FName</span>
+          <button class="userPage-button">User Page</button>
+      </div>
     </nav>
   
     <div class="flight-results-container">
@@ -102,18 +110,13 @@
   
   /* Topbar */
   .topbar {
-    position: absolute;
-    top: 2%;
-    left: 5%;
-    width: 90%;
-    height: 7.59%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(234, 240, 240, 0.4);
-    backdrop-filter: blur(5.5px);
-    border-radius: 0.5rem;
-    padding: 0 20px;
+    background-color: #e8f0f2; /* Light background */
+    padding: 10px 40px;
+    height: 60px; /* Set height */
+
   }
   
   .logoText {
@@ -122,7 +125,56 @@
     font-size: 1.88vw;
     color: #283841;
   }
+
+  .centered-menu {
+    display: flex;
+    justify-content: center;
+    gap: 40px
+  }
+
+  .menu-item {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    color: grey;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
   
+  .menu-item:hover {
+    color: #3470c4;
+  }
+
+  .menu-item.active {
+    color: #285a9c;
+    font-weight: bold;
+  }
+
+  .user-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .user-name {
+    font-size: 1rem;
+    color: #283841;
+    margin-right: 5px;
+  }
+
+  .userPage-button {
+    padding: 8px 15px;
+    font-size: 1rem;
+    color: white;
+    background-color: #3470c4;
+    border: none;
+    border-radius: 20px;
+  }
+
+  .userPage-button:hover {
+    background-color: #285a9c;
+  }
+
   /* Flight Results Container */
   .flight-results-container {
     padding: 20px;
