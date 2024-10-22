@@ -449,28 +449,36 @@ export default {
   backdrop-filter: blur(35px)
 }
 
-/* Menu Items Styling */
+/* Maintain the box and remove underline for router-link elements */
 .sidebarops {
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* Align text and icons */
-  padding: 12px 18px; /* Padding inside each item */
-  border: 1px solid #FFFFFF; /* Light border around items */
-  border-radius: 10px; /* Rounded corners for each item */
-  margin-bottom: 10px; /* Space between items */
-  color: white; /* Text color */
-  background-color: transparent; /* Darker transparent background */
-  font-family: 'Poppins', sans-serif; /* Custom font */
-  font-size: 16px; /* Font size */
-  font-weight: 500; /* Font weight */
+  justify-content: flex-start;
+  padding: 12px 18px;
+  border: 1px solid #FFFFFF; /* Keep the white border around the box */
+  border-radius: 10px;
+  margin-bottom: 10px;
+  color: white;
+  background-color: transparent;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none; /* Remove underline */
 }
 
 /* Hover Effect */
 .sidebarops:hover {
-  background-color: rgba(255, 255, 255, 0.2); /* Light background change on hover */
+  background-color: rgba(255, 255, 255, 0.2); /* Keep hover effect */
   cursor: pointer;
+  text-decoration: none; /* Ensure underline is removed on hover as well */
 }
 
+/* Specific styling for router-link */
+.sidebarops.router-link-active {
+  background-color: rgba(255, 255, 255, 0.4); /* Active item background */
+  color: white;
+  text-decoration: none; /* Keep underline removed for active state */
+}
 /* Active Menu Item Styling */
 .sidebarops.is-active {
   background-color: rgba(255, 255, 255, 0.4); /* Active item background */
@@ -625,4 +633,6 @@ h2 {
 .submit-button:hover {
   background-color: #285a9c;
 }
+
+
 </style>
