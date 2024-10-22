@@ -13,6 +13,12 @@
 
         <button class="userPage-button">User Page</button>
     </nav>
+
+    <!-- Add Search Container -->
+    <div class="search-container">
+        <h1>Book Flights With Us</h1>
+    </div>
+    
 </template>
 
 <script>
