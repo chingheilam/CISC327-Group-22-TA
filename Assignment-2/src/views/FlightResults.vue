@@ -23,19 +23,39 @@
 
       <!-- User Page Button -->
       <div class="user-section">
-          <span class="user-name">LName FName</span>
-          <button class="userPage-button">User Page</button>
+        <span class="user-name">LName FName</span>
+        <button class="userPage-button">User Page</button>
       </div>
     </nav>
-  
-    <div class="flight-results-container">
-      <!-- Top Bar with selected flight details -->
-      <div class="flight-header">
-        <div class="flight-type">Single</div>
-        <div class="flight-route">{{ departure }} → {{ arrival }}</div>
-        <t-button class="change-button">Change</t-button>
-        <div class="flight-date">{{ date }}</div>
+    
+    <div class="flight-selection-bar">
+      <!-- First Section: Single -->
+      <div class="flight-type">Single</div>
+
+      <!-- Second Section: Origin to destination with departure date -->
+      <div class="flight-info">
+        <div>{{ departure }} → {{ arrival }}</div>
+        <div>{{ date }}</div>
       </div>
+
+      <!-- Third Section: Change Button -->
+      <div class="change-button">
+        <div>Change</div>
+      </div>
+
+      <!-- Fourth Section: Dates and Prices -->
+      <div class="date-price-section">
+        <div v-for="(day, index) in nextDays" :key="index" class="date-price-item">
+          <div>{{ day.date }}</div>
+          <div>${{ day.price }}</div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="flight-results-container">
+      
   
       <!-- Filters and Classes -->
       <div class="flight-filters">
@@ -62,7 +82,7 @@
         <t-list :split="true">
           <t-list-item v-for="(flight, index) in flightResults" :key="index">
             <div class="flight-item">
-              <div class="flight-info">
+              <div class="flight-information">
                 <p>{{ flight.time }}</p>
                 <p>{{ flight.flightNumber }} | {{ flight.aircraft }}</p>
                 <p>{{ flight.duration }}</p>
@@ -94,6 +114,15 @@
           { time: '07:40', flightNumber: 'NAN061', aircraft: 'AirBus333(Wide)', duration: 'Direct | Total Time: 5h 10min', priceEconomy: '$854', pricePremium: '$1100', priceFirst: '$2800' },
           { time: '08:00', flightNumber: 'NAN9527', aircraft: 'AirBus333(Wide)', duration: 'Direct | Total Time: 4h 59min', priceEconomy: '$900', pricePremium: '$1100', priceFirst: '$2800' },
           { time: '08:25', flightNumber: 'NAN9527', aircraft: 'AirBus333(Wide)', duration: 'Direct | Total Time: 4h 53min', priceEconomy: '$950', pricePremium: '$1300', priceFirst: '$3000' },
+        ],
+        nextDays: [
+          { date: '9-29 Sun', price: 700 },
+          { date: '9-30 Mon', price: 700 },
+          { date: '10-1 Tue', price: 700 },
+          { date: '10-2 Wed', price: 700 },
+          { date: '10-3 Thu', price: 700 },
+          { date: '10-4 Fri', price: 700 },
+          { date: '10-5 Sat', price: 700 }
         ]
       };
     }
@@ -193,32 +222,92 @@
     background-color: #285a9c;
   }
 
+  .flight-selection-bar {
+    display: flex;
+    justify-content: space-between;
+    background: linear-gradient(to right, #468bc7, #2a5b94, #468bc7);
+    align-items: center;
+    padding: 10px 80px;
+    height: 30px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); 
+}
+
+  .flight-type {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    flex: 1;
+    color: white;
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.15);
+    padding: 5px 5px;
+    border-radius: 10px;
+  }
+
+  .flight-info {
+    font-family: 'Poppins', sans-serif;
+    color: rgba(255, 255, 255, 0.874);
+    flex: 3;
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  .flight-info div {
+    font-size: 1rem;
+  }
+
+  .date-price-section {
+    color: rgba(255, 255, 255, 0.874);
+    display: flex;
+    flex: 6;
+    justify-content: space-around;
+  }
+
+  .date-price-item {
+    text-align: center;
+    font-size: 1rem;
+    padding: 6px;
+  }
+
+  .change-button {
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    flex: 1;
+    text-align: center;
+    padding: 0 10px;
+    margin-right: 35px; /* Increase space between change button and prices */
+    font-size: 1rem;
+  }
+
+  .change-button div {
+    border: 2px solid #a6bad5;
+    color: white;
+    padding: 5px 5px;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+  }
+
+
+
+  .t-button {
+    background-color: transparent !important; /* Transparent button */
+    border: 2px solid #3470c4 !important; /* Blue border */
+    color: #3470c4 !important; /* Blue text */
+    padding: 5px 10px;
+    border-radius: 10px;
+  }
+
+  .change-button div:hover {
+    background-color: rgba(255, 255, 255, 0.25); /* Lighter hover effect */
+  }
+
+
+
+
   /* Flight Results Container */
   .flight-results-container {
     padding: 20px;
-  }
-  
-  .flight-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background-color: #f0f0f0;
-    border-radius: 5px;
-  }
-  
-  .flight-type {
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
-  
-  .flight-route {
-    font-size: 1.5rem;
-  }
-  
-  .change-button {
-    background-color: #3470c4;
-    color: white;
   }
   
   .flight-date {
