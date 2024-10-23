@@ -15,11 +15,11 @@
     <div class="content-container">
       <!-- Sidebar for Navigation -->
       <div class="sidebar">
-        <router-link to="/userPage" class="sidebarops">Personal Information</router-link>
-        <router-link to="/order-history" class="sidebarops">Order History</router-link>
-        <router-link to="/flight-rescheduleUpgrade" class="sidebarops">Flight Reschedule</router-link>
-        <router-link to="/flight-rescheduleUpgrade" class="sidebarops">Flight Upgrade</router-link>
-        <router-link to="/flights-cancellation" class="sidebarops">Flights Cancellation</router-link>
+        <router-link to="/userPage" class="sidebarops"><img src="../../public/images/Icons/passenger-blue.png" alt="PI" class="nav-icon" />Personal Information</router-link>
+        <router-link to="/order-history" class="sidebarops"><img src="../../public/images/Icons/flight-blue.png" alt="OH" class="nav-icon"/>Order History</router-link>
+        <router-link to="/flight-rescheduleUpgrade" class="sidebarops"><img src="../../public/images/Icons/Reschedule.png" alt="Personal Info" class="nav-icon" />Flight Reschedule</router-link>
+        <router-link to="/flight-rescheduleUpgrade" class="sidebarops"><img src="../../public/images/Icons/Upgrade.png" alt="Personal Info" class="nav-icon" />Flight Upgrade</router-link>
+        <router-link to="/flights-cancellation" class="sidebarops"><img src="../../public/images/Icons/Cancel.png" alt="Personal Info" class="nav-icon" />Flights Cancellation</router-link>
       </div>
 
       <!-- Personal Info Section -->
@@ -443,7 +443,7 @@ export default {
 .sidebar {
  
 
-  width: 12%; /* Adjust width as per your design */
+  width: 15%; /* Adjust width as per your design */
   
   background: rgba(0, 0, 0, 0.3); /* Slightly dark transparent background */
   border-radius: 15px; /* Rounded corners */
@@ -638,5 +638,12 @@ h2 {
   background-color: #285a9c;
 }
 
+.nav-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;  /* Maintain the aspect ratio of the image */
+  margin-right: 10px;
+  vertical-align: middle;
+}
 
 </style>
