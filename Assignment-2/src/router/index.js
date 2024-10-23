@@ -15,7 +15,7 @@ const routes = [
   { path: '/login', name: 'Login', component: LoginPage },
   { path: '/register', name: 'Register', component: RegistrationPage },
   {
-    path: '/',
+    path: '/flight-search',
     name: 'FlightSearch',
     component: FlightSearch
   },

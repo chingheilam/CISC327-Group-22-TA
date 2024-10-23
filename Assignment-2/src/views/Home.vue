@@ -11,6 +11,12 @@
         <li>
           <router-link to="/login">Login Page</router-link>
         </li>
+        <li>
+          <router-link to="/flight-search">Flight Search</router-link>
+        </li>
+        <li>
+          <router-link to="/flight-results">Flight Results</router-link>
+        </li>
       </ul>
     </nav>
   </div>
