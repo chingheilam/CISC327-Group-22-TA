@@ -10,11 +10,6 @@ Before running this project, make sure you have the following installed on your 
 
 - Node.js (v16.x or higher recommended)
 - npm (comes with Node.js)
-- vue@3.5.12
-- vue-router@4.4.5
-- tdesign-vue-next@1.10.2
-- vite@5.4.9
-- vitest@2.1.3
 
 ### Getting Started
 
