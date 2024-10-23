@@ -80,26 +80,28 @@
         </div>
       </div>
     </div>
-      <!-- Flight List -->
-      <div class="flight-list">
-        <t-list :split="true">
-          <t-list-item v-for="(flight, index) in flightResults" :key="index">
-            <div class="flight-item">
-              <div class="flight-information">
-                <p>{{ flight.time }}</p>
-                <p>{{ flight.flightNumber }} | {{ flight.aircraft }}</p>
-                <p>{{ flight.duration }}</p>
-              </div>
-              <div class="flight-detail">
-                <p>{{ flight.priceEconomy }}</p>
-                <p>{{ flight.pricePremium }}</p>
-                <p>{{ flight.priceFirst }}</p>
-              </div>
+    <!-- Flight List -->
+    <div class="flight-list">
+      <t-list :split="true">
+        <t-list-item v-for="(flight, index) in flightResults" :key="index">
+          <div class="flight-item">
+            <div class="flight-information">
+              <p>{{ flight.time }}</p>
+              <p>{{ flight.flightNumber }} | {{ flight.aircraft }}</p>
+              <p>{{ flight.duration }}</p>
               <t-button>Flight Detail</t-button>
             </div>
-          </t-list-item>
-        </t-list>
-      </div>
+            
+            <div class="flight-detail">
+              <p>{{ flight.priceEconomy }}</p>
+              <p>{{ flight.pricePremium }}</p>
+              <p>{{ flight.priceFirst }}</p>
+            </div>
+          
+          </div>
+        </t-list-item>
+      </t-list>
+    </div>
     
   </template>
   
@@ -384,26 +386,78 @@
   /* Flight List */
   .flight-list {
     width: 100%;
+    max-width: 1200px; 
+    margin: 0 auto; 
   }
   
   .flight-item {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     padding: 15px;
     background-color: #fff;
     border-radius: 10px;
     margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    align-items: center; 
   }
-  
-  .flight-info {
+
+  .flight-information {
     width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .flight-information p {
+    margin: 3px 0;
+  }
+
+  .flight-information p:first-child {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .flight-information p:nth-child(2) {
+    font-size: 1rem;
+    color: #666;
+  }
+
+  .flight-information p:nth-child(3) {
+    font-size: 1rem;
+    color: #666;
   }
   
   .flight-detail {
-    width: 30%;
+    width: 50%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #b11111;
+  }
+
+  .flight-detail p {
+    font-weight: bold;
+    color: #b11111;
+    min-width: 100px; /* Set minimum width for price items to align columns */
+    text-align: right;
+    margin-right: 40px;
+  }
+
+  .flight-detail-button {
+    margin-right: 15px;
+    background-color: transparent;
+    color: #285a9c;
+    border: 1px solid #285a9c;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+
+  .flight-detail-button:hover {
+      background-color: #285a9c;
+      color: white;
   }
   </style>
   
