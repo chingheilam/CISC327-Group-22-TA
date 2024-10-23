@@ -1,41 +1,54 @@
-# Assignment-2
+## Login Page with Vue and TDesign
 
-This template should help get you started developing with Vue 3 in Vite.
+This project is a simple login page created using `Vue.js` for frontend and will use `Django` for backend, and using `vitest` to write test scripts.
 
-## Recommended IDE Setup
+It includes simulated authentication with visual feedback on login status and input validation.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+In some of the comments, we have chosen to use bilingualism.
 
-## Customize configuration
+### Main Prerequisites
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+Before running this project, make sure you have the following installed on your system:
 
-## Project Setup
+- Node.js (v16.x or higher recommended)
+- npm (comes with Node.js)
 
-```sh
-npm install
-```
+### Getting Started
 
-### Compile and Hot-Reload for Development
+1. Clone the repository:
 
-```sh
-npm run dev
-```
+   ```bash
+   git clone https://github.com/mentlesoul/CISC327-Group-22-TA.git
+   cd CISC327-Group-22-TA\Assignment-2
+   ```
 
-### Compile and Minify for Production
+2. Installation dependencies:
 
-```sh
-npm run build
-```
+   At the root directory, thus `Assignment-2` folder, run bash/shell command below:
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+   ```properties
+   npm install
+   ```
 
-```sh
-npm run test:unit
-```
+3. Local development launch:
 
-### Lint with [ESLint](https://eslint.org/)
+   ```properties
+   npm run dev
+   ```
 
-```sh
-npm run lint
-```
+   Visit http://localhost:5173/ to view the page.
+
+4. Run test script:
+
+   ```properties
+   npm run test:unit
+   ```
+
+### Test Case
+
+- Test Case 1: checking the login form rendering
+- Test Case 2-4: Simulate the input of an invalid mailbox and test the mailbox validation logic
+- Test Case 5: Simulate the input of the correct account and password, test the status change of the button and the processing logic after success
+- Test Case 6: Simulate the incorrect account and password, test the status change of the button and the processing logic after the failure
+
+![Test result picture](./screenshots.png)

@@ -1,5 +1,6 @@
 <template>
   <div class="background">
+    <div class="overlay"></div>
     <!-- Navigation Bar -->
     <nav class="topbar">
       <div class="logoText">Northwind Airline</div>
@@ -16,19 +17,27 @@
       <!-- Sidebar for Navigation -->
       <div class="sidebar">
         <router-link to="/userPage" class="sidebarops">
-          <img src="../../public/images/Icons/passenger-blue.png" alt="PI" class="nav-icon" />Personal Information
+          <img
+            src="../icons/passenger-blue.png"
+            alt="PI"
+            class="nav-icon"
+          />Personal Information
         </router-link>
         <router-link to="/order-history" class="sidebarops">
-          <img src="../../public/images/Icons/flight-blue.png" alt="OH" class="nav-icon" />Order History
+          <img src="../icons/flight-blue.png" alt="OH" class="nav-icon" />Order
+          History
         </router-link>
         <router-link to="/flight-rescheduleUpgrade" class="sidebarops">
-          <img src="../../public/images/Icons/Reschedule.png" alt="FR" class="nav-icon" />Flight Reschedule
+          <img src="../icons/Reschedule.png" alt="FR" class="nav-icon" />Flight
+          Reschedule
         </router-link>
         <router-link to="/flight-rescheduleUpgrade" class="sidebarops">
-          <img src="../../public/images/Icons/Upgrade.png" alt="FU" class="nav-icon" />Flight Upgrade
+          <img src="../icons/Upgrade.png" alt="FU" class="nav-icon" />Flight
+          Upgrade
         </router-link>
         <router-link to="/flights-cancellation" class="sidebarops">
-          <img src="../../public/images/Icons/Cancel.png" alt="FC" class="nav-icon" />Flights Cancellation
+          <img src="../icons/Cancel.png" alt="FC" class="nav-icon" />Flights
+          Cancellation
         </router-link>
       </div>
 
@@ -40,17 +49,24 @@
           <t-form-item label="First Name">
             <t-input v-model="firstName" placeholder="ex: Vincent"></t-input>
             <!-- Error Display -->
-            <p v-if="errors.firstName" class="error-text">{{ errors.firstName }}</p>
+            <p v-if="errors.firstName" class="error-text">
+              {{ errors.firstName }}
+            </p>
           </t-form-item>
 
           <t-form-item label="Last Name">
             <t-input v-model="lastName" placeholder="ex: Doe"></t-input>
             <!-- Error Display -->
-            <p v-if="errors.lastName" class="error-text">{{ errors.lastName }}</p>
+            <p v-if="errors.lastName" class="error-text">
+              {{ errors.lastName }}
+            </p>
           </t-form-item>
 
           <t-form-item label="Address">
-            <t-input v-model="address" placeholder="Your specific address"></t-input>
+            <t-input
+              v-model="address"
+              placeholder="Your specific address"
+            ></t-input>
           </t-form-item>
 
           <t-form-item label="Province">
@@ -60,7 +76,9 @@
           <t-form-item label="Postal Code">
             <t-input v-model="postalCode" placeholder="L9L L0L"></t-input>
             <!-- Error Display -->
-            <p v-if="errors.postalCode" class="error-text">{{ errors.postalCode }}</p>
+            <p v-if="errors.postalCode" class="error-text">
+              {{ errors.postalCode }}
+            </p>
           </t-form-item>
 
           <t-form-item label="Date of Birth">
@@ -80,11 +98,17 @@
           </t-form-item>
 
           <t-form-item label="Password">
-            <t-input v-model="password" type="password" placeholder="Change your password"></t-input>
+            <t-input
+              v-model="password"
+              type="password"
+              placeholder="Change your password"
+            ></t-input>
           </t-form-item>
 
           <t-form-item>
-            <t-button theme="primary" @click="saveChanges">Save Changes</t-button>
+            <t-button theme="primary" @click="saveChanges"
+              >Save Changes</t-button
+            >
           </t-form-item>
         </t-form>
       </t-card>
@@ -110,9 +134,14 @@
             <p v-if="!creditCards.length">No credit cards added yet.</p>
             <div v-for="card in creditCards" :key="card.id" class="card-option">
               <label>
-                <input type="radio" name="credit-card">
-                <img :src="card.logo" alt="Card Logo" style="width: 30px; height: 20px; margin-left: 10px;">
-                {{ card.cardholder }} - **** **** **** {{ card.cardNumber.slice(-4) }}
+                <input type="radio" name="credit-card" />
+                <img
+                  :src="card.logo"
+                  alt="Card Logo"
+                  style="width: 30px; height: 20px; margin-left: 10px"
+                />
+                {{ card.cardholder }} - **** **** ****
+                {{ card.cardNumber.slice(-4) }}
               </label>
             </div>
           </div>
@@ -128,10 +157,15 @@
             <p v-if="!debitCards.length">No debit cards added yet.</p>
             <div v-for="card in debitCards" :key="card.id" class="card-option">
               <label>
-                <input type="radio" name="debit-card">
+                <input type="radio" name="debit-card" />
                 <!-- Display the logo beside the cardholder's name and card number -->
-                <img :src="card.logo" alt="Card Logo" style="width: 30px; height: 20px; margin-left: 10px;">
-                {{ card.cardholder }} - **** **** **** {{ card.cardNumber.slice(-4) }}
+                <img
+                  :src="card.logo"
+                  alt="Card Logo"
+                  style="width: 30px; height: 20px; margin-left: 10px"
+                />
+                {{ card.cardholder }} - **** **** ****
+                {{ card.cardNumber.slice(-4) }}
               </label>
             </div>
           </div>
@@ -148,25 +182,51 @@
           <form @submit.prevent="saveCard">
             <div class="form-group">
               <label for="cardholder">Cardholder Name</label>
-              <input type="text" id="cardholder" v-model="newCard.cardholder" placeholder="e.g. John Doe">
+              <input
+                type="text"
+                id="cardholder"
+                v-model="newCard.cardholder"
+                placeholder="e.g. John Doe"
+              />
               <!-- Error Display -->
-              <p v-if="errors.cardholder" class="error-text">{{ errors.cardholder }}</p>
+              <p v-if="errors.cardholder" class="error-text">
+                {{ errors.cardholder }}
+              </p>
             </div>
             <div class="form-group">
               <label for="card-number">Card Number</label>
-              <input type="text" id="card-number" v-model="newCard.cardNumber" placeholder="XXXX XXXX XXXX XXXX">
+              <input
+                type="text"
+                id="card-number"
+                v-model="newCard.cardNumber"
+                placeholder="XXXX XXXX XXXX XXXX"
+              />
               <!-- Error Display -->
-              <p v-if="errors.cardNumber" class="error-text">{{ errors.cardNumber }}</p>
+              <p v-if="errors.cardNumber" class="error-text">
+                {{ errors.cardNumber }}
+              </p>
             </div>
             <div class="form-group">
               <label for="expiry-date">Expiry Date</label>
-              <input type="text" id="expiry-date" v-model="newCard.expiryDate" placeholder="MM/YY">
+              <input
+                type="text"
+                id="expiry-date"
+                v-model="newCard.expiryDate"
+                placeholder="MM/YY"
+              />
               <!-- Error Display -->
-              <p v-if="errors.expiryDate" class="error-text">{{ errors.expiryDate }}</p>
+              <p v-if="errors.expiryDate" class="error-text">
+                {{ errors.expiryDate }}
+              </p>
             </div>
             <div class="form-group">
               <label for="cvv">CVV</label>
-              <input type="text" id="cvv" v-model="newCard.cvv" placeholder="XXX">
+              <input
+                type="text"
+                id="cvv"
+                v-model="newCard.cvv"
+                placeholder="XXX"
+              />
               <!-- Error Display -->
               <p v-if="errors.cvv" class="error-text">{{ errors.cvv }}</p>
             </div>
@@ -177,11 +237,11 @@
               <div class="radio-container">
                 <div class="radio-option">
                   <span>Credit</span>
-                  <input type="radio" v-model="newCard.type" value="credit">
+                  <input type="radio" v-model="newCard.type" value="credit" />
                 </div>
                 <div class="radio-option">
                   <span>Debit</span>
-                  <input type="radio" v-model="newCard.type" value="debit">
+                  <input type="radio" v-model="newCard.type" value="debit" />
                 </div>
               </div>
             </div>
@@ -194,9 +254,6 @@
   </div>
 </template>
 
-
-
-
 <script>
 export default {
   data() {
@@ -205,13 +262,13 @@ export default {
       isDebitCardDropdownVisible: false,
       isAddCardFormVisible: false,
       creditCards: [], // Array for credit cards
-      debitCards: [],  // Array for debit cards
+      debitCards: [], // Array for debit cards
       newCard: {
         cardholder: '',
         cardNumber: '',
         expiryDate: '',
         cvv: '',
-        type: '' // Type of card: 'credit' or 'debit'
+        type: '', // Type of card: 'credit' or 'debit'
       },
       firstName: '',
       lastName: '',
@@ -222,40 +279,40 @@ export default {
       gender: '',
       email: '',
       password: '',
-      errors: {},// Object to store form validation errors
+      errors: {}, // Object to store form validation errors
 
       // Store multiple user entries in an array (if needed)
-      userDetailsArray: []  // Array to store multiple user info objects
-    };
+      userDetailsArray: [], // Array to store multiple user info objects
+    }
   },
   methods: {
     saveChanges() {
-      this.errors = {}; // Reset errors before validation
+      this.errors = {} // Reset errors before validation
 
       // Validate first name and last name (no numbers)
       if (/\d/.test(this.firstName)) {
-        this.errors.firstName = 'First name should not contain numbers';
+        this.errors.firstName = 'First name should not contain numbers'
       }
       if (/\d/.test(this.lastName)) {
-        this.errors.lastName = 'Last name should not contain numbers';
+        this.errors.lastName = 'Last name should not contain numbers'
       }
 
       // Basic email validation
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!emailPattern.test(this.email)) {
-        this.errors.email = 'Invalid email format';
+        this.errors.email = 'Invalid email format'
       }
 
       // Postal code validation (you can adjust the pattern based on your needs)
-      const postalCodePattern = /^[A-Za-z0-9]{3}\s?[A-Za-z0-9]{3}$/;
+      const postalCodePattern = /^[A-Za-z0-9]{3}\s?[A-Za-z0-9]{3}$/
       if (!postalCodePattern.test(this.postalCode)) {
-        this.errors.postalCode = 'Invalid postal code format';
+        this.errors.postalCode = 'Invalid postal code format'
       }
 
       // Date of birth validation
-      const dobPattern = /^\d{4}-\d{2}-\d{2}$/;
+      const dobPattern = /^\d{4}-\d{2}-\d{2}$/
       if (!dobPattern.test(this.dob)) {
-        this.errors.dob = 'Invalid date format (yyyy-mm-dd)';
+        this.errors.dob = 'Invalid date format (yyyy-mm-dd)'
       }
 
       // If there are no errors, save the details
@@ -270,72 +327,70 @@ export default {
           gender: this.gender,
           email: this.email,
           password: this.password,
-        };
+        }
 
-        this.userDetailsArray.push(userDetails);
-        console.log("User Details Saved:", this.userDetailsArray);
+        this.userDetailsArray.push(userDetails)
+        console.log('User Details Saved:', this.userDetailsArray)
       }
     },
 
     goToHomePage() {
-      window.location.href = '/';  // Redirect to home page URL
+      window.location.href = '/' // Redirect to home page URL
     },
 
     redirectToGooglePay() {
       // You can replace this URL with the actual Google Pay setup page or external link
-      window.location.href = 'https://pay.google.com'; // Redirects to Google Pay
-    }
-    ,
+      window.location.href = 'https://pay.google.com' // Redirects to Google Pay
+    },
     // Helper method to determine the card brand and return the logo URL
     getCardLogo(cardNumber) {
       // Assuming you determine card type by prefix (e.g., first 4 digits)
       if (cardNumber.startsWith('5')) {
-        return 'https://logodownload.org/wp-content/uploads/2014/07/mastercard-logo-7.png';  // URL of the Mastercard logo
+        return 'https://logodownload.org/wp-content/uploads/2014/07/mastercard-logo-7.png' // URL of the Mastercard logo
       } else if (cardNumber.startsWith('4')) {
-        return 'https://www.pngplay.com/wp-content/uploads/12/Visa-Card-Logo-Transparent-Free-PNG.png';  // URL of the Visa logo
+        return 'https://www.pngplay.com/wp-content/uploads/12/Visa-Card-Logo-Transparent-Free-PNG.png' // URL of the Visa logo
       }
-      return 'https://cdn3.iconfinder.com/data/icons/toolbar-signs-5/512/credit_card_payment_visa_platinum-1024.png';  // Default card logo if unknown
+      return 'https://cdn3.iconfinder.com/data/icons/toolbar-signs-5/512/credit_card_payment_visa_platinum-1024.png' // Default card logo if unknown
     },
-
 
     toggleDropdown(type) {
       if (type === 'creditCard') {
-        this.isCreditCardDropdownVisible = !this.isCreditCardDropdownVisible;
+        this.isCreditCardDropdownVisible = !this.isCreditCardDropdownVisible
       } else if (type === 'debitCard') {
-        this.isDebitCardDropdownVisible = !this.isDebitCardDropdownVisible;
+        this.isDebitCardDropdownVisible = !this.isDebitCardDropdownVisible
       }
     },
     showAddCardForm() {
-      this.isAddCardFormVisible = true;
+      this.isAddCardFormVisible = true
     },
-    
+
     saveCard() {
-      this.errors = {}; // Reset errors before validation
+      this.errors = {} // Reset errors before validation
 
       // Validate cardholder name (no numbers)
       if (/\d/.test(this.newCard.cardholder)) {
-        this.errors.cardholder = 'Cardholder name should not contain numbers';
+        this.errors.cardholder = 'Cardholder name should not contain numbers'
       }
 
       // Validate card number (must be 16 digits)
       if (!/^\d{16}$/.test(this.newCard.cardNumber)) {
-        this.errors.cardNumber = 'Card number must be 16 digits long';
+        this.errors.cardNumber = 'Card number must be 16 digits long'
       }
 
       // Validate expiry date (MM/YY)
-      const expiryPattern = /^(0[1-9]|1[0-2])\/\d{2}$/;
+      const expiryPattern = /^(0[1-9]|1[0-2])\/\d{2}$/
       if (!expiryPattern.test(this.newCard.expiryDate)) {
-        this.errors.expiryDate = 'Invalid expiry date (MM/YY)';
+        this.errors.expiryDate = 'Invalid expiry date (MM/YY)'
       }
 
       // Validate CVV (3 digits)
       if (!/^\d{3}$/.test(this.newCard.cvv)) {
-        this.errors.cvv = 'CVV must be 3 digits';
+        this.errors.cvv = 'CVV must be 3 digits'
       }
 
       // If there are no errors, save the card
       if (Object.keys(this.errors).length === 0) {
-        const logoUrl = this.getCardLogo(this.newCard.cardNumber);
+        const logoUrl = this.getCardLogo(this.newCard.cardNumber)
 
         const cardData = {
           id: this.debitCards.length + 1,
@@ -343,13 +398,13 @@ export default {
           cardNumber: this.newCard.cardNumber,
           expiryDate: this.newCard.expiryDate,
           cvv: this.newCard.cvv,
-          logo: logoUrl
-        };
+          logo: logoUrl,
+        }
 
         if (this.newCard.type === 'credit') {
-          this.creditCards.push(cardData);
+          this.creditCards.push(cardData)
         } else if (this.newCard.type === 'debit') {
-          this.debitCards.push(cardData);
+          this.debitCards.push(cardData)
         }
 
         // Reset form after saving
@@ -358,17 +413,14 @@ export default {
           cardNumber: '',
           expiryDate: '',
           cvv: '',
-          type: ''
-        };
-        this.isAddCardFormVisible = false;
+          type: '',
+        }
+        this.isAddCardFormVisible = false
       }
-    }
-  }
-};
+    },
+  },
+}
 </script>
-
-
-
 
 <style>
 .form-group {
@@ -378,20 +430,20 @@ export default {
 
 .radio-option {
   display: flex;
-  align-items: center;  /* Ensures the text is aligned with the radio button */
-  justify-content: flex-start;  /* Aligns the radio button and text to the left */
-  margin-bottom: 10px;  /* Adds spacing between the radio options */
+  align-items: center; /* Ensures the text is aligned with the radio button */
+  justify-content: flex-start; /* Aligns the radio button and text to the left */
+  margin-bottom: 10px; /* Adds spacing between the radio options */
 }
 
-.radio-option input[type="radio"] {
-  margin-right: 19px;  /* Space between the radio button and the label */
+.radio-option input[type='radio'] {
+  margin-right: 19px; /* Space between the radio button and the label */
 }
 
 .radio-container {
   display: flex;
   flex-direction: row;
 }
-.title{
+.title {
   margin-top: auto;
   display: flex;
   justify-content: flex-start;
@@ -402,21 +454,22 @@ export default {
   text-align: left;
 }
 
-.subtext{
+.subtext {
   display: flex;
-  justify-content:flex-start;
+  justify-content: flex-start;
   font-family: Inter;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
   text-align: left;
   color: #475467;
-
 }
 
+/* 导航栏 Navbar */
 .topbar {
-  justify-content: center;
   position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   top: 4.63%;
   width: 87%;
   height: 7.59%;
@@ -425,7 +478,6 @@ export default {
   background: rgba(234, 240, 240, 0.4);
   backdrop-filter: blur(5.5px);
   border-radius: 1.5rem;
-  padding: 0 2%
 }
 
 .logoText {
@@ -440,7 +492,7 @@ export default {
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: 600;
-  font-size: 1.88vw; /* 36px 换算为 vw */
+  font-size: 1.88vw;
 
   display: flex;
   text-align: center;
@@ -448,16 +500,43 @@ export default {
 
   letter-spacing: 0.06em;
   color: #283841;
+  white-space: nowrap; /* 防止文本换行 */
 }
 
+.home-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 
+  padding: calc(82px * 0.146) calc(1686px * 0.019);
+  gap: calc(1686px * 0.006);
+
+  position: absolute;
+  width: calc(1686px * 0.0985);
+  height: 62.2%;
+
+  right: 2.847%;
+  top: 50%;
+  transform: translateY(-50%);
+
+  background: #3470c4;
+  border-radius: calc(24 / 51 * 59px);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: calc(1686px * 0.011);
+}
+
+.home-button:hover {
+  background-color: #285a9c;
+}
 
 .user-info {
   position: absolute;
   right: 13%;
   display: flex;
   align-items: center;
-  
 }
 
 .user-name {
@@ -467,64 +546,41 @@ export default {
   color: #242222;
 }
 
-.home-button {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
-  padding: calc(82px * 0.146) calc(1686px * 0.019); /* 动态 padding，基于父元素的比例 */
-  gap: calc(1686px * 0.006); /* 动态 gap，基于父元素宽度 */
-
-  position: absolute;
-  width: calc(1686px * 0.0985); /* 166px 换算为父元素宽度的比例 */
-  height: calc(82px * 0.62); /* 48px 换算为父元素高度的比例 */
-
-  right: 2.847%;
-  top: 50%;
-  transform: translateY(-50%);
-
-  background: #3470c4;
-  border-radius: calc(82px * 0.293); /* 动态圆角，基于父元素高度 */
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  font-size: calc(1686px * 0.011); /* 动态字体大小，基于父元素宽度 */
-}
-
-.home-button:hover {
-  background-color: #285a9c; /* 鼠标悬停时的背景颜色变化 */
-}
-
 .background {
-  background-image: url('/images/background.jpg'); 
+  background-image: url('../img/bg.png');
   background-size: cover;
-  position:absolute;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
 }
 
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.28);
+}
 
 .content-container {
   display: flex;
-  justify-content:space-evenly;
+  justify-content: space-evenly;
   margin-top: 8vw;
   max-width: 94%;
 }
 
 .sidebar {
- 
-
   width: 15%; /* Adjust width as per your design */
-  
+
   background: rgba(0, 0, 0, 0.3); /* Slightly dark transparent background */
   border-radius: 15px; /* Rounded corners */
-  border: 1px solid #FFFFFF;
+  border: 1px solid #ffffff;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-  backdrop-filter: blur(35px)
+  backdrop-filter: blur(35px);
 }
 
 /* Maintain the box and remove underline for router-link elements */
@@ -533,7 +589,7 @@ export default {
   align-items: center;
   justify-content: flex-start;
   padding: 12px 18px;
-  border: 1px solid #FFFFFF; /* Keep the white border around the box */
+  border: 1px solid #ffffff; /* Keep the white border around the box */
   border-radius: 10px;
   margin-bottom: 10px;
   color: white;
@@ -570,17 +626,15 @@ export default {
   color: #007bff; /* Adjust color as per design */
 }
 
-
-.form-section, .payment-section {
-  
+.form-section,
+.payment-section {
   width: 30%;
-  border: 1px solid #FFFFFF;
-  background: #FFFFFF70;
+  border: 1px solid #ffffff;
+  background: #ffffff70;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(30px)
-
+  backdrop-filter: blur(30px);
 }
 
 h2 {
@@ -610,9 +664,7 @@ h2 {
   font-family: Inter;
   font-size: 16px;
   text-align: left;
-  color:  #344054;
-
-
+  color: #344054;
 }
 
 .arrow {
@@ -715,7 +767,7 @@ h2 {
 .nav-icon {
   width: 20px;
   height: 20px;
-  object-fit: contain;  /* Maintain the aspect ratio of the image */
+  object-fit: contain; /* Maintain the aspect ratio of the image */
   margin-right: 10px;
   vertical-align: middle;
 }
