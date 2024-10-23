@@ -16,7 +16,7 @@ describe('LoginPage.vue', () => {
     expect(wrapper.find('.login-form').exists()).toBe(true)
   })
 
-  /* Test Case 2: Simulate the input of an invalid mailbox and test the mailbox validation logic
+  /* Test Case 2-4: Simulate the input of an invalid mailbox and test the mailbox validation logic
   
   */
   it('Show error when email lacks suffix', async () => {
@@ -70,7 +70,7 @@ describe('LoginPage.vue', () => {
     )
   })
 
-  /* Test Case 3: Simulate the input of the correct account and password, test the status change of the button and the processing logic after success
+  /* Test Case 5: Simulate the input of the correct account and password, test the status change of the button and the processing logic after success
   
   */
   it('Trigger login success on valid credentials', async () => {
@@ -104,7 +104,7 @@ describe('LoginPage.vue', () => {
     loginSuccessSpy.mockRestore()
   })
 
-  /* Test Case 4: Simulate the incorrect account and password, test the status change of the button and the processing logic after the failure
+  /* Test Case 6: Simulate the incorrect account and password, test the status change of the button and the processing logic after the failure
   
   */
   it('Trigger login failure on invalid credentials', async () => {
