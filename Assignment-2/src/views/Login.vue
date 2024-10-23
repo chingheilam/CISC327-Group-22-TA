@@ -18,33 +18,39 @@
 
     <!-- 登录框 -->
     <div class="login-form">
-      <div class="form">
-        <div class="form-group">
+      <t-space direction="vertical" class="login-box" size="large">
+        <t-space direction="vertical" size="small" class="child-box">
           <label for="email">Account</label>
-          <input
-            type="email"
-            id="email"
+          <t-input
+            class="input-box"
+            size="large"
             v-model="form.email"
             placeholder="Email Address *"
+            :status="emailError ? 'error' : ''"
+            @blur="validateEmailOnBlur"
+            :tips="emailError ? 'Please enter a valid email address' : ''"
           />
-        </div>
-        <div class="form-group">
+        </t-space>
+        <t-space direction="vertical" size="small" class="child-box">
           <label for="password">Password</label>
-          <input
+          <t-input
+            size="large"
+            class="input-box"
             type="password"
-            id="password"
             v-model="form.password"
             placeholder="Password *"
           />
-        </div>
-      </div>
+        </t-space>
+      </t-space>
       <t-button
         class="login-button"
         shape="round"
         size="large"
         type="submit"
+        :loading="isLoading"
+        :theme="buttonTheme"
         @click="onSubmit"
-        >Login</t-button
+        >{{ isLoading ? 'Loading...' : buttonLabel }}</t-button
       >
       <div class="sign-up">
         <p class="sign-up text">Don't Have An Account?</p>
@@ -62,6 +68,14 @@ export default {
         email: '',
         password: '',
       },
+      emailError: false, // 输入的邮箱string格式校验状态
+      isLoading: false, // 登录按钮加载状态
+      buttonTheme: 'primary', // 登录按钮主题状态
+      buttonLabel: 'Login', // 按钮文本
+
+      validEmail: 'user@example.com', // 模拟正确的账号
+      validPassword: 'password', // 模拟正确的密码
+
       rules: {
         email: [
           {
@@ -77,18 +91,77 @@ export default {
 
   methods: {
     onSubmit() {
-      const emailValid = this.validateEmail(this.form.email)
-      if (!emailValid) {
-        alert('Please enter a valid email address.')
-        return
-      }
-      console.log('Form submitted:', this.form)
+      this.isLoading = true // 开始加载状态
+
+      // 模拟后端延迟校验，等待1秒
+      setTimeout(() => {
+        if (
+          this.form.email === this.validEmail &&
+          this.form.password === this.validPassword
+        ) {
+          // 校验成功，按钮变为 success 状态
+          this.buttonTheme = 'success'
+          this.buttonLabel = 'Success'
+
+          // 成功后继续执行后续操作
+          setTimeout(() => {
+            this.isLoading = false
+            this.loginSuccess()
+          }, 1000)
+        } else {
+          // 校验失败，按钮变为 danger 状态，显示错误
+          this.buttonTheme = 'danger'
+          this.buttonLabel = 'Login Failed'
+          this.isLoading = false // 停止加载状态、
+
+          // 监听用户的鼠标点击和键盘按下事件
+          window.addEventListener('click', this.resetButtonOnAction)
+          window.addEventListener('keydown', this.resetButtonOnAction)
+
+          // 在失败后的10秒内按钮保持失败状态
+          setTimeout(() => {
+            // 等待10秒后如果用户没有任何动作则恢复按钮状态
+            this.resetButton()
+          }, 10000)
+        }
+      }, 1000)
+    },
+
+    // 登录成功操作
+    loginSuccess() {
+      console.log('登录成功，执行后续操作')
+      // window.location.href = '/home' // 预设成功后跳转到首页
+    },
+
+    // 当用户有鼠标点击或键盘按下动作时，恢复按钮状态
+    resetButtonOnAction() {
+      this.resetButton()
+
+      // 移除事件监听器，防止重复触发
+      window.removeEventListener('click', this.resetButtonOnAction)
+      window.removeEventListener('keydown', this.resetButtonOnAction)
+    },
+
+    // 重置按钮状态
+    resetButton() {
+      this.buttonTheme = 'primary'
+      this.buttonLabel = 'Login'
+      this.isLoading = false
     },
 
     // 邮箱输入校验
     validateEmail(email) {
       const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
       return emailPattern.test(email)
+    },
+
+    // 当离开输入框时触发邮箱校验
+    validateEmailOnBlur() {
+      if (!this.validateEmail(this.form.email)) {
+        this.emailError = true // 当校验失败时设置错误状态
+      } else {
+        this.emailError = false // 校验通过时清除错误状态
+      }
     },
   },
 
@@ -286,7 +359,7 @@ body {
   top: 34.7%;
   left: 52.3%;
 
-  width: 30.26%;
+  width: 25%;
   height: 40.83%;
   background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(2px);
@@ -300,30 +373,17 @@ body {
 }
 
 /* 表单 */
-.form {
-  display: flex;
-  flex-direction: column; /* 垂直排列子元素 */
-  width: 47.5%;
-  height: 42.18%;
-
-  padding: 0;
-  gap: 5.37%;
+.login-box {
+  width: 51.05%;
 }
 
 /* 表单字段 */
-.form-group {
-  display: flex;
-  flex-direction: column; /* 垂直排列子元素 */
-  height: 47.3%;
+.child-box {
   width: 100%;
-
-  padding: 0%;
-  gap: 9.09%;
-  box-sizing: border-box;
 }
 
 /* 标签文本 */
-.form-group label {
+.child-box label {
   height: 22.7%;
   display: flex;
   align-items: center; /* 垂直居中 */
@@ -337,14 +397,16 @@ body {
 }
 
 /* 输入框 */
-.form-group input {
-  width: 100%;
-  height: 50%;
+.input-box {
+  width: 195.8988%;
   font-size: 1.2em;
   border-radius: 3.07%/18.2%;
-  border: 1px solid #d0d5dd;
-  box-shadow: 0 0.1rem 0.2rem rgba(16, 24, 40, 0.05);
-  padding: 4%;
+  box-shadow: 0 0.2rem 0.4rem rgba(16, 24, 40, 0.05);
+}
+
+.input-box ::deep .t-input__inner {
+  background-color: #d0d5dd;
+  border-radius: 10px; /* 设置圆角 */
 }
 
 .login-button {
