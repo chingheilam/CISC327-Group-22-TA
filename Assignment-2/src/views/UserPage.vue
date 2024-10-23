@@ -16,9 +16,10 @@
       <!-- Sidebar for Navigation -->
       <div class="sidebar">
         <router-link to="/userPage" class="sidebarops">Personal Information</router-link>
-        <router-link to="/userPage/order-history" class="sidebarops">Order History</router-link>
-        <router-link to="/userPage/flight-rescheduleUpgrade" class="sidebarops">Flight Reschedule/Upgrade</router-link>
-        <router-link to="/userPage/flights-cancellation" class="sidebarops">Flights Cancellation</router-link>
+        <router-link to="/order-history" class="sidebarops">Order History</router-link>
+        <router-link to="/flight-rescheduleUpgrade" class="sidebarops">Flight Reschedule/Upgrade</router-link>
+        <router-link to="/flight-rescheduleUpgrade" class="sidebarops">Flight Upgrade</router-link>
+        <router-link to="/flights-cancellation" class="sidebarops">Flights Cancellation</router-link>
       </div>
 
       <!-- Personal Info Section -->
@@ -165,7 +166,7 @@
           </form>
         </div>
       </div>
-      <router-view></router-view>
+      
     </div>
   </div>
 </template>

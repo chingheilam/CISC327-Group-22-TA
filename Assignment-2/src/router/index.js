@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import UserPage from '../views/UserPage.vue'; // Import the user page view
-import OrderHistory from '../components/OrderHistory.vue'; // Import component
-import FlightReschedule from '../components/FlightRescheduleUpgrade.vue'; // Import component
-import FlightsCancellation from '../components/FlightsCancellation.vue'; // Import component
+import UserPage from '../views/UserPage.vue'; 
+import OrderHistory from '../components/OrderHistory.vue'; 
+import FlightRescheduleUpgrade from '../components/FlightRescheduleUpgrade.vue'; 
+import FlightsCancellation from '../components/FlightsCancellation.vue'; 
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,25 +16,22 @@ const router = createRouter({
     {
       path: '/userPage',
       name: 'userPage',
-      component: UserPage,
-      // Nested routes for the sidebar items
-      children: [
-        {
-          path: 'order-history',
-          name: 'order-history',
-          component: OrderHistory
-        },
-        {
-          path: 'flight-rescheduleUpgrade',
-          name: 'flight-rescheduleUpgrade',
-          component: FlightReschedule
-        },
-        {
-          path: 'flights-cancellation',
-          name: 'flights-cancellation',
-          component: FlightsCancellation
-        }
-      ]
+      component: UserPage
+    },
+    {
+      path: '/order-history',
+      name: 'order-history',
+      component: OrderHistory
+    },
+    {
+      path: '/flight-rescheduleUpgrade',
+      name: 'flight-rescheduleUpgrade',
+      component: FlightRescheduleUpgrade
+    },
+    {
+      path: '/flights-cancellation',
+      name: 'flights-cancellation',
+      component: FlightsCancellation
     }
   ]
 });
