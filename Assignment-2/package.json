@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test:unit": "vitest",
+    "test": "vitest",
     "lint": "eslint . --fix",
     "format": "prettier --write src/"
   },
@@ -27,7 +27,7 @@
     "eslint-plugin-vue": "^9.29.0",
     "jsdom": "^25.0.1",
     "prettier": "^3.3.3",
-    "vite": "^5.4.8",
+    "vite": "^5.4.9",
     "vitest": "^2.1.2"
   }
 }
