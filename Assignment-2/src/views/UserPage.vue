@@ -42,7 +42,7 @@
       </div>
 
       <!-- Personal Info Section -->
-      <t-card class="form-section custom-card">
+      <div class="form-section">
         <p class="title">Personal Information</p>
         <p class="subtext">You can change your details on this page</p>
         <t-form label-width="100px">
@@ -111,7 +111,7 @@
             >
           </t-form-item>
         </t-form>
-      </t-card>
+      </div>
 
       <!-- Payment Method Section -->
       <div class="payment-section">
@@ -549,11 +549,11 @@ export default {
 .background {
   background-image: url('../img/bg.png');
   background-size: cover;
-  position: absolute;
+  position:absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  min-height: 100vh; /* Ensure the background grows with content */
 }
 
 .overlay {
@@ -564,17 +564,21 @@ export default {
   height: 100%;
   background: rgba(0, 0, 0, 0.28);
 }
-
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
 .content-container {
   display: flex;
   justify-content: space-evenly;
   margin-top: 8vw;
+  margin-left: 3.2vw;
   max-width: 94%;
 }
 
 .sidebar {
   width: 15%; /* Adjust width as per your design */
-
   background: rgba(0, 0, 0, 0.3); /* Slightly dark transparent background */
   border-radius: 15px; /* Rounded corners */
   border: 1px solid #ffffff;
@@ -635,6 +639,8 @@ export default {
   border-radius: 15px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(30px);
+  overflow-y: auto; 
+  
 }
 
 h2 {

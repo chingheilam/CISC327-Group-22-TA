@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils'
 import UserPage from '../views/UserPage.vue' // Adjust the path as necessary
 import { describe, it, expect } from 'vitest'
 import flushPromises from 'flush-promises' // Make sure to import flush-promises
+
 describe('UserPage.vue', () => {
   it('renders the form properly', () => {
     const wrapper = mount(UserPage, {
