@@ -102,17 +102,17 @@ export default {
           // 校验成功，按钮变为 success 状态
           this.buttonTheme = 'success'
           this.buttonLabel = 'Success'
+          this.isLoading = false
 
           // 成功后继续执行后续操作
           setTimeout(() => {
-            this.isLoading = false
             this.loginSuccess()
           }, 1000)
         } else {
           // 校验失败，按钮变为 danger 状态，显示错误
           this.buttonTheme = 'danger'
           this.buttonLabel = 'Login Failed'
-          this.isLoading = false // 停止加载状态、
+          this.isLoading = false
 
           // 监听用户的鼠标点击和键盘按下事件
           window.addEventListener('click', this.resetButtonOnAction)
@@ -129,7 +129,7 @@ export default {
 
     // 登录成功操作
     loginSuccess() {
-      console.log('登录成功，执行后续操作')
+      console.log('Login Success! 登录成功，执行后续操作')
       // window.location.href = '/home' // 预设成功后跳转到首页
     },
 
