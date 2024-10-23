@@ -1,5 +1,6 @@
 <template>
   <div class="background">
+    <div class="overlay"></div>
     <!-- Navigation Bar -->
     <nav class="topbar">
       <div class="logoText">Northwind Airline</div>
@@ -17,38 +18,26 @@
       <div class="sidebar">
         <router-link to="/userPage" class="sidebarops">
           <img
-            src="../../public/images/Icons/passenger-blue.png"
+            src="../icons/passenger-blue.png"
             alt="PI"
             class="nav-icon"
           />Personal Information
         </router-link>
         <router-link to="/order-history" class="sidebarops">
-          <img
-            src="../../public/images/Icons/flight-blue.png"
-            alt="OH"
-            class="nav-icon"
-          />Order History
+          <img src="../icons/flight-blue.png" alt="OH" class="nav-icon" />Order
+          History
         </router-link>
         <router-link to="/flight-rescheduleUpgrade" class="sidebarops">
-          <img
-            src="../../public/images/Icons/Reschedule.png"
-            alt="FR"
-            class="nav-icon"
-          />Flight Reschedule
+          <img src="../icons/Reschedule.png" alt="FR" class="nav-icon" />Flight
+          Reschedule
         </router-link>
         <router-link to="/flight-rescheduleUpgrade" class="sidebarops">
-          <img
-            src="../../public/images/Icons/Upgrade.png"
-            alt="FU"
-            class="nav-icon"
-          />Flight Upgrade
+          <img src="../icons/Upgrade.png" alt="FU" class="nav-icon" />Flight
+          Upgrade
         </router-link>
         <router-link to="/flights-cancellation" class="sidebarops">
-          <img
-            src="../../public/images/Icons/Cancel.png"
-            alt="FC"
-            class="nav-icon"
-          />Flights Cancellation
+          <img src="../icons/Cancel.png" alt="FC" class="nav-icon" />Flights
+          Cancellation
         </router-link>
       </div>
 
@@ -558,13 +547,22 @@ export default {
 }
 
 .background {
-  background-image: url('/images/background.jpg');
+  background-image: url('../img/bg.png');
   background-size: cover;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.28);
 }
 
 .content-container {
