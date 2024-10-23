@@ -12,7 +12,4 @@ app.use(createPinia())
 app.use(TDesign)
 app.use(router)
 
-// Use TDesign as a plugin
-app.use(TDesign)
-
 app.mount('#app')

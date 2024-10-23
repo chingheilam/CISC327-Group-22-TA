@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>主页</h1>
-    <p>欢迎来到我们的主页。</p>
+    <h1>HomePage</h1>
+    <p>temporarily homepage</p>
   </div>
 </template>
 
