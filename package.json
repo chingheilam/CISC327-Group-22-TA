@@ -4,5 +4,10 @@
     "tdesign-vue-next": "^1.10.2",
     "vue": "^3.5.11",
     "vue-router": "^4.4.5"
+  },
+  "devDependencies": {
+    "@vue/test-utils": "^2.4.6",
+    "flush-promises": "^1.0.2",
+    "jest": "^29.7.0"
   }
 }

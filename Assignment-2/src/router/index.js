@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import UserPage from '../views/UserPage.vue'; 
-import OrderHistory from '../components/OrderHistory.vue'; 
-import FlightRescheduleUpgrade from '../components/FlightRescheduleUpgrade.vue'; 
-import FlightsCancellation from '../components/FlightsCancellation.vue'; 
+import OrderHistory from '../views/OrderHistory.vue'; 
+import FlightRescheduleUpgrade from '../views/FlightRescheduleUpgrade.vue'; 
+import FlightsCancellation from '../views/FlightsCancellation.vue'; 
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

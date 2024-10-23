@@ -8,18 +8,28 @@
       <div class="user-info">
         <span class="user-name">LName FName</span>
       </div>
-      <button class="home-button"  @click="goToHomePage" >Home Page</button>
+      <button class="home-button" @click="goToHomePage">Home Page</button>
     </nav>
 
     <!-- Main Content Area -->
     <div class="content-container">
       <!-- Sidebar for Navigation -->
       <div class="sidebar">
-        <router-link to="/userPage" class="sidebarops"><img src="../../public/images/Icons/passenger-blue.png" alt="PI" class="nav-icon" />Personal Information</router-link>
-        <router-link to="/order-history" class="sidebarops"><img src="../../public/images/Icons/flight-blue.png" alt="OH" class="nav-icon"/>Order History</router-link>
-        <router-link to="/flight-rescheduleUpgrade" class="sidebarops"><img src="../../public/images/Icons/Reschedule.png" alt="Personal Info" class="nav-icon" />Flight Reschedule</router-link>
-        <router-link to="/flight-rescheduleUpgrade" class="sidebarops"><img src="../../public/images/Icons/Upgrade.png" alt="Personal Info" class="nav-icon" />Flight Upgrade</router-link>
-        <router-link to="/flights-cancellation" class="sidebarops"><img src="../../public/images/Icons/Cancel.png" alt="Personal Info" class="nav-icon" />Flights Cancellation</router-link>
+        <router-link to="/userPage" class="sidebarops">
+          <img src="../../public/images/Icons/passenger-blue.png" alt="PI" class="nav-icon" />Personal Information
+        </router-link>
+        <router-link to="/order-history" class="sidebarops">
+          <img src="../../public/images/Icons/flight-blue.png" alt="OH" class="nav-icon" />Order History
+        </router-link>
+        <router-link to="/flight-rescheduleUpgrade" class="sidebarops">
+          <img src="../../public/images/Icons/Reschedule.png" alt="FR" class="nav-icon" />Flight Reschedule
+        </router-link>
+        <router-link to="/flight-rescheduleUpgrade" class="sidebarops">
+          <img src="../../public/images/Icons/Upgrade.png" alt="FU" class="nav-icon" />Flight Upgrade
+        </router-link>
+        <router-link to="/flights-cancellation" class="sidebarops">
+          <img src="../../public/images/Icons/Cancel.png" alt="FC" class="nav-icon" />Flights Cancellation
+        </router-link>
       </div>
 
       <!-- Personal Info Section -->
@@ -29,10 +39,14 @@
         <t-form label-width="100px">
           <t-form-item label="First Name">
             <t-input v-model="firstName" placeholder="ex: Vincent"></t-input>
+            <!-- Error Display -->
+            <p v-if="errors.firstName" class="error-text">{{ errors.firstName }}</p>
           </t-form-item>
 
           <t-form-item label="Last Name">
             <t-input v-model="lastName" placeholder="ex: Doe"></t-input>
+            <!-- Error Display -->
+            <p v-if="errors.lastName" class="error-text">{{ errors.lastName }}</p>
           </t-form-item>
 
           <t-form-item label="Address">
@@ -45,10 +59,14 @@
 
           <t-form-item label="Postal Code">
             <t-input v-model="postalCode" placeholder="L9L L0L"></t-input>
+            <!-- Error Display -->
+            <p v-if="errors.postalCode" class="error-text">{{ errors.postalCode }}</p>
           </t-form-item>
 
           <t-form-item label="Date of Birth">
             <t-input v-model="dob" placeholder="yyyy-mm-dd"></t-input>
+            <!-- Error Display -->
+            <p v-if="errors.dob" class="error-text">{{ errors.dob }}</p>
           </t-form-item>
 
           <t-form-item label="Gender">
@@ -57,6 +75,8 @@
 
           <t-form-item label="Email">
             <t-input v-model="email" placeholder="Change your email"></t-input>
+            <!-- Error Display -->
+            <p v-if="errors.email" class="error-text">{{ errors.email }}</p>
           </t-form-item>
 
           <t-form-item label="Password">
@@ -89,7 +109,6 @@
           <div v-if="isCreditCardDropdownVisible" class="dropdown-content">
             <p v-if="!creditCards.length">No credit cards added yet.</p>
             <div v-for="card in creditCards" :key="card.id" class="card-option">
-
               <label>
                 <input type="radio" name="credit-card">
                 <img :src="card.logo" alt="Card Logo" style="width: 30px; height: 20px; margin-left: 10px;">
@@ -108,7 +127,6 @@
           <div v-if="isDebitCardDropdownVisible" class="dropdown-content">
             <p v-if="!debitCards.length">No debit cards added yet.</p>
             <div v-for="card in debitCards" :key="card.id" class="card-option">
-
               <label>
                 <input type="radio" name="debit-card">
                 <!-- Display the logo beside the cardholder's name and card number -->
@@ -131,18 +149,26 @@
             <div class="form-group">
               <label for="cardholder">Cardholder Name</label>
               <input type="text" id="cardholder" v-model="newCard.cardholder" placeholder="e.g. John Doe">
+              <!-- Error Display -->
+              <p v-if="errors.cardholder" class="error-text">{{ errors.cardholder }}</p>
             </div>
             <div class="form-group">
               <label for="card-number">Card Number</label>
               <input type="text" id="card-number" v-model="newCard.cardNumber" placeholder="XXXX XXXX XXXX XXXX">
+              <!-- Error Display -->
+              <p v-if="errors.cardNumber" class="error-text">{{ errors.cardNumber }}</p>
             </div>
             <div class="form-group">
               <label for="expiry-date">Expiry Date</label>
               <input type="text" id="expiry-date" v-model="newCard.expiryDate" placeholder="MM/YY">
+              <!-- Error Display -->
+              <p v-if="errors.expiryDate" class="error-text">{{ errors.expiryDate }}</p>
             </div>
             <div class="form-group">
               <label for="cvv">CVV</label>
               <input type="text" id="cvv" v-model="newCard.cvv" placeholder="XXX">
+              <!-- Error Display -->
+              <p v-if="errors.cvv" class="error-text">{{ errors.cvv }}</p>
             </div>
 
             <!-- Card Type Selection -->
@@ -152,12 +178,10 @@
                 <div class="radio-option">
                   <span>Credit</span>
                   <input type="radio" v-model="newCard.type" value="credit">
-                  
                 </div>
                 <div class="radio-option">
                   <span>Debit</span>
                   <input type="radio" v-model="newCard.type" value="debit">
-                  
                 </div>
               </div>
             </div>
@@ -166,7 +190,6 @@
           </form>
         </div>
       </div>
-      
     </div>
   </div>
 </template>
@@ -199,6 +222,7 @@ export default {
       gender: '',
       email: '',
       password: '',
+      errors: {},// Object to store form validation errors
 
       // Store multiple user entries in an array (if needed)
       userDetailsArray: []  // Array to store multiple user info objects
@@ -206,27 +230,53 @@ export default {
   },
   methods: {
     saveChanges() {
-      // Create an object for the user's information
-      const userDetails = {
-        firstName: this.firstName,
-        lastName: this.lastName,
-        address: this.address,
-        province: this.province,
-        postalCode: this.postalCode,
-        dob: this.dob,
-        gender: this.gender,
-        email: this.email,
-        password: this.password,
-      };
-      
-      // Push the userDetails object into the userDetailsArray
-      this.userDetailsArray.push(userDetails);
+      this.errors = {}; // Reset errors before validation
 
-      // Optionally, log the array to the console to check the stored data
-      console.log("User Details Saved:", this.userDetailsArray);
+      // Validate first name and last name (no numbers)
+      if (/\d/.test(this.firstName)) {
+        this.errors.firstName = 'First name should not contain numbers';
+      }
+      if (/\d/.test(this.lastName)) {
+        this.errors.lastName = 'Last name should not contain numbers';
+      }
 
-      
+      // Basic email validation
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(this.email)) {
+        this.errors.email = 'Invalid email format';
+      }
+
+      // Postal code validation (you can adjust the pattern based on your needs)
+      const postalCodePattern = /^[A-Za-z0-9]{3}\s?[A-Za-z0-9]{3}$/;
+      if (!postalCodePattern.test(this.postalCode)) {
+        this.errors.postalCode = 'Invalid postal code format';
+      }
+
+      // Date of birth validation
+      const dobPattern = /^\d{4}-\d{2}-\d{2}$/;
+      if (!dobPattern.test(this.dob)) {
+        this.errors.dob = 'Invalid date format (yyyy-mm-dd)';
+      }
+
+      // If there are no errors, save the details
+      if (Object.keys(this.errors).length === 0) {
+        const userDetails = {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          address: this.address,
+          province: this.province,
+          postalCode: this.postalCode,
+          dob: this.dob,
+          gender: this.gender,
+          email: this.email,
+          password: this.password,
+        };
+
+        this.userDetailsArray.push(userDetails);
+        console.log("User Details Saved:", this.userDetailsArray);
+      }
     },
+
     goToHomePage() {
       window.location.href = '/';  // Redirect to home page URL
     },
@@ -258,37 +308,61 @@ export default {
     showAddCardForm() {
       this.isAddCardFormVisible = true;
     },
+    
     saveCard() {
-      console.log("Card saved:", this.newCard);
+      this.errors = {}; // Reset errors before validation
 
-      const logoUrl = this.getCardLogo(this.newCard.cardNumber); // Get logo based on card number
-
-      // Add the new card to the appropriate array (credit or debit)
-      const cardData = {
-        id: this.debitCards.length + 1,  // Unique ID
-        cardholder: this.newCard.cardholder,
-        cardNumber: this.newCard.cardNumber,
-        expiryDate: this.newCard.expiryDate,
-        cvv: this.newCard.cvv,
-        logo: logoUrl  // Add the logo URL
-      };
-
-      if (this.newCard.type === 'credit') {
-        this.creditCards.push(cardData);
-      } else if (this.newCard.type === 'debit') {
-        this.debitCards.push(cardData);
+      // Validate cardholder name (no numbers)
+      if (/\d/.test(this.newCard.cardholder)) {
+        this.errors.cardholder = 'Cardholder name should not contain numbers';
       }
 
-      // Reset form after saving
-      this.newCard = {
-        cardholder: '',
-        cardNumber: '',
-        expiryDate: '',
-        cvv: '',
-        type: ''
-      };
-      this.isAddCardFormVisible = false;
-    },
+      // Validate card number (must be 16 digits)
+      if (!/^\d{16}$/.test(this.newCard.cardNumber)) {
+        this.errors.cardNumber = 'Card number must be 16 digits long';
+      }
+
+      // Validate expiry date (MM/YY)
+      const expiryPattern = /^(0[1-9]|1[0-2])\/\d{2}$/;
+      if (!expiryPattern.test(this.newCard.expiryDate)) {
+        this.errors.expiryDate = 'Invalid expiry date (MM/YY)';
+      }
+
+      // Validate CVV (3 digits)
+      if (!/^\d{3}$/.test(this.newCard.cvv)) {
+        this.errors.cvv = 'CVV must be 3 digits';
+      }
+
+      // If there are no errors, save the card
+      if (Object.keys(this.errors).length === 0) {
+        const logoUrl = this.getCardLogo(this.newCard.cardNumber);
+
+        const cardData = {
+          id: this.debitCards.length + 1,
+          cardholder: this.newCard.cardholder,
+          cardNumber: this.newCard.cardNumber,
+          expiryDate: this.newCard.expiryDate,
+          cvv: this.newCard.cvv,
+          logo: logoUrl
+        };
+
+        if (this.newCard.type === 'credit') {
+          this.creditCards.push(cardData);
+        } else if (this.newCard.type === 'debit') {
+          this.debitCards.push(cardData);
+        }
+
+        // Reset form after saving
+        this.newCard = {
+          cardholder: '',
+          cardNumber: '',
+          expiryDate: '',
+          cvv: '',
+          type: ''
+        };
+        this.isAddCardFormVisible = false;
+      }
+    }
   }
 };
 </script>
@@ -646,4 +720,9 @@ h2 {
   vertical-align: middle;
 }
 
+.error-text {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
 </style>
