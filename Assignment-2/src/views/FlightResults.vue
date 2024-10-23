@@ -318,16 +318,16 @@
     gap: 10px; 
   }
 
-    /* flight filter button */
-    .t-button {
-    width: 160px;
-    height: 30px;
-    background-color: white;
-    color: rgb(91, 91, 91);
-    padding: 5px 10px;
-    border-radius: 10px;
-    border: none;
-    width: 90px;
+  /* flight filter button */
+  .t-button {
+  width: 160px;
+  height: 30px;
+  background-color: white;
+  color: rgb(91, 91, 91);
+  padding: 5px 10px;
+  border-radius: 10px;
+  border: none;
+  width: 90px;
   }
 
   /* flight filter button: hover */
@@ -456,7 +456,7 @@
   }
 
   .flight-detail-button:hover {
-      background-color: #285a9c;
+      background-color: #737373;
       color: white;
   }
   </style>
