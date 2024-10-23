@@ -7,7 +7,7 @@
     <!-- 导航栏 Navbar -->
     <nav class="topbar">
       <div class="logoText">Northwind Airline</div>
-      <button class="home-button">Home Page</button>
+      <button class="home-button" @click="goToHomePage">Home Page</button>
     </nav>
 
     <!-- 欢迎文本 Welcome texts -->
@@ -130,6 +130,10 @@ export default {
     loginSuccess() {
       console.log('Login Success! 登录成功！')
       // window.location.href = '/home' // 预设成功后跳转到首页 Preset go back home page
+    },
+
+    goToHomePage() {
+      this.$router.push('/')
     },
 
     // 当用户有鼠标点击或键盘按下动作时，恢复按钮状态 Reset button after input
