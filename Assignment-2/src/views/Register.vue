@@ -34,7 +34,7 @@ export default {
         alert('密码不匹配')
       } else {
         console.log('注册信息:', this.email, this.password)
-        // 这里可以添加实际的注册逻辑
+        // 待添加实际的注册逻辑
       }
     },
   },

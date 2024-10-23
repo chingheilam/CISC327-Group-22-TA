@@ -1,22 +1,22 @@
 <template>
   <div class="login-page">
-    <!-- 背景图片 -->
+    <!-- 背景图片 Background img -->
     <div class="background"></div>
     <div class="overlay"></div>
 
-    <!-- 导航栏 -->
+    <!-- 导航栏 Navbar -->
     <nav class="topbar">
       <div class="logoText">Northwind Airline</div>
       <button class="home-button">Home Page</button>
     </nav>
 
-    <!-- 欢迎文本 -->
+    <!-- 欢迎文本 Welcome texts -->
     <div class="welcome-text">
       <h1>WELCOME BACK</h1>
       <p>Nice To See You Again</p>
     </div>
 
-    <!-- 登录框 -->
+    <!-- 登录框 Login frame -->
     <div class="login-form">
       <t-space direction="vertical" class="login-box" size="large">
         <t-space direction="vertical" size="small" class="child-box">
@@ -68,13 +68,13 @@ export default {
         email: '',
         password: '',
       },
-      emailError: false, // 输入的邮箱string格式校验状态
-      isLoading: false, // 登录按钮加载状态
-      buttonTheme: 'primary', // 登录按钮主题状态
-      buttonLabel: 'Login', // 按钮文本
+      emailError: false, // 输入的邮箱string格式校验状态 Email string format verification status
+      isLoading: false, // 登录按钮加载状态 Login Button loading animation display status
+      buttonTheme: 'primary', // 登录按钮主题状态 Login button topic status
+      buttonLabel: 'Login', // 按钮文本 Login button text
 
-      validEmail: 'user@example.com', // 模拟正确的账号
-      validPassword: 'password', // 模拟正确的密码
+      validEmail: 'user@example.com', // 模拟正确的账号 Simulate the correct account number
+      validPassword: 'password', // 模拟正确的密码 Simulate the correct password
 
       rules: {
         email: [
@@ -91,49 +91,48 @@ export default {
 
   methods: {
     onSubmit() {
-      this.isLoading = true // 开始加载状态
+      this.isLoading = true // 开始加载状态 Show loading animation
 
-      // 模拟后端延迟校验，等待1秒
+      // 模拟后端延迟校验，等待1秒 Simulate back-end delay check, wait 1 second
       setTimeout(() => {
         if (
           this.form.email === this.validEmail &&
           this.form.password === this.validPassword
         ) {
-          // 校验成功，按钮变为 success 状态
+          // 校验成功 Information valid, show 'Success'
           this.buttonTheme = 'success'
           this.buttonLabel = 'Success'
           this.isLoading = false
 
-          // 成功后继续执行后续操作
+          // 成功后继续执行后续操作 Do other operations after login success
           setTimeout(() => {
             this.loginSuccess()
           }, 1000)
         } else {
-          // 校验失败，按钮变为 danger 状态，显示错误
+          // 校验失败 Info invalid, show 'Failed'
           this.buttonTheme = 'danger'
           this.buttonLabel = 'Login Failed'
           this.isLoading = false
 
-          // 监听用户的鼠标点击和键盘按下事件
+          // 监听用户的鼠标点击和键盘按下事件 Listen for input events
           window.addEventListener('click', this.resetButtonOnAction)
           window.addEventListener('keydown', this.resetButtonOnAction)
 
-          // 在失败后的10秒内按钮保持失败状态
+          // 在失败后的10秒内按钮保持失败状态 Keep showing login failed
           setTimeout(() => {
-            // 等待10秒后如果用户没有任何动作则恢复按钮状态
             this.resetButton()
           }, 10000)
         }
       }, 1000)
     },
 
-    // 登录成功操作
+    // 登录成功操作 Operations for login success
     loginSuccess() {
-      console.log('Login Success! 登录成功，执行后续操作')
-      // window.location.href = '/home' // 预设成功后跳转到首页
+      console.log('Login Success! 登录成功！')
+      // window.location.href = '/home' // 预设成功后跳转到首页 Preset go back home page
     },
 
-    // 当用户有鼠标点击或键盘按下动作时，恢复按钮状态
+    // 当用户有鼠标点击或键盘按下动作时，恢复按钮状态 Reset button after input
     resetButtonOnAction() {
       this.resetButton()
 
@@ -142,25 +141,25 @@ export default {
       window.removeEventListener('keydown', this.resetButtonOnAction)
     },
 
-    // 重置按钮状态
+    // 重置按钮状态 Reset button
     resetButton() {
       this.buttonTheme = 'primary'
       this.buttonLabel = 'Login'
       this.isLoading = false
     },
 
-    // 邮箱输入校验
+    // 邮箱输入校验 Email validation
     validateEmail(email) {
       const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
       return emailPattern.test(email)
     },
 
-    // 当离开输入框时触发邮箱校验
+    // 当离开输入框时触发邮箱校验 Auto validation
     validateEmailOnBlur() {
       if (!this.validateEmail(this.form.email)) {
-        this.emailError = true // 当校验失败时设置错误状态
+        this.emailError = true // 当校验失败时设置错误状态 true for failed
       } else {
-        this.emailError = false // 校验通过时清除错误状态
+        this.emailError = false // 校验通过时清除错误状态 false for success
       }
     },
   },
@@ -227,7 +226,7 @@ body {
   align-items: center;
 }
 
-/* 背景图 */
+/* 背景图 Background img */
 .background {
   position: absolute;
   top: 0;
@@ -238,7 +237,7 @@ body {
   background-size: cover;
 }
 
-/* 透明遮罩层 */
+/* 透明遮罩层 Mask layer */
 .overlay {
   position: absolute;
   top: 0;
@@ -248,7 +247,7 @@ body {
   background: rgba(0, 0, 0, 0.28);
 }
 
-/* 导航栏 */
+/* 导航栏 Navbar */
 .topbar {
   position: absolute;
   top: 4.63%;
@@ -273,7 +272,7 @@ body {
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: 600;
-  font-size: 1.88vw; /* 36px 换算为 vw */
+  font-size: 1.88vw;
 
   display: flex;
   text-align: center;
@@ -290,12 +289,12 @@ body {
   justify-content: center;
   align-items: center;
 
-  padding: calc(82px * 0.146) calc(1686px * 0.019); /* 动态 padding，基于父元素的比例 */
-  gap: calc(1686px * 0.006); /* 动态 gap，基于父元素宽度 */
+  padding: calc(82px * 0.146) calc(1686px * 0.019);
+  gap: calc(1686px * 0.006);
 
   position: absolute;
-  width: calc(1686px * 0.0985); /* 166px 换算为父元素宽度的比例 */
-  height: 62.2%; /* 48px 换算为父元素高度的比例 */
+  width: calc(1686px * 0.0985);
+  height: 62.2%;
 
   right: 2.847%;
   top: 50%;
@@ -306,19 +305,19 @@ body {
   color: #fff;
   border: none;
   cursor: pointer;
-  font-size: calc(1686px * 0.011); /* 动态字体大小，基于父元素宽度 */
+  font-size: calc(1686px * 0.011);
 }
 
 .home-button:hover {
-  background-color: #285a9c; /* 鼠标悬停时的背景颜色变化 */
+  background-color: #285a9c;
 }
 
-/* 欢迎文本 */
+/* 欢迎文本 Welcome texts */
 .welcome-text {
   position: absolute;
   width: 31.25%;
-  top: 34.7%; /* 根据视口高度定位 */
-  left: 16.56%; /* 根据视口宽度定位 */
+  top: 34.7%;
+  left: 16.56%;
   color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -333,7 +332,7 @@ body {
   font-style: normal;
   font-weight: 800;
   font-size: 5.2vw;
-  line-height: 5.2vw; /* 行高与字体大小一致 */
+  line-height: 5.2vw;
   letter-spacing: 0.06em;
   text-transform: capitalize;
   color: #ffffff;
@@ -353,7 +352,7 @@ body {
   white-space: nowrap; /* 防止文本换行 */
 }
 
-/* 登录表单 */
+/* 登录表单 Login form */
 .login-form {
   position: absolute;
   top: 34.7%;
@@ -369,15 +368,13 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 7.2%; /* 间距占父元素高度的3% */
+  gap: 7.2%;
 }
 
-/* 表单 */
 .login-box {
   width: 51.05%;
 }
 
-/* 表单字段 */
 .child-box {
   width: 100%;
 }
@@ -404,11 +401,6 @@ body {
   box-shadow: 0 0.2rem 0.4rem rgba(16, 24, 40, 0.05);
 }
 
-.input-box ::deep .t-input__inner {
-  background-color: #d0d5dd;
-  border-radius: 10px; /* 设置圆角 */
-}
-
 .login-button {
   width: 28.9%;
   height: 11.791%;
@@ -426,7 +418,7 @@ body {
 }
 
 .sign-up {
-  display: flex; /* 使用 flexbox 使子元素水平排列 */
+  display: flex;
   align-items: center; /* 垂直居中对齐 */
   gap: 10px; /* 设置 p 和 a 之间的间距 */
   font-family: 'Poppins';

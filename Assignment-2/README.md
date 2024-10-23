@@ -4,6 +4,8 @@ This project is a simple login page created using `Vue.js` for frontend and will
 
 It includes simulated authentication with visual feedback on login status and input validation.
 
+In some of the comments, we have chosen to use bilingualism.
+
 ### Main Prerequisites
 
 Before running this project, make sure you have the following installed on your system:
@@ -48,3 +50,5 @@ Before running this project, make sure you have the following installed on your 
 - Test Case 2-4: Simulate the input of an invalid mailbox and test the mailbox validation logic
 - Test Case 5: Simulate the input of the correct account and password, test the status change of the button and the processing logic after success
 - Test Case 6: Simulate the incorrect account and password, test the status change of the button and the processing logic after the failure
+
+![Test result picture](./screenshots.png)
