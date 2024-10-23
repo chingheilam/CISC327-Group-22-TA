@@ -54,9 +54,8 @@
     </div>
 
 
-    <div class="flight-results-container">
-      
-  
+    <div class="flight-filters-container">
+
       <!-- Filters and Classes -->
       <div class="flight-filters">
         <t-space>
@@ -68,15 +67,19 @@
         </t-space>
       </div>
   
-      <!-- Economy/Premium Eco/First Class Switcher -->
-      <div class="class-switcher">
-        <t-space>
-          <t-button>Economy</t-button>
-          <t-button>Premium Eco</t-button>
-          <t-button>First / Business</t-button>
-        </t-space>
+      <!-- Class Section (use images as background) -->
+      <div class="class-section">
+        <div class="class-div economy">
+          <span class="class-text">Economy</span>
+        </div>
+        <div class="class-div premium">
+          <span class="class-text">Premium Eco</span>
+        </div>
+        <div class="class-div first">
+          <span class="class-text">First / Business</span>
+        </div>
       </div>
-  
+    </div>
       <!-- Flight List -->
       <div class="flight-list">
         <t-list :split="true">
@@ -97,7 +100,7 @@
           </t-list-item>
         </t-list>
       </div>
-    </div>
+    
   </template>
   
   <script>
@@ -230,6 +233,7 @@
     padding: 10px 80px;
     height: 30px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); 
+    margin-bottom: 15px;
 }
 
   .flight-type {
@@ -288,35 +292,94 @@
     text-align: center;
   }
 
-
-
-  .t-button {
-    background-color: transparent !important; /* Transparent button */
-    border: 2px solid #3470c4 !important; /* Blue border */
-    color: #3470c4 !important; /* Blue text */
-    padding: 5px 10px;
-    border-radius: 10px;
-  }
-
   .change-button div:hover {
     background-color: rgba(255, 255, 255, 0.25); /* Lighter hover effect */
   }
 
 
-
-
-  /* Flight Results Container */
-  .flight-results-container {
-    padding: 20px;
+  .flight-filters-container {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 10px 20px; 
+    background-color: rgba(132, 132, 132, 0.3); 
+    border-radius: 15px; 
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); 
+    width: 90%;
+    margin: 0 auto; 
   }
-  
+
+
+  /* Third bar*/
+  .flight-filters {
+    display: flex; 
+    gap: 10px; 
+  }
+
+    /* flight filter button */
+    .t-button {
+    width: 160px;
+    height: 30px;
+    background-color: white;
+    color: rgb(91, 91, 91);
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: none;
+    width: 90px;
+  }
+
+  /* flight filter button: hover */
+  .t-button:hover {
+    background-color: #f5f5f5;
+    border-color: #285a9c;
+    color: #285a9c;
+  }
+
+
+  /* Class section buttons with background images */
+  .class-section {
+    display: flex;
+    gap: 20px; /* Space between class items */
+    align-items: center;
+  }
+
+  .class-div {
+    width: 160px; /* Set width to control layout */
+    height: 30px; /* Set height */
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Text aligned to the right */
+    padding-right: 10px; /* Padding for the text */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 10px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .economy {
+    background-image: url('../icons/cabin-1.52ffc6e.png');
+  }
+
+  .premium {
+    background-image: url('../icons/cabin-2.fbeb341.png');
+  }
+
+  .first {
+    background-image: url('../icons/cabin-3.cbf205e.png');
+  }
+
+  .class-text {
+    text-align: right;
+    font-size: 0.9rem;
+  }
+
   .flight-date {
     font-size: 1rem;
   }
   
-  .flight-filters, .class-switcher {
-    margin: 20px 0;
-  }
+
   
   /* Flight List */
   .flight-list {
