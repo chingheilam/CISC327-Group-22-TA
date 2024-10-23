@@ -17,7 +17,7 @@
       <div class="sidebar">
         <router-link to="/userPage" class="sidebarops">Personal Information</router-link>
         <router-link to="/order-history" class="sidebarops">Order History</router-link>
-        <router-link to="/flight-rescheduleUpgrade" class="sidebarops">Flight Reschedule/Upgrade</router-link>
+        <router-link to="/flight-rescheduleUpgrade" class="sidebarops">Flight Reschedule</router-link>
         <router-link to="/flight-rescheduleUpgrade" class="sidebarops">Flight Upgrade</router-link>
         <router-link to="/flights-cancellation" class="sidebarops">Flights Cancellation</router-link>
       </div>
@@ -441,7 +441,10 @@ export default {
 }
 
 .sidebar {
+ 
+
   width: 12%; /* Adjust width as per your design */
+  
   background: rgba(0, 0, 0, 0.3); /* Slightly dark transparent background */
   border-radius: 15px; /* Rounded corners */
   border: 1px solid #FFFFFF;
