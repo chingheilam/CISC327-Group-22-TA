@@ -1,14 +1,14 @@
 import { describe, test, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import FlightSearch from '../src/views/IndexPage.vue'
+import IndexPage from '../views/IndexPage.vue'
 import { createRouter, createMemoryHistory } from 'vue-router'
 
 // Import the necessary components and mock the router
-import FlightResults from '../src/views/Flights.vue'
+import Flights from '../views/Flights.vue'
 
 const routes = [
-  { path: '/', name: 'FlightSearch', component: FlightSearch },
-  { path: '/flight-results', name: 'FlightResults', component: FlightResults },
+  { path: '/', name: 'IndexPage', component: IndexPage },
+  { path: '/flights', name: 'Flights', component: Flights },
 ]
 
 const router = createRouter({
@@ -16,9 +16,9 @@ const router = createRouter({
   routes,
 })
 
-describe('FlightSearch.vue', () => {
+describe('IndexPage.vue', () => {
   test('shows a warning when fields are missing', async () => {
-    const wrapper = mount(FlightSearch, {
+    const wrapper = mount(IndexPage, {
       global: {
         plugins: [router], // Inject the router
       },
@@ -37,7 +37,7 @@ describe('FlightSearch.vue', () => {
   })
 
   test('successfully navigates to flight results when form is valid', async () => {
-    const wrapper = mount(FlightSearch, {
+    const wrapper = mount(IndexPage, {
       global: {
         plugins: [router], // Inject the router
       },
@@ -57,6 +57,6 @@ describe('FlightSearch.vue', () => {
     await router.isReady()
 
     // Check if the navigation went to the 'FlightResults' route
-    expect(router.currentRoute.value.name).toBe('FlightResults')
+    expect(router.currentRoute.value.name).toBe('Flights')
   })
 })

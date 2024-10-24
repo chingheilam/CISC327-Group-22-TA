@@ -1,10 +1,10 @@
 import { describe, test, expect } from 'vitest' // Import Vitest functions
 import { mount } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
-import FlightResults from '../src/views/Flights.vue'
+import Flights from '../views/Flights.vue'
 
 const routes = [
-  { path: '/flight-results', name: 'FlightResults', component: FlightResults },
+  { path: '/flights', name: 'Flights', component: Flights },
 ]
 
 const router = createRouter({
@@ -12,10 +12,10 @@ const router = createRouter({
   routes,
 })
 
-describe('FlightResults.vue', () => {
+describe('Flights.vue', () => {
   test('should render flight information correctly from route query', async () => {
     router.push({
-      name: 'FlightResults',
+      name: 'Flights',
       query: {
         departure: 'Toronto (YYZ)',
         arrival: 'Vancouver (YVR)',
@@ -25,7 +25,7 @@ describe('FlightResults.vue', () => {
 
     await router.isReady()
 
-    const wrapper = mount(FlightResults, {
+    const wrapper = mount(Flights, {
       global: {
         plugins: [router],
       },
@@ -38,7 +38,7 @@ describe('FlightResults.vue', () => {
   })
 
   test('should render flight options correctly', async () => {
-    const wrapper = mount(FlightResults, {
+    const wrapper = mount(Flights, {
       global: {
         plugins: [router],
       },
