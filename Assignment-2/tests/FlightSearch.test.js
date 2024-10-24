@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import FlightSearch from '../src/views/FlightSearch.vue';
+import FlightSearch from '../src/views/IndexPage.vue';
 import { createRouter, createMemoryHistory } from 'vue-router';
 
 // Import the necessary components and mock the router

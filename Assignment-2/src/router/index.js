@@ -4,7 +4,7 @@ import UserPage from '../views/UserPage.vue'
 import OrderHistory from '../views/OrderHistory.vue'
 import FlightRescheduleUpgrade from '../views/FlightRescheduleUpgrade.vue'
 import FlightsCancellation from '../views/FlightsCancellation.vue'
-import FlightSearch from '../views/FlightSearch.vue';
+import IndexPage from '../views/IndexPage.vue';
 import FlightResults from '../views/FlightResults.vue';
 
 import LoginPage from '../views/Login.vue'
@@ -17,7 +17,7 @@ const routes = [
   {
     path: '/flight-search',
     name: 'FlightSearch',
-    component: FlightSearch
+    component: IndexPage
   },
   {
     path: '/flight-results',

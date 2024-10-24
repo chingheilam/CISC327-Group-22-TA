@@ -43,7 +43,7 @@
                     <t-divider layout="vertical" />
 
                     <!-- Third Column: Departure Date -->
-                    <t-form-item label="Departure Date">
+                    <t-form-item label="Departure Date" style="margin-right: 20px;">
                         <t-date-picker v-model="date" placeholder="Choose Dates" />
                     </t-form-item>
 
@@ -171,6 +171,13 @@ export default {
     height: 30px; /* Increase the height of the vertical divider */
     align-self: center; /* Center the divider vertically */
 }
+.t-space {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
 
 /* Styling for the Search Button */
 .search-button {
@@ -193,6 +200,7 @@ export default {
 .action-buttons {
     margin-top: 0px;
     width: 60%;
+    text-align: center;
 }
 
 .action-button-container {
@@ -204,6 +212,7 @@ export default {
     border-radius: 0 0 10px 10px; /* Only curve the bottom left and right corners */
     background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
     padding: 15px 0; /* Add some padding to the container */
+    margin: 0 auto;
 }
 
 .action-button {
@@ -233,7 +242,7 @@ export default {
     background-color: #3470c4 !important; /* Blue color for divider */
     width: 5px !important; /* Increase thickness of the divider */
     height: 60px; /* Make the divider longer */
-    margin: 0 10px; /* Add spacing around the divider */
+    margin: 0 0px; 
 
 }
 
@@ -288,6 +297,7 @@ html, body {
     border-radius: 10px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
     width: 70%;
+    text-align: center;
 }
 
 h1 {
@@ -298,22 +308,12 @@ h1 {
     color: white;
 }
 
-/* topbar */
-.topbar {
-    position: absolute;
-    top: 2%;
-    left: 5%;
-    width: 90%;
-    height: 7.59%;
+.topbar{
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(234, 240, 240, 0.4);
-    backdrop-filter: blur(5.5px);
-    border-radius: 0.5rem;
-    padding: 0 20px;
+    height: 60px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
 }
-
 .logoText {
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
@@ -330,6 +330,8 @@ h1 {
     display: flex;
     justify-content: center;
     gap: 30px; /* Ensures equal spacing between the menu items */
+    margin: 0 auto;
+    flex-grow: 1;
 }
 
 .menu-item {
@@ -359,6 +361,8 @@ h1 {
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.3s ease;
+    margin-left: auto;
+    margin-right: 20px;
 }
 
 .userPage-button:hover {
