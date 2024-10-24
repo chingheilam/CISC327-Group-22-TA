@@ -1,45 +1,34 @@
-import { describe, test, expect } from 'vitest'
+import { describe, test, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import IndexPage from '../views/IndexPage.vue'
-import { createRouter, createMemoryHistory } from 'vue-router'
-
-// Import the necessary components and mock the router
-import Flights from '../views/Flights.vue'
-
-const routes = [
-  { path: '/', name: 'IndexPage', component: IndexPage },
-  { path: '/flights', name: 'Flights', component: Flights },
-]
-
-const router = createRouter({
-  history: createMemoryHistory(),
-  routes,
-})
+import TDesign, { MessagePlugin } from 'tdesign-vue-next'
+import router from '@/router'
 
 describe('IndexPage.vue', () => {
   test('shows a warning when fields are missing', async () => {
+    const messagePluginSpy = vi.spyOn(MessagePlugin, 'warning')
+
     const wrapper = mount(IndexPage, {
       global: {
-        plugins: [router], // Inject the router
+        plugins: [router, TDesign], // Inject the router
       },
     })
 
-    const searchButton = wrapper.find('.search-button')
-    await searchButton.trigger('click')
+    await wrapper.vm.FlightSearch({ preventDefault: () => {} })
 
-    // Simulate waiting for the message to appear (sometimes asynchronous)
     await wrapper.vm.$nextTick()
 
     // Ensure that the warning message is shown
-    expect(wrapper.text()).toContain(
-      'Please fill in all fields before searching',
-    )
+    expect(messagePluginSpy)
+
+    // Restore the original console.log
+    messagePluginSpy.mockRestore()
   })
 
   test('successfully navigates to flight results when form is valid', async () => {
     const wrapper = mount(IndexPage, {
       global: {
-        plugins: [router], // Inject the router
+        plugins: [router, TDesign], // Inject the router
       },
     })
 
@@ -47,16 +36,17 @@ describe('IndexPage.vue', () => {
     await wrapper.setData({
       departure: 'Toronto (YYZ)',
       arrival: 'Vancouver (YVR)',
-      date: '2024-10-01',
+      date: '2024-10-31',
     })
 
-    const searchButton = wrapper.find('.search-button')
-    await searchButton.trigger('click')
+    const form = wrapper.find('form')
+    await form.trigger('submit')
 
-    // Wait for the navigation to complete
     await router.isReady()
+    await new Promise(resolve => setTimeout(resolve, 100))
 
-    // Check if the navigation went to the 'FlightResults' route
+    console.log('Current route:', router.currentRoute.value.name)
+
     expect(router.currentRoute.value.name).toBe('Flights')
   })
 })

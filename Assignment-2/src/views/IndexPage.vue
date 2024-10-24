@@ -148,19 +148,19 @@ export default {
 
   methods: {
     FlightSearch() {
-      // Verify that the departure, arrival, and date values are being captured correctly
-      console.log('Departure:', this.departure)
-      console.log('Arrival:', this.arrival)
-      console.log('Date:', this.date)
-
       if (!this.departure || !this.arrival || !this.date) {
         MessagePlugin.warning('Please fill in all fields before searching.')
         return
       }
 
+      this.goToFlights()
+    },
+
+    goToFlights() {
+      console.log('Navigating to Flights route...')
       // Navigate to the flight results page with the search criteria
       this.$router.push({
-        name: 'FlightResults',
+        name: 'Flights',
         query: {
           departure: this.departure,
           arrival: this.arrival,

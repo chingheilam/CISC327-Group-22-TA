@@ -2,10 +2,9 @@ import { describe, test, expect } from 'vitest' // Import Vitest functions
 import { mount } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
 import Flights from '../views/Flights.vue'
+import TDesign from 'tdesign-vue-next'
 
-const routes = [
-  { path: '/flights', name: 'Flights', component: Flights },
-]
+const routes = [{ path: '/flights', name: 'Flights', component: Flights }]
 
 const router = createRouter({
   history: createMemoryHistory(),
@@ -27,7 +26,7 @@ describe('Flights.vue', () => {
 
     const wrapper = mount(Flights, {
       global: {
-        plugins: [router],
+        plugins: [router, TDesign],
       },
     })
 
@@ -40,7 +39,7 @@ describe('Flights.vue', () => {
   test('should render flight options correctly', async () => {
     const wrapper = mount(Flights, {
       global: {
-        plugins: [router],
+        plugins: [router, TDesign],
       },
     })
 

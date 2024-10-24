@@ -201,8 +201,6 @@ function adjustAspectRatio() {
       pageContent.style.height = `${contentHeight}px`
       pageContent.style.margin = `auto 0` // 垂直居中
     }
-  } else {
-    console.error('Page content not found')
   }
 }
 </script>
