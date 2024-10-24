@@ -7,7 +7,7 @@
 
       <!-- Username and Home Page Button -->
       <div class="user-info">
-        <span class="user-name">LName FName</span>
+        <span class="user-name">UserName</span>
       </div>
       <button class="home-button" @click="goToHomePage">Home Page</button>
     </nav>
@@ -549,7 +549,7 @@ export default {
 .background {
   background-image: url('../img/bg.png');
   background-size: cover;
-  position:absolute;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -564,7 +564,8 @@ export default {
   height: 100%;
   background: rgba(0, 0, 0, 0.28);
 }
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -639,8 +640,7 @@ html, body {
   border-radius: 15px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(30px);
-  overflow-y: auto; 
-  
+  overflow-y: auto;
 }
 
 h2 {
