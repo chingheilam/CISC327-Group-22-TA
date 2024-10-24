@@ -292,7 +292,7 @@ html, body {
 
 h1 {
     font-size: 4rem;
-    font-weight: 850;
+    font-weight: 650;
     font-family: 'Poppins', sans-serif;
     margin-bottom: 30px;
     color: white;

@@ -82,7 +82,7 @@
     </div>
     <!-- Flight List -->
     <div class="flight-list">
-      <t-list :split="true">
+      <t-list :split="false">
         <t-list-item v-for="(flight, index) in flightResults" :key="index">
           <div class="flight-item">
             <div class="flight-information">
@@ -152,11 +152,15 @@
   
   /* Topbar */
   .topbar {
+    position: fixed;
+    top:0 ;
+    width: 100%;
+    z-index: 100;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #e8f0f2; /* Light background */
-    padding: 10px 40px;
+    padding: 10px 10px;
     height: 60px; /* Set height */
 
   }
@@ -166,12 +170,15 @@
     font-weight: 600;
     font-size: 1.88vw;
     color: #283841;
+    padding-left: 30px;
   }
 
   .centered-menu {
     display: flex;
     justify-content: center;
-    gap: 40px
+    gap: 30px;
+    flex-grow: 2;
+    margin-left: 20%;
   }
 
   .menu-item {
@@ -204,6 +211,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    padding-right: 20px;
   }
 
   .user-name {
@@ -228,15 +236,16 @@
   }
 
   .flight-selection-bar {
+    margin-top: 80px;
     display: flex;
     justify-content: space-between;
     background: linear-gradient(to right, #468bc7, #2a5b94, #468bc7);
     align-items: center;
-    padding: 10px 80px;
+    padding: 15px 80px;
     height: 30px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); 
     margin-bottom: 15px;
-}
+  }
 
   .flight-type {
     font-family: 'Poppins', sans-serif;
@@ -300,6 +309,7 @@
 
 
   .flight-filters-container {
+    margin-top: 10px;
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
@@ -307,8 +317,10 @@
     background-color: rgba(132, 132, 132, 0.3); 
     border-radius: 15px; 
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); 
-    width: 90%;
+    max-width: 1130px;
     margin: 0 auto; 
+    z-index: 1;
+    position: relative;
   }
 
 
@@ -316,24 +328,27 @@
   .flight-filters {
     display: flex; 
     gap: 10px; 
+    z-index: 0;
+    position: relative;
   }
 
   /* flight filter button */
   .t-button {
-  width: 160px;
-  height: 30px;
-  background-color: white;
-  color: rgb(91, 91, 91);
-  padding: 5px 10px;
-  border-radius: 10px;
-  border: none;
-  width: 90px;
+    width: 160px;
+    height: 30px;
+    background-color: white;
+    color: rgb(91, 91, 91);
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: none;
+    width: 90px;
+    z-index:0;
   }
 
   /* flight filter button: hover */
   .t-button:hover {
     background-color: #f5f5f5;
-    border-color: #285a9c;
+    border-color: darkgrey;
     color: #285a9c;
   }
 
@@ -388,6 +403,7 @@
     width: 100%;
     max-width: 1200px; 
     margin: 0 auto; 
+    margin-top: 5px ;
   }
   
   .flight-item {
@@ -396,7 +412,7 @@
     padding: 15px;
     background-color: #fff;
     border-radius: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
     align-items: center; 
@@ -443,7 +459,8 @@
     color: #b11111;
     min-width: 100px; /* Set minimum width for price items to align columns */
     text-align: right;
-    margin-right: 40px;
+    margin-right: 55px;
+    margin-left: -20px;
   }
 
   .flight-detail-button {
