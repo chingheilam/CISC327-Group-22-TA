@@ -13,7 +13,7 @@
     <!-- 注册表单 -->
     <div class="registerBox">
       <h2 class="announceText">Create Your Account</h2>
-      <t-space class="infoBox">
+      <div class="infoBox">
         <t-form labelAlign="top" class="t-form">
           <t-form-item class="t-form-item" name="email">
             <template #label>
@@ -68,7 +68,7 @@
           </t-form-item>
         </t-form>
 
-        <t-form labelAlign="top">
+        <t-form labelAlign="top" class="t-form">
           <t-form-item class="t-form-item" name="Gender">
             <template #label>
               <span class="custom-label">Gender</span>
@@ -123,7 +123,7 @@
           </t-form-item>
         </t-form>
 
-        <t-form labelAlign="top">
+        <t-form labelAlign="top" class="t-form">
           <t-form-item class="t-form-item" name="Unit">
             <template #label>
               <span class="custom-label">Unit / apt.</span>
@@ -172,7 +172,7 @@
             />
           </t-form-item>
         </t-form>
-      </t-space>
+      </div>
       <t-button
         class="login-button"
         shape="round"
@@ -477,6 +477,11 @@ body {
   width: 66.38%;
 
   background: rgba(1, 204, 245, 0.3);
+
+  display: flex;
+  gap: 64px;
+  justify-content: center;
+  align-items: center;
 }
 
 .t-form {
@@ -508,6 +513,8 @@ body {
 
 .login-button {
   top: 82%;
+
+  left: 0;
 
   width: 28.9%;
   height: 11.791%;
