@@ -15,3 +15,6 @@ class Flight(models.Model):
 
     def __str__(self):
         return f"{self.flight_number} - {self.departure_city} to {self.arrival_city}"
+    
+    class Meta:
+        db_table = 'flights_flight'

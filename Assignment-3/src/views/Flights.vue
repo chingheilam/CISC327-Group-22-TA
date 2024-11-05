@@ -121,19 +121,18 @@
       fetchFlights() {
         // Construct the query parameters to pass to the backend API
         const query = `?departure=${encodeURIComponent(this.departure)}&arrival=${encodeURIComponent(this.arrival)}&date=${encodeURIComponent(this.date)}`;
-        // Make an HTTP request to the backend API
-        fetch(`http://127.0.0.1:8000/api/flights/${query}`)
-          .then(response => response.json())
-          .then(data => {
-            console.log("Fetched flight data:", data);  // Log the response to see what you receive
-            if (Array.isArray(data)) {
-              this.flightResults = data;  // Assign the flights array directly if data is an array
-            } else if (data.flights) {
-              this.flightResults = data.flights;  // If data has flights inside, use that
+        // Make an HTTP request using Axios
+        this.$axios.get(`http://127.0.0.1:8000/api/flights/${query}`)
+          .then(response => {
+            console.log("Fetched flight data:", response.data);
+            if (Array.isArray(response.data)) {
+              this.flightResults = response.data;  // Assign the flights array directly if data is an array
+            } else if (response.data.flights) {
+              this.flightResults = response.data.flights;  // If data has flights inside, use that
             }
             // Handle nextDays if provided by the API
-            if (data.nextDays) {
-              this.nextDays = data.nextDays;
+            if (response.data.nextDays) {
+              this.nextDays = response.data.nextDays;
             }
           })
           .catch(error => {
