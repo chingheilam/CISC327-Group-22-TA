@@ -3,6 +3,7 @@
     <!-- 背景图片和覆盖层 -->
     <div class="background"></div>
     <div class="overlay"></div>
+    <t-alert message="这是一条信息" />
 
     <!-- 导航栏 -->
     <nav class="topbar">
@@ -189,6 +190,7 @@
 
 <script>
 import axios from 'axios'
+import { MessagePlugin } from 'tdesign-vue-next'
 
 export default {
   name: 'RegisterPage',
@@ -250,13 +252,13 @@ export default {
           'PostalCode',
         ]
 
-        // 重置错误状态
+        // 重置错误状态 Reset error status
         let hasError = false
         for (const field in this.errors) {
           this.errors[field] = false
         }
 
-        // 检查必填字段是否为空
+        // 检查必填字段是否为空 Check that the required fields are empty
         for (const field of requiredFields) {
           if (!this.form[field]) {
             this.errors[field] = true
@@ -264,7 +266,7 @@ export default {
           }
         }
 
-        // 检查邮箱格式
+        // 检查邮箱格式 Check email format
         if (!this.validateEmail(this.form.email)) {
           this.errors.email = true
           hasError = true
@@ -299,7 +301,7 @@ export default {
               },
             )
 
-            // 如果后端响应成功，更新按钮为成功状态
+            // 如果后端响应成功，更新按钮为成功状态 If the back-end response is successful, the update button changes to successful status
             if (response.status === 201) {
               this.buttonTheme = 'success'
               this.buttonLabel = 'Success'
@@ -309,13 +311,33 @@ export default {
                 this.goToHomePage()
               }, 1000)
             } else {
-              throw new Error('注册失败')
+              throw new Error('注册失败 Sign up failed!')
             }
           } catch (error) {
-            // 如果请求失败，显示失败状态
+            // 如果请求失败，显示失败状态 If the request fails, the failed status is displayed
             this.buttonTheme = 'danger'
             this.buttonLabel = 'Failed'
             this.isLoading = false
+
+            // 检查是否为邮箱已注册错误 Check whether the mailbox has been registered error
+            if (
+              error.response &&
+              error.response.data &&
+              error.response.data.email
+            ) {
+              const emailError = error.response.data.email[0]
+              if (
+                emailError === 'registration with this email already exists.'
+              ) {
+                MessagePlugin.error('Email has been registered, please login')
+
+                // 在5秒后自动导航到登录页面 Automatically navigate to the login page after 5 seconds
+                setTimeout(() => {
+                  this.$router.push('/login')
+                }, 5000)
+              }
+            }
+
             console.error(error.response ? error.response.data : error.message)
 
             window.addEventListener('click', this.resetButtonOnAction)
@@ -325,7 +347,7 @@ export default {
               this.resetButton()
             }, 10000)
           } finally {
-            // 请求完成后，重置加载状态
+            // 请求完成后，重置加载状态 After the request is complete, reset the load status
             this.isLoading = false
           }
         }
@@ -351,7 +373,7 @@ export default {
     resetButtonOnAction() {
       this.resetButton()
 
-      // 移除事件监听器，防止重复触发
+      // 移除事件监听器，防止重复触发 Remove event listeners to prevent repeated triggers
       window.removeEventListener('click', this.resetButtonOnAction)
       window.removeEventListener('keydown', this.resetButtonOnAction)
     },
@@ -443,7 +465,7 @@ body {
   align-items: center;
 }
 
-/* 背景图片和遮罩层 */
+/* 背景图片和遮罩层 Background img and overlay */
 .background {
   position: absolute;
   top: 0;
@@ -496,7 +518,7 @@ body {
 
   letter-spacing: 0.06em;
   color: #283841;
-  white-space: nowrap; /* 防止文本换行 */
+  white-space: nowrap;
 }
 
 .home-button {
@@ -528,7 +550,7 @@ body {
   background-color: #285a9c;
 }
 
-/* 注册表单 */
+/* 注册表单框体 Register frame */
 .registerBox {
   position: absolute;
   width: 75%;
@@ -556,7 +578,7 @@ body {
   white-space: nowrap;
 
   color: #000000;
-  margin: 0; /* 去掉默认的外边距 */
+  margin: 0; /* for horizontal centering */
 }
 
 .infoBox {
