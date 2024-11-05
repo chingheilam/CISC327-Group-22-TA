@@ -1,115 +1,124 @@
 <template>
-  <!-- topbar -->
-  <nav class="topbar">
-    <div class="logoText">Northwind Airlines</div>
+  <div class="index-page">
+    <!-- 背景图片 Background img -->
+    <div class="background"></div>
+    <div class="overlay"></div>
 
-    <!-- Centered Menu -->
-    <div class="centered-menu">
-      <a href="#" class="menu-item active">Home</a>
-      <a href="#" @click="goToUserPage" class="menu-item">UserPage</a>
-      <a href="#" class="menu-item">Hotels & Villas</a>
-      <a href="#" class="menu-item">Flights</a>
-    </div>
+    <!-- topbar -->
+    <nav class="topbar">
+      <div class="logoText">Northwind Airlines</div>
 
-    <button class="userPage-button" @click="goToLogin">Sign in</button>
-  </nav>
+      <!-- Centered Menu -->
+      <div class="centered-menu">
+        <a href="#" class="menu-item active">Home</a>
+        <a href="#" @click="goToUserPage" class="menu-item">UserPage</a>
+        <a href="#" class="menu-item">Hotels & Villas</a>
+        <a href="#" class="menu-item">Flights</a>
+      </div>
 
-  <div class="search-container">
-    <h1>Book Flights With Us</h1>
-    <div class="search-box">
-      <t-form @submit="FlightSearch">
-        <t-space>
-          <!-- First Column: From -->
-          <t-form-item label="From">
-            <t-dropdown
-              :options="originOptions"
-              trigger="click"
-              @click="selectOrigin"
-            >
-              <t-button variant="text">
-                {{ departure || 'Input Origin' }}
-                <template #suffix
-                  ><t-icon name="chevron-down" size="16"
-                /></template>
-              </t-button>
-            </t-dropdown>
-          </t-form-item>
+      <div class="topright">
+        <div class="sign-in" @click="goToRegister">Sign in</div>
+        <button class="sign-up" @click="goToLogin">Sign Up</button>
+      </div>
+    </nav>
 
-          <!-- Second Column: To -->
-          <t-form-item label="To">
-            <t-dropdown
-              :options="destinationOptions"
-              trigger="click"
-              @click="selectDestination"
-            >
-              <t-button variant="text">
-                {{ arrival || 'Input Destination' }}
-                <template #suffix
-                  ><t-icon name="chevron-down" size="16"
-                /></template>
-              </t-button>
-            </t-dropdown>
-          </t-form-item>
+    <div class="search-container">
+      <h1>Book Flights With Us</h1>
+      <div class="search-box">
+        <t-form @submit="FlightSearch">
+          <t-space>
+            <!-- First Column: From -->
+            <t-form-item label="From">
+              <t-dropdown
+                :options="originOptions"
+                trigger="click"
+                @click="selectOrigin"
+              >
+                <t-button variant="text">
+                  {{ departure || 'Input Origin' }}
+                  <template #suffix
+                    ><t-icon name="chevron-down" size="16"
+                  /></template>
+                </t-button>
+              </t-dropdown>
+            </t-form-item>
 
-          <!-- Divider in between Second Column and Third Column -->
+            <!-- Second Column: To -->
+            <t-form-item label="To">
+              <t-dropdown
+                :options="destinationOptions"
+                trigger="click"
+                @click="selectDestination"
+              >
+                <t-button variant="text">
+                  {{ arrival || 'Input Destination' }}
+                  <template #suffix
+                    ><t-icon name="chevron-down" size="16"
+                  /></template>
+                </t-button>
+              </t-dropdown>
+            </t-form-item>
+
+            <!-- Divider in between Second Column and Third Column -->
+            <t-divider layout="vertical" />
+
+            <!-- Third Column: Departure Date -->
+            <t-form-item label="Departure Date" style="margin-right: 20px">
+              <t-date-picker v-model="date" placeholder="Choose Dates" />
+            </t-form-item>
+
+            <!-- Fourth Column: Search Button -->
+            <div class="button-container" style="text-align: right">
+              <t-button type="submit" theme="primary" class="search-button"
+                >Search</t-button
+              >
+            </div>
+          </t-space>
+        </t-form>
+      </div>
+
+      <!-- Row of Action Buttons -->
+      <div class="action-buttons">
+        <div class="action-button-container">
+          <t-button class="action-button">
+            <img
+              src="../icons/Reschedule.png"
+              alt="Reschedule Icon"
+              class="action-icon"
+            />
+            <span>Reschedule</span>
+          </t-button>
           <t-divider layout="vertical" />
 
-          <!-- Third Column: Departure Date -->
-          <t-form-item label="Departure Date" style="margin-right: 20px">
-            <t-date-picker v-model="date" placeholder="Choose Dates" />
-          </t-form-item>
+          <t-button class="action-button">
+            <img
+              src="../icons/Upgrade.png"
+              alt="Upgrade Icon"
+              class="action-icon"
+            />
+            <span>Upgrade Class</span>
+          </t-button>
+          <t-divider layout="vertical" />
 
-          <!-- Fourth Column: Search Button -->
-          <div class="button-container" style="text-align: right">
-            <t-button type="submit" theme="primary" class="search-button"
-              >Search</t-button
-            >
-          </div>
-        </t-space>
-      </t-form>
-    </div>
+          <t-button class="action-button">
+            <img
+              src="../icons/Cancel.png"
+              alt="Refund Icon"
+              class="action-icon"
+            />
+            <span>Refund Ticket</span>
+          </t-button>
+          <t-divider layout="vertical" />
 
-    <!-- Row of Action Buttons -->
-    <div class="action-buttons">
-      <div class="action-button-container">
-        <t-button class="action-button">
-          <img
-            src="../icons/Reschedule.png"
-            alt="Reschedule Icon"
-            class="action-icon"
-          />
-          <span>Reschedule</span>
-        </t-button>
-        <t-divider layout="vertical" />
-
-        <t-button class="action-button">
-          <img
-            src="../icons/Upgrade.png"
-            alt="Upgrade Icon"
-            class="action-icon"
-          />
-          <span>Upgrade Class</span>
-        </t-button>
-        <t-divider layout="vertical" />
-
-        <t-button class="action-button">
-          <img
-            src="../icons/Cancel.png"
-            alt="Refund Icon"
-            class="action-icon"
-          />
-          <span>Refund Ticket</span>
-        </t-button>
-        <t-divider layout="vertical" />
-
-        <t-button class="action-button">
-          <img
-            src="../icons/Check-in.png"
-            alt="Check-in Icon"
-            class="action-icon"
-          />
-          <span>Check-in</span>
-        </t-button>
+          <t-button class="action-button">
+            <img
+              src="../icons/Check-in.png"
+              alt="Check-in Icon"
+              class="action-icon"
+            />
+            <span>Check-in</span>
+          </t-button>
+        </div>
       </div>
     </div>
   </div>
@@ -181,6 +190,10 @@ export default {
 
     goToLogin() {
       this.$router.push('/login')
+    },
+
+    goToRegister() {
+      this.$router.push('/register')
     },
 
     goToUserPage() {
@@ -313,58 +326,71 @@ body {
   box-sizing: border-box;
 }
 
-#app {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.search-container {
-  text-align: center;
-  background-image: url('../img/bg.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  min-height: 100vh;
+.index-page {
+  position: relative;
   width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.search-box {
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-  width: 70%;
-  text-align: center;
+/* 背景图 Background img */
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('../img/bg.png') no-repeat center center;
+  background-size: cover;
 }
 
-h1 {
-  font-size: 4rem;
-  font-weight: 650;
-  font-family: 'Poppins', sans-serif;
-  margin-bottom: 30px;
-  color: white;
+/* 透明遮罩层 Mask layer */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.28);
 }
 
+/* 导航栏 Navbar */
 .topbar {
+  position: absolute;
+  top: 4.63%;
+  width: 87%;
+  height: 7.59%;
+  max-height: 82px;
   display: flex;
-  height: 60px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  margin-top: 10px;
+  align-items: center;
+  background: rgba(234, 240, 240, 0.4);
+  backdrop-filter: blur(5.5px);
+  border-radius: 1.5rem;
 }
+
 .logoText {
+  position: absolute;
+  width: 22.06%;
+  height: 65.85%;
+  left: 2.847%;
+
   font-family: 'Poppins', sans-serif;
+  font-style: normal;
   font-weight: 600;
   font-size: 1.88vw;
+
+  display: flex;
+  text-align: center;
+  align-items: center; /* 垂直居中 */
+
+  letter-spacing: 0.06em;
   color: #283841;
+  white-space: nowrap; /* 防止文本换行 */
 }
 
-/* Centered menu styling */
 .centered-menu {
   position: absolute;
   left: 50%;
@@ -394,20 +420,69 @@ h1 {
   color: #283841; /* Make the active menu item bold and a different color */
 }
 
-.userPage-button {
-  padding: 10px 20px;
-  background: #3470c4;
-  border-radius: 30px;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-  margin-left: auto;
-  margin-right: 20px;
+.topright {
 }
 
-.userPage-button:hover {
-  background-color: #285a9c;
+.sign-in,
+.sign-up {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  padding: calc(82px * 0.146) calc(1686px * 0.019);
+  gap: calc(1686px * 0.006);
+
+  position: absolute;
+  width: calc(1686px * 0.0985);
+  height: 62.2%;
+
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.sign-in {
+  right: 12.57%;
+  color: #283841;
+}
+
+.sign-up {
+  right: 2.847%;
+
+  background: #3470c4;
+  border-radius: calc(24 / 51 * 59px);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: calc(1686px * 0.011);
+}
+
+.search-container {
+  position: relative;
+  text-align: center;
+  width: 75%;
+  max-width: 1440px;
+  height: 31.48%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-box {
+  background-color: #eaf0f0;
+  padding: 60px 30px;
+  border-radius: 24px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
+}
+
+h1 {
+  font-size: 4rem;
+  font-weight: 650;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 30px;
+  color: white;
 }
 </style>

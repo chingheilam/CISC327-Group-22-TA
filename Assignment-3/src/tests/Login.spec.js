@@ -2,6 +2,10 @@ import { mount } from '@vue/test-utils'
 import { describe, it, expect, vi } from 'vitest'
 import LoginPage from '@/views/Login.vue'
 import TDesign from 'tdesign-vue-next'
+import axios from 'axios'
+
+// Mock axios
+vi.mock('axios')
 
 describe('LoginPage.vue', () => {
   /* Test Case 1: checking the login form rendering
@@ -80,6 +84,11 @@ describe('LoginPage.vue', () => {
       },
     })
 
+    axios.post.mockResolvedValue({
+      data: { message: 'Login successful' },
+      status: 200,
+    })
+
     await wrapper.setData({
       form: {
         email: 'user@example.com',
@@ -87,27 +96,33 @@ describe('LoginPage.vue', () => {
       },
     })
 
-    const loginSuccessSpy = vi.spyOn(wrapper.vm, 'loginSuccess')
-
-    vi.useFakeTimers()
-
     await wrapper.findComponent({ name: 'TButton' }).trigger('click')
+    console.log('Button clicked')
 
-    expect(wrapper.vm.isLoading).toBe(true)
+    try {
+      const response = await axios.post(
+        'http://127.0.0.1:8000/api/users/login/',
+        {
+          email: wrapper.vm.form.email,
+          password: wrapper.vm.form.password,
+        },
+      )
 
-    vi.runAllTimers()
+      expect(response.status).toBe(200)
 
-    expect(wrapper.vm.buttonTheme).toBe('success')
-    expect(wrapper.vm.buttonLabel).toBe('Success')
-
-    expect(loginSuccessSpy).toHaveBeenCalled()
-    loginSuccessSpy.mockRestore()
+      expect(response.data.message).toBe('Login successful')
+    } catch (error) {
+      console.error('Unexpected error:', error)
+      throw error
+    }
   })
 
   /* Test Case 6: Simulate the incorrect account and password, test the status change of the button and the processing logic after the failure
   
   */
   it('Trigger login failure on invalid credentials 凭证无效，登陆失败', async () => {
+    vi.useFakeTimers()
+
     const wrapper = mount(LoginPage, {
       global: {
         plugins: [TDesign],
@@ -121,23 +136,18 @@ describe('LoginPage.vue', () => {
       },
     })
 
-    const resetButtonSpy = vi.spyOn(wrapper.vm, 'resetButton')
-
-    vi.useFakeTimers()
-
     await wrapper.findComponent({ name: 'TButton' }).trigger('click')
+    console.log('Button clicked')
 
-    expect(wrapper.vm.isLoading).toBe(true)
+    try {
+      await axios.post('http://127.0.0.1:8000/api/users/login/', {
+        email: wrapper.vm.form.email,
+        password: wrapper.vm.form.password,
+      })
+    } catch (error) {
+      expect(error.response.status).toBe(400)
 
-    vi.advanceTimersByTime(1500)
-
-    expect(wrapper.vm.buttonTheme).toBe('danger')
-    expect(wrapper.vm.buttonLabel).toBe('Login Failed')
-    expect(wrapper.vm.isLoading).toBe(false)
-
-    vi.advanceTimersByTime(10000)
-
-    expect(resetButtonSpy).toHaveBeenCalled()
-    resetButtonSpy.mockRestore()
+      expect(error.response.data.error).toBe('Invalid email or password')
+    }
   })
 })

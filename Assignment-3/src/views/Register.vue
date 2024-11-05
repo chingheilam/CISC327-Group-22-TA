@@ -7,7 +7,7 @@
 
     <!-- 导航栏 -->
     <nav class="topbar">
-      <div class="logoText">Northwind Airline</div>
+      <div class="logoText">Northwind Airlines</div>
       <button class="home-button" @click="goToHomePage">Home Page</button>
     </nav>
 
@@ -491,6 +491,7 @@ body {
   top: 4.63%;
   width: 87%;
   height: 7.59%;
+  max-height: 82px;
   display: flex;
   align-items: center;
   background: rgba(234, 240, 240, 0.4);

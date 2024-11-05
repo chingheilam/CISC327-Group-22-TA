@@ -1,6 +1,6 @@
 ## Login Page with Vue and TDesign
 
-This project is a simple login page created using `Vue.js` for frontend and will use `Django` for backend, and using `vitest` to write test scripts.
+This project is a simple login page created using `Vue.js` for frontend and use `Django` for backend, and using `vitest` to write test scripts.
 
 It includes simulated authentication with visual feedback on login status and input validation.
 
@@ -19,12 +19,12 @@ Before running this project, make sure you have the following installed on your 
 
    ```bash
    git clone https://github.com/mentlesoul/CISC327-Group-22-TA.git
-   cd CISC327-Group-22-TA\Assignment-2
+   cd CISC327-Group-22-TA\Assignment-3
    ```
 
 2. Installation dependencies:
 
-   At the root directory, thus `Assignment-2` folder, run bash/shell command below:
+   At the root directory, thus `Assignment-3` folder, run bash/shell command below:
 
    ```properties
    npm install
@@ -37,6 +37,13 @@ Before running this project, make sure you have the following installed on your 
    ```
 
    Visit http://localhost:5173/ to view the page.
+
+   ```properties
+   cd backend
+   python manage.py runserver
+   ```
+
+   To run the Django backend service
 
 4. Run test script:
 
