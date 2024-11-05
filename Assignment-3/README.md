@@ -1,6 +1,6 @@
 ## Login Page with Vue and TDesign
 
-This project is a simple login page created using `Vue.js` for frontend and will use `Django` for backend, and using `vitest` to write test scripts.
+This project is a simple login page created using `Vue.js` for frontend and use `Django` for backend, and using `vitest` to write test scripts.
 
 It includes simulated authentication with visual feedback on login status and input validation.
 
@@ -37,6 +37,13 @@ Before running this project, make sure you have the following installed on your 
    ```
 
    Visit http://localhost:5173/ to view the page.
+
+   ```properties
+   cd backend
+   python manage.py runserver
+   ```
+
+   To run the Django backend service
 
 4. Run test script:
 

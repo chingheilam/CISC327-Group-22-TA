@@ -100,7 +100,6 @@ describe('LoginPage.vue', () => {
     console.log('Button clicked')
 
     try {
-      // 调用模拟的 axios.post 方法
       const response = await axios.post(
         'http://127.0.0.1:8000/api/users/login/',
         {
@@ -109,14 +108,12 @@ describe('LoginPage.vue', () => {
         },
       )
 
-      // 检查返回的状态码是否为 200
       expect(response.status).toBe(200)
 
-      // 检查返回的消息是否为 "Login successful"
       expect(response.data.message).toBe('Login successful')
     } catch (error) {
       console.error('Unexpected error:', error)
-      throw error // 如果发生错误，则重新抛出错误，以确保测试失败
+      throw error
     }
   })
 
@@ -148,10 +145,8 @@ describe('LoginPage.vue', () => {
         password: wrapper.vm.form.password,
       })
     } catch (error) {
-      // 检查状态码是否为 400
       expect(error.response.status).toBe(400)
 
-      // 检查返回的错误消息
       expect(error.response.data.error).toBe('Invalid email or password')
     }
   })
