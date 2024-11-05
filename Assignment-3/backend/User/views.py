@@ -35,9 +35,9 @@ def login(request):
         print(f"User found: {user}")
         print(f"Password in database: {user.password}")
     except Registration.DoesNotExist:
-        return Response({'error': 'Invalid email or password1'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Invalid email or password'}, status=status.HTTP_400_BAD_REQUEST)
 
     if password == user.password:
         return Response({'message': 'Login successful'}, status=status.HTTP_200_OK)
     else:
-        return Response({'error': 'Invalid email or password2'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Invalid email or password'}, status=status.HTTP_400_BAD_REQUEST)

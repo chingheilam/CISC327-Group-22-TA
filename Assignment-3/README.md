@@ -19,12 +19,12 @@ Before running this project, make sure you have the following installed on your 
 
    ```bash
    git clone https://github.com/mentlesoul/CISC327-Group-22-TA.git
-   cd CISC327-Group-22-TA\Assignment-2
+   cd CISC327-Group-22-TA\Assignment-3
    ```
 
 2. Installation dependencies:
 
-   At the root directory, thus `Assignment-2` folder, run bash/shell command below:
+   At the root directory, thus `Assignment-3` folder, run bash/shell command below:
 
    ```properties
    npm install

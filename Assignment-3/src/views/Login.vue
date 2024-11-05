@@ -6,7 +6,7 @@
 
     <!-- 导航栏 Navbar -->
     <nav class="topbar">
-      <div class="logoText">Northwind Airline</div>
+      <div class="logoText">Northwind Airlines</div>
       <button class="home-button" @click="goToHomePage">Home Page</button>
     </nav>
 
@@ -115,11 +115,9 @@ export default {
             this.buttonLabel = 'Success'
             this.isLoading = false
 
-            console.log('Login Success! 登录成功！')
-
             // 成功后继续执行后续操作 Do other operations after login success
             setTimeout(() => {
-              this.$router.push('/')
+              this.loginSuccess
             }, 1000)
           }
         } catch (error) {
@@ -158,6 +156,11 @@ export default {
 
     goToHomePage() {
       this.$router.push('/')
+    },
+
+    loginSuccess() {
+      this.$router.push('/')
+      console.log('Login successful')
     },
 
     // 当用户有鼠标点击或键盘按下动作时，恢复按钮状态 Reset button after input
@@ -279,6 +282,7 @@ body {
   top: 4.63%;
   width: 87%;
   height: 7.59%;
+  max-height: 82px;
   display: flex;
   align-items: center;
   background: rgba(234, 240, 240, 0.4);
