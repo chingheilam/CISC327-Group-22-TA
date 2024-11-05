@@ -54,13 +54,16 @@
       >
       <div class="sign-up">
         <p class="sign-up text">Don't Have An Account?</p>
-        <a href="#">Sign Up</a>
+        <a href="/register">Sign Up</a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import { MessagePlugin } from 'tdesign-vue-next'
+
 export default {
   data() {
     return {
@@ -72,10 +75,6 @@ export default {
       isLoading: false, // 登录按钮加载状态 Login Button loading animation display status
       buttonTheme: 'primary', // 登录按钮主题状态 Login button topic status
       buttonLabel: 'Login', // 按钮文本 Login button text
-      buttonStyle: {},
-
-      validEmail: 'user@example.com', // 模拟正确的账号 Simulate the correct account number
-      validPassword: 'password', // 模拟正确的密码 Simulate the correct password
 
       rules: {
         email: [
@@ -91,25 +90,41 @@ export default {
   },
 
   methods: {
-    onSubmit() {
-      this.isLoading = true // 开始加载状态 Show loading animation
+    async onSubmit() {
+      this.isLoading = true
+      console.log(this.form)
 
-      // 模拟后端延迟校验，等待1秒 Simulate back-end delay check, wait 1 second
-      setTimeout(() => {
-        if (
-          this.form.email === this.validEmail &&
-          this.form.password === this.validPassword
-        ) {
-          // 校验成功 Information valid, show 'Success'
-          this.buttonTheme = 'success'
-          this.buttonLabel = 'Success'
-          this.isLoading = false
+      setTimeout(async () => {
+        try {
+          const response = await axios.post(
+            'http://127.0.0.1:8000/api/users/login/',
+            {
+              email: this.form.email,
+              password: this.form.password,
+            },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            },
+          )
 
-          // 成功后继续执行后续操作 Do other operations after login success
-          setTimeout(() => {
-            this.loginSuccess()
-          }, 1000)
-        } else {
+          // 如果后端返回 200 状态码，表示登录成功  Information valid, show 'Success'
+          if (response.status === 200) {
+            this.buttonTheme = 'success'
+            this.buttonLabel = 'Success'
+            this.isLoading = false
+
+            console.log('Login Success! 登录成功！')
+
+            // 成功后继续执行后续操作 Do other operations after login success
+            setTimeout(() => {
+              this.$router.push('/')
+            }, 1000)
+          }
+        } catch (error) {
+          console.error(error.response ? error.response.data : error.message)
+
           // 校验失败 Info invalid, show 'Failed'
           this.buttonTheme = 'danger'
           this.buttonLabel = 'Login Failed'
@@ -119,18 +134,26 @@ export default {
           window.addEventListener('click', this.resetButtonOnAction)
           window.addEventListener('keydown', this.resetButtonOnAction)
 
-          // 在失败后的10秒内按钮保持失败状态 Keep showing login failed
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.error
+          ) {
+            // 使用后端返回的错误信息
+            MessagePlugin.error(error.response.data.error)
+          } else {
+            // 如果没有返回特定的错误信息，显示通用错误
+            MessagePlugin.error('Login failed, please try again')
+          }
+
+          // 重置按钮状态
           setTimeout(() => {
             this.resetButton()
-          }, 10000)
+          }, 5000)
+        } finally {
+          this.isLoading = false
         }
       }, 1000)
-    },
-
-    // 登录成功操作 Operations for login success
-    loginSuccess() {
-      console.log('Login Success! 登录成功！')
-      // window.location.href = '/home' // 预设成功后跳转到首页 Preset go back home page
     },
 
     goToHomePage() {

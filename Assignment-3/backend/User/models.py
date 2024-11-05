@@ -16,4 +16,7 @@ class Registration(models.Model):
     postal_code = models.CharField(max_length=20)
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} ({self.email})"
+        return f"{self.email}: {self.first_name} {self.last_name}"
+
+    class Meta:
+        db_table = 'users_account'
