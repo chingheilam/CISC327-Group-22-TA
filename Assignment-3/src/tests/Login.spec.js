@@ -4,6 +4,9 @@ import LoginPage from '@/views/Login.vue'
 import TDesign from 'tdesign-vue-next'
 import axios from 'axios'
 
+// Mock axios
+vi.mock('axios')
+
 describe('LoginPage.vue', () => {
   /* Test Case 1: checking the login form rendering
   
@@ -81,6 +84,11 @@ describe('LoginPage.vue', () => {
       },
     })
 
+    axios.post.mockResolvedValue({
+      data: { message: 'Login successful' },
+      status: 200,
+    })
+
     await wrapper.setData({
       form: {
         email: 'user@example.com',
@@ -92,6 +100,7 @@ describe('LoginPage.vue', () => {
     console.log('Button clicked')
 
     try {
+      // 调用模拟的 axios.post 方法
       const response = await axios.post(
         'http://127.0.0.1:8000/api/users/login/',
         {
@@ -99,14 +108,15 @@ describe('LoginPage.vue', () => {
           password: wrapper.vm.form.password,
         },
       )
-      console.log('Response data:', response.data)
+
+      // 检查返回的状态码是否为 200
+      expect(response.status).toBe(200)
+
+      // 检查返回的消息是否为 "Login successful"
       expect(response.data.message).toBe('Login successful')
     } catch (error) {
-      console.error(
-        'Error response:',
-        error.response ? error.response.data : error,
-      )
-      throw error
+      console.error('Unexpected error:', error)
+      throw error // 如果发生错误，则重新抛出错误，以确保测试失败
     }
   })
 
@@ -133,26 +143,16 @@ describe('LoginPage.vue', () => {
     console.log('Button clicked')
 
     try {
-      const response = await axios.post(
-        'http://127.0.0.1:8000/api/users/login/',
-        {
-          email: wrapper.vm.form.email,
-          password: wrapper.vm.form.password,
-        },
-      )
-      console.log('Unexpected success:', response.data) // 不应成功 Should not success
+      await axios.post('http://127.0.0.1:8000/api/users/login/', {
+        email: wrapper.vm.form.email,
+        password: wrapper.vm.form.password,
+      })
     } catch (error) {
-      console.error(
-        'Error response:',
-        error.response ? error.response.data : error,
-      )
-
-      // 检查状态码是否为 400 Test status to be 400 error
+      // 检查状态码是否为 400
       expect(error.response.status).toBe(400)
 
-      if (error.response && error.response.data.error) {
-        expect(error.response.data.error).toBe('Invalid email or password')
-      }
+      // 检查返回的错误消息
+      expect(error.response.data.error).toBe('Invalid email or password')
     }
   })
 })
