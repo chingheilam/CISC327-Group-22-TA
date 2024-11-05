@@ -72,6 +72,7 @@ export default {
       isLoading: false, // 登录按钮加载状态 Login Button loading animation display status
       buttonTheme: 'primary', // 登录按钮主题状态 Login button topic status
       buttonLabel: 'Login', // 按钮文本 Login button text
+      buttonStyle: {},
 
       validEmail: 'user@example.com', // 模拟正确的账号 Simulate the correct account number
       validPassword: 'password', // 模拟正确的密码 Simulate the correct password
@@ -408,7 +409,6 @@ body {
   height: 11.791%;
   max-width: 168px;
   max-height: 52px;
-  background-color: #3470c4;
   color: #fff;
   cursor: pointer;
   font-size: 1.4rem;

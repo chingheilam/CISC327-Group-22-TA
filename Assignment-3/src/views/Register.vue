@@ -49,7 +49,7 @@
             <t-input
               size="large"
               class="input-box"
-              placeholder=""
+              placeholder="*"
               v-model="form.FirstName"
               :status="errors.FirstName ? 'error' : ''"
             />
@@ -61,7 +61,7 @@
             <t-input
               size="large"
               class="input-box"
-              placeholder=""
+              placeholder="*"
               v-model="form.LastName"
               :status="errors.LastName ? 'error' : ''"
             />
@@ -76,7 +76,7 @@
             <t-select
               size="large"
               class="input-box"
-              placeholder=""
+              placeholder="*"
               v-model="form.Gender"
               :status="errors.gender ? 'error' : ''"
             >
@@ -166,7 +166,7 @@
             <t-input
               size="large"
               class="input-box"
-              placeholder=""
+              placeholder="*"
               v-model="form.PostalCode"
               :status="errors.PostalCode ? 'error' : ''"
             />
@@ -188,6 +188,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'RegisterPage',
   data() {
@@ -229,45 +231,105 @@ export default {
   },
 
   methods: {
-    onSubmit() {
-      // 检查每个字段是否为空，更新错误状态
-      const requiredFields = [
-        'email',
-        'password',
-        'FirstName',
-        'LastName',
-        'Gender',
-        'PhoneNumber',
-        'Birth',
-        'Address',
-        'City',
-        'Country',
-        'PostalCode',
-      ]
+    async onSubmit() {
+      this.isLoading = true
+      this.buttonLabel = 'Loading...'
 
-      // 重置错误状态
-      for (const field in this.errors) {
-        this.errors[field] = false
-      }
+      setTimeout(async () => {
+        const requiredFields = [
+          'email',
+          'password',
+          'FirstName',
+          'LastName',
+          'Gender',
+          'PhoneNumber',
+          'Birth',
+          'Address',
+          'City',
+          'Country',
+          'PostalCode',
+        ]
 
-      let hasError = false
-      for (const field of requiredFields) {
-        if (!this.form[field]) {
-          this.errors[field] = true
+        // 重置错误状态
+        let hasError = false
+        for (const field in this.errors) {
+          this.errors[field] = false
+        }
+
+        // 检查必填字段是否为空
+        for (const field of requiredFields) {
+          if (!this.form[field]) {
+            this.errors[field] = true
+            hasError = true
+          }
+        }
+
+        // 检查邮箱格式
+        if (!this.validateEmail(this.form.email)) {
+          this.errors.email = true
           hasError = true
         }
-      }
 
-      if (!this.validateEmail(this.form.email)) {
-        hasError = true
-      }
+        if (hasError) {
+          this.buttonTheme = 'danger'
+          this.buttonLabel = 'Sign Up'
+          this.isLoading = false
 
-      if (hasError) {
-        console.log('请填写所有必填字段')
-      } else {
-        console.log('提交成功:', this.form)
-        // 在这里执行表单提交逻辑
-      }
+          window.addEventListener('click', this.resetButtonOnAction)
+          window.addEventListener('keydown', this.resetButtonOnAction)
+
+          setTimeout(() => {
+            this.resetButton()
+          }, 10000)
+
+          console.log('请填写所有必填字段并确保邮箱格式正确')
+        } else {
+          console.log(this.form)
+
+          const formData = transformFormData(this.form)
+
+          try {
+            const response = await axios.post(
+              'http://127.0.0.1:8000/api/register/',
+              formData,
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              },
+            )
+
+            // 如果后端响应成功，更新按钮为成功状态
+            if (response.status === 201) {
+              this.buttonTheme = 'success'
+              this.buttonLabel = 'Success'
+              console.log('提交成功:', response.data)
+
+              setTimeout(() => {
+                this.goToHomePage()
+              }, 1000)
+            } else {
+              throw new Error('注册失败')
+            }
+          } catch (error) {
+            // 如果请求失败，显示失败状态
+            this.buttonTheme = 'danger'
+            this.buttonLabel = 'Failed'
+            this.isLoading = false
+            console.error(error.response ? error.response.data : error.message)
+
+            window.addEventListener('click', this.resetButtonOnAction)
+            window.addEventListener('keydown', this.resetButtonOnAction)
+
+            setTimeout(() => {
+              this.resetButton()
+            }, 10000)
+          } finally {
+            // 请求完成后，重置加载状态
+            this.isLoading = false
+          }
+        }
+      }, 1000)
     },
 
     // 邮箱输入校验 Email validation
@@ -285,10 +347,43 @@ export default {
       }
     },
 
+    // 当用户有鼠标点击或键盘按下动作时，恢复按钮状态 Reset button after input
+    resetButtonOnAction() {
+      this.resetButton()
+
+      // 移除事件监听器，防止重复触发
+      window.removeEventListener('click', this.resetButtonOnAction)
+      window.removeEventListener('keydown', this.resetButtonOnAction)
+    },
+
+    // 重置按钮状态 Reset button
+    resetButton() {
+      this.buttonTheme = 'primary'
+      this.buttonLabel = 'Login'
+      this.isLoading = false
+    },
+
     goToHomePage() {
       this.$router.push('/')
     },
   },
+}
+
+function transformFormData(formData) {
+  return {
+    email: formData.email,
+    password: formData.password,
+    first_name: formData.FirstName,
+    last_name: formData.LastName,
+    gender: formData.Gender,
+    phone_number: formData.PhoneNumber,
+    birth: formData.Birth,
+    address: formData.Address,
+    unit: formData.Unit,
+    city: formData.City,
+    country: formData.Country,
+    postal_code: formData.PostalCode,
+  }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -446,16 +541,12 @@ body {
 
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  gap: 8%;
 }
 
 .announceText {
-  position: absolute;
-  top: 9.3%;
-
-  left: 50%;
-  transform: translateX(-50%);
-
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: 600;
@@ -465,18 +556,13 @@ body {
   white-space: nowrap;
 
   color: #000000;
+  margin: 0; /* 去掉默认的外边距 */
 }
 
 .infoBox {
-  position: absolute;
-  top: 25%;
+  width: auto;
 
-  left: 50%;
-  transform: translateX(-50%);
-
-  width: 66.38%;
-
-  background: rgba(1, 204, 245, 0.3);
+  /* background: rgba(1, 204, 245, 0.3); */
 
   display: flex;
   gap: 64px;
@@ -512,15 +598,12 @@ body {
 }
 
 .login-button {
-  top: 82%;
-
-  left: 0;
+  left: 0.7%;
 
   width: 28.9%;
   height: 11.791%;
   max-width: 168px;
   max-height: 52px;
-  background-color: #3470c4;
   color: #fff;
   cursor: pointer;
   font-size: 1.4rem;
