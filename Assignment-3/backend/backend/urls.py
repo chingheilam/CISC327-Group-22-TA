@@ -16,7 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from flights.views import FlightSearchView, index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', index, name='index'),
+    path('api/flights/', FlightSearchView.as_view(), name='flight-search'),
 ]

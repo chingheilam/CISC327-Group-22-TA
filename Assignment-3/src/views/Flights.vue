@@ -86,16 +86,17 @@
         <t-list-item v-for="(flight, index) in flightResults" :key="index">
           <div class="flight-item">
             <div class="flight-information">
-              <p>{{ flight.time }}</p>
-              <p>{{ flight.flightNumber }} | {{ flight.aircraft }}</p>
+              <!-- Updated to format departure_time without seconds -->
+              <p>{{ formatTime(flight.departure_time) }}</p>
+              <p>{{ flight.flight_number }} | {{ flight.aircraft }}</p>
               <p>{{ flight.duration }}</p>
               <t-button>Flight Detail</t-button>
             </div>
             
             <div class="flight-detail">
-              <p>{{ flight.priceEconomy }}</p>
-              <p>{{ flight.pricePremium }}</p>
-              <p>{{ flight.priceFirst }}</p>
+              <p>{{ flight.price_economy }}</p>
+              <p>{{ flight.price_premium }}</p>
+              <p>{{ flight.price_first }}</p>
             </div>
           
           </div>
@@ -111,25 +112,44 @@
       return {
         departure: this.$route.query.departure || 'Toronto (YYZ)',
         arrival: this.$route.query.arrival || 'Vancouver (YVR)',
-        date: this.$route.query.date || '30 Sep 2024',
-        flightResults: [
-          { time: '07:00', flightNumber: 'NAN9527', aircraft: 'AirBus333(Wide)', duration: 'Direct | Total Time: 5h', priceEconomy: '$828', pricePremium: '$1100', priceFirst: '$2800' },
-          { time: '07:00', flightNumber: 'NAN007', aircraft: 'AirBus333(Wide)', duration: 'Direct | Total Time: 5h 13min', priceEconomy: '$920', pricePremium: '$1100', priceFirst: '$2800' },
-          { time: '07:35', flightNumber: 'NAN4713', aircraft: 'Boeing 773', duration: 'Direct | Total Time: 5h 09min', priceEconomy: '$815', pricePremium: '$1100', priceFirst: '$2800' },
-          { time: '07:40', flightNumber: 'NAN061', aircraft: 'AirBus333(Wide)', duration: 'Direct | Total Time: 5h 10min', priceEconomy: '$854', pricePremium: '$1100', priceFirst: '$2800' },
-          { time: '08:00', flightNumber: 'NAN9527', aircraft: 'AirBus333(Wide)', duration: 'Direct | Total Time: 4h 59min', priceEconomy: '$900', pricePremium: '$1100', priceFirst: '$2800' },
-          { time: '08:25', flightNumber: 'NAN9527', aircraft: 'AirBus333(Wide)', duration: 'Direct | Total Time: 4h 53min', priceEconomy: '$950', pricePremium: '$1300', priceFirst: '$3000' },
-        ],
-        nextDays: [
-          { date: '9-29 Sun', price: 700 },
-          { date: '9-30 Mon', price: 700 },
-          { date: '10-1 Tue', price: 700 },
-          { date: '10-2 Wed', price: 700 },
-          { date: '10-3 Thu', price: 700 },
-          { date: '10-4 Fri', price: 700 },
-          { date: '10-5 Sat', price: 700 }
-        ]
+        date: this.$route.query.date || '2024-09-30',
+        flightResults: [],
+        nextDays: []
       };
+    },
+    methods: {
+      fetchFlights() {
+        // Construct the query parameters to pass to the backend API
+        const query = `?departure=${encodeURIComponent(this.departure)}&arrival=${encodeURIComponent(this.arrival)}&date=${encodeURIComponent(this.date)}`;
+        // Make an HTTP request to the backend API
+        fetch(`http://127.0.0.1:8000/api/flights/${query}`)
+          .then(response => response.json())
+          .then(data => {
+            console.log("Fetched flight data:", data);  // Log the response to see what you receive
+            if (Array.isArray(data)) {
+              this.flightResults = data;  // Assign the flights array directly if data is an array
+            } else if (data.flights) {
+              this.flightResults = data.flights;  // If data has flights inside, use that
+            }
+            // Handle nextDays if provided by the API
+            if (data.nextDays) {
+              this.nextDays = data.nextDays;
+            }
+          })
+          .catch(error => {
+            console.error("Error fetching flight data:", error);
+          });
+      },
+      formatTime(time) {
+        // Format time to remove seconds (HH:MM)
+        if (!time) return '';
+        const [hours, minutes] = time.split(':');
+        return `${hours}:${minutes}`;
+      }
+    },
+    mounted() {
+      // Fetch flight data when the component is mounted
+      this.fetchFlights();
     }
   };
   </script>
