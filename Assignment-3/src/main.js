@@ -12,6 +12,6 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(TDesign)
 app.use(router)
-app.use(axios)
+app.config.globalProperties.$axios = axios
 
 app.mount('#app')

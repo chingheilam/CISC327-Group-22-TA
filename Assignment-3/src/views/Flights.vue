@@ -94,9 +94,9 @@
             </div>
             
             <div class="flight-detail">
-              <p>{{ flight.price_economy }}</p>
-              <p>{{ flight.price_premium }}</p>
-              <p>{{ flight.price_first }}</p>
+              <p>${{ Math.floor(flight.price_economy) }}</p>
+              <p>${{ Math.floor(flight.price_premium) }}</p>
+              <p>${{ Math.floor(flight.price_first) }}</p>
             </div>
           
           </div>
@@ -107,6 +107,9 @@
   </template>
   
   <script>
+  import axios from 'axios';
+  import dayjs from 'dayjs';
+
   export default {
     data() {
       return {
@@ -118,28 +121,68 @@
       };
     },
     methods: {
-      fetchFlights() {
-        // Construct the query parameters to pass to the backend API
+      async fetchFlights() {
+        // Fetch flights for the user-selected departure date
         const query = `?departure=${encodeURIComponent(this.departure)}&arrival=${encodeURIComponent(this.arrival)}&date=${encodeURIComponent(this.date)}`;
-        // Make an HTTP request to the backend API
-        fetch(`http://127.0.0.1:8000/api/flights/${query}`)
-          .then(response => response.json())
-          .then(data => {
-            console.log("Fetched flight data:", data);  // Log the response to see what you receive
-            if (Array.isArray(data)) {
-              this.flightResults = data;  // Assign the flights array directly if data is an array
-            } else if (data.flights) {
-              this.flightResults = data.flights;  // If data has flights inside, use that
-            }
-            // Handle nextDays if provided by the API
-            if (data.nextDays) {
-              this.nextDays = data.nextDays;
-            }
-          })
-          .catch(error => {
-            console.error("Error fetching flight data:", error);
-          });
+        
+        try {
+          const response = await axios.get(`http://127.0.0.1:8000/api/flights/${query}`);
+          console.log("Fetched flight data:", response.data);
+          if (Array.isArray(response.data)) {
+            this.flightResults = response.data; // Assign the flights array directly if data is an array
+          } else if (response.data.flights) {
+            this.flightResults = response.data.flights; // If data has flights inside, use that
+          }
+        } catch (error) {
+          console.error("Error fetching flight data:", error);
+        }
+
+        // Fetch data for the next 6 days
+        this.fetchNextDaysData();
       },
+
+      async fetchNextDaysData() {
+        const startDate = dayjs(this.date);
+        let nextDaysData = [];
+
+        for (let i = 0; i < 7; i++) {
+          const currentDay = startDate.add(i, 'day');
+          const formattedDate = currentDay.format('MM-DD ddd'); // Use 'MM-DD ddd' for UI display
+          const queryDate = currentDay.format('YYYY-MM-DD'); // Use 'YYYY-MM-DD' for query
+          const query = `?departure=${encodeURIComponent(this.departure)}&arrival=${encodeURIComponent(this.arrival)}&date=${encodeURIComponent(queryDate)}`;
+
+          try {
+            const response = await axios.get(`http://127.0.0.1:8000/api/flights/${query}`);
+            console.log(`Fetched flight data for ${queryDate}:`, response.data);
+
+            let averagePrice = 'N/A';
+
+            if (Array.isArray(response.data) && response.data.length > 0) {
+              // Calculate the average economy price for the current day
+              const total = response.data.reduce((sum, flight) => sum + parseFloat(flight.price_economy), 0);
+              averagePrice = parseInt(total / response.data.length);
+
+            }
+
+            // Add the next day data to the nextDays array
+            nextDaysData.push({
+              date: formattedDate,
+              price: averagePrice
+            });
+
+          } catch (error) {
+            console.error(`Error fetching flight data for ${queryDate}:`, error);
+            nextDaysData.push({
+              date: formattedDate,
+              price: 'N/A'
+            });
+          }
+        }
+
+        // Update the nextDays data in the component state after all the requests have completed
+        this.nextDays = nextDaysData;
+      },
+
       formatTime(time) {
         // Format time to remove seconds (HH:MM)
         if (!time) return '';

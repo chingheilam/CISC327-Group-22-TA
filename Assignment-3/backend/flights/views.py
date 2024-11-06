@@ -24,6 +24,3 @@ class FlightSearchView(generics.ListAPIView):
 
         return flights
     
-# Index view for the root URL
-def index(request):
-    return HttpResponse("Welcome to Northwind Airlines!")
