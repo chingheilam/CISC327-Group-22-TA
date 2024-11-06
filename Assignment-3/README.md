@@ -45,7 +45,7 @@ Before running this project, make sure you have the following installed on your 
 
    To run the Django backend service
 
-4. Run test script:
+4. Run test script by using default method created by vue3:
 
    ```properties
    npm run test:unit
