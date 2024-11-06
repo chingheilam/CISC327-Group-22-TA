@@ -58,4 +58,4 @@ Before running this project, make sure you have the following installed on your 
 - Test Case 5: Simulate the input of the correct account and password, test the status change of the button and the processing logic after success
 - Test Case 6: Simulate the incorrect account and password, test the status change of the button and the processing logic after the failure
 
-![Test result picture](./screenshots.png)
+![Test result picture](./screenshot.png)
