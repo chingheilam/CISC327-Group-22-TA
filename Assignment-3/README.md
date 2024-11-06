@@ -59,3 +59,8 @@ Before running this project, make sure you have the following installed on your 
 - Test Case 6: Simulate the incorrect account and password, test the status change of the button and the processing logic after the failure
 
 ![Test result picture](./screenshot.png)
+| Name | Work |
+| -------------- | ----------------------- |
+| Lam, Ching Hei | Flight Searching Module |
+| Xie, Mingyang | Login Module |
+| Zhou, Xuhong | User Page Module |
