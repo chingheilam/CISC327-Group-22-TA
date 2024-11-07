@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     'User',
     'flights',
+    'UserPage'
 ]
 
 MIDDLEWARE = [

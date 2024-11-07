@@ -255,6 +255,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -286,52 +288,57 @@ export default {
     }
   },
   methods: {
-    saveChanges() {
-      this.errors = {} // Reset errors before validation
+    async saveChanges() {
+        this.errors = {}; // Reset errors before validation
 
-      // Validate first name and last name (no numbers)
-      if (/\d/.test(this.firstName)) {
-        this.errors.firstName = 'First name should not contain numbers'
-      }
-      if (/\d/.test(this.lastName)) {
-        this.errors.lastName = 'Last name should not contain numbers'
-      }
-
-      // Basic email validation
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      if (!emailPattern.test(this.email)) {
-        this.errors.email = 'Invalid email format'
-      }
-
-      // Postal code validation (you can adjust the pattern based on your needs)
-      const postalCodePattern = /^[A-Za-z0-9]{3}\s?[A-Za-z0-9]{3}$/
-      if (!postalCodePattern.test(this.postalCode)) {
-        this.errors.postalCode = 'Invalid postal code format'
-      }
-
-      // Date of birth validation
-      const dobPattern = /^\d{4}-\d{2}-\d{2}$/
-      if (!dobPattern.test(this.dob)) {
-        this.errors.dob = 'Invalid date format (yyyy-mm-dd)'
-      }
-
-      // If there are no errors, save the details
-      if (Object.keys(this.errors).length === 0) {
-        const userDetails = {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          address: this.address,
-          province: this.province,
-          postalCode: this.postalCode,
-          dob: this.dob,
-          gender: this.gender,
-          email: this.email,
-          password: this.password,
+        // Basic form validations
+        if (/\d/.test(this.firstName)) {
+            this.errors.firstName = 'First name should not contain numbers';
+        }
+        if (/\d/.test(this.lastName)) {
+            this.errors.lastName = 'Last name should not contain numbers';
         }
 
-        this.userDetailsArray.push(userDetails)
-        console.log('User Details Saved:', this.userDetailsArray)
-      }
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(this.email)) {
+            this.errors.email = 'Invalid email format';
+        }
+
+        const postalCodePattern = /^[A-Za-z0-9]{3}\s?[A-Za-z0-9]{3}$/;
+        if (!postalCodePattern.test(this.postalCode)) {
+            this.errors.postalCode = 'Invalid postal code format';
+        }
+
+        const dobPattern = /^\d{4}-\d{2}-\d{2}$/;
+        if (!dobPattern.test(this.dob)) {
+            this.errors.dob = 'Invalid date format (yyyy-mm-dd)';
+        }
+
+        // If there are no validation errors, proceed to save
+        if (Object.keys(this.errors).length === 0) {
+            const userDetails = {
+                firstName: this.firstName,
+                lastName: this.lastName,
+                address: this.address,
+                province: this.province,
+                postalCode: this.postalCode,
+                dob: this.dob,
+                gender: this.gender,
+                email: this.email,
+                password: this.password,
+            };
+
+            try {
+                this.userDetailsArray.push(userDetails);
+                // Make an API request to Django backend
+                const response = await axios.post('http://127.0.0.1:8000/api/userpage/users/', userDetails);  
+                console.log('User Details Saved:', response.data);
+                alert('User details saved successfully!');
+            } catch (error) {
+                console.error('Error saving user details:', error);
+                alert('An error occurred while saving. Please try again.');
+            }
+        }
     },
 
     goToHomePage() {
@@ -339,12 +346,10 @@ export default {
     },
 
     redirectToGooglePay() {
-      // You can replace this URL with the actual Google Pay setup page or external link
       window.location.href = 'https://pay.google.com' // Redirects to Google Pay
     },
     // Helper method to determine the card brand and return the logo URL
     getCardLogo(cardNumber) {
-      // Assuming you determine card type by prefix (e.g., first 4 digits)
       if (cardNumber.startsWith('5')) {
         return 'https://logodownload.org/wp-content/uploads/2014/07/mastercard-logo-7.png' // URL of the Mastercard logo
       } else if (cardNumber.startsWith('4')) {
@@ -364,60 +369,81 @@ export default {
       this.isAddCardFormVisible = true
     },
 
-    saveCard() {
-      this.errors = {} // Reset errors before validation
+    async saveCard() {
+      this.errors = {}; // Reset errors before validation
 
       // Validate cardholder name (no numbers)
       if (/\d/.test(this.newCard.cardholder)) {
-        this.errors.cardholder = 'Cardholder name should not contain numbers'
+          this.errors.cardholder = 'Cardholder name should not contain numbers';
       }
 
       // Validate card number (must be 16 digits)
       if (!/^\d{16}$/.test(this.newCard.cardNumber)) {
-        this.errors.cardNumber = 'Card number must be 16 digits long'
+          this.errors.cardNumber = 'Card number must be 16 digits long';
       }
 
       // Validate expiry date (MM/YY)
-      const expiryPattern = /^(0[1-9]|1[0-2])\/\d{2}$/
+      const expiryPattern = /^(0[1-9]|1[0-2])\/\d{2}$/;
       if (!expiryPattern.test(this.newCard.expiryDate)) {
-        this.errors.expiryDate = 'Invalid expiry date (MM/YY)'
+          this.errors.expiryDate = 'Invalid expiry date (MM/YY)';
       }
 
       // Validate CVV (3 digits)
       if (!/^\d{3}$/.test(this.newCard.cvv)) {
-        this.errors.cvv = 'CVV must be 3 digits'
+          this.errors.cvv = 'CVV must be 3 digits';
       }
 
-      // If there are no errors, save the card
+      // If there are no validation errors, prepare the data for both frontend display and backend request
       if (Object.keys(this.errors).length === 0) {
-        const logoUrl = this.getCardLogo(this.newCard.cardNumber)
+          const logoUrl = this.getCardLogo(this.newCard.cardNumber);
 
-        const cardData = {
-          id: this.debitCards.length + 1,
-          cardholder: this.newCard.cardholder,
-          cardNumber: this.newCard.cardNumber,
-          expiryDate: this.newCard.expiryDate,
-          cvv: this.newCard.cvv,
-          logo: logoUrl,
-        }
+          // Create card data for backend request with updated field names
+          const cardDataForBackend = {
+              cardholder_name: this.newCard.cardholder,
+              card_number: this.newCard.cardNumber,
+              expiry_date: this.newCard.expiryDate,
+              cvv: this.newCard.cvv,
+              card_type: this.newCard.type,
+          };
 
-        if (this.newCard.type === 'credit') {
-          this.creditCards.push(cardData)
-        } else if (this.newCard.type === 'debit') {
-          this.debitCards.push(cardData)
-        }
+          // Create card data for frontend display with original field names
+          const cardDataForDisplay = {
+              id: this.debitCards.length + 1,
+              cardholder: this.newCard.cardholder,
+              cardNumber: this.newCard.cardNumber,
+              expiryDate: this.newCard.expiryDate,
+              cvv: this.newCard.cvv,
+              logo: logoUrl,
+          };
 
-        // Reset form after saving
-        this.newCard = {
-          cardholder: '',
-          cardNumber: '',
-          expiryDate: '',
-          cvv: '',
-          type: '',
-        }
-        this.isAddCardFormVisible = false
+          try {
+              // Send a POST request to the backend API with the correct field names
+              const response = await axios.post('http://127.0.0.1:8000/api/userpage/cards/', cardDataForBackend);
+              console.log('Card saved:', response.data);
+              alert('Card saved successfully!');
+
+              // Add the card data to the correct list based on the type for frontend display
+              if (this.newCard.type === 'credit') {
+                  this.creditCards.push(cardDataForDisplay);
+              } else if (this.newCard.type === 'debit') {
+                  this.debitCards.push(cardDataForDisplay);
+              }
+
+              // Reset the form after saving
+              this.newCard = {
+                  cardholder: '',
+                  cardNumber: '',
+                  expiryDate: '',
+                  cvv: '',
+                  type: '',
+              };
+              this.isAddCardFormVisible = false;
+          } catch (error) {
+              console.error('Error saving card:', error);
+              alert('Failed to save card. Please try again.');
+          }
       }
-    },
+    }
   },
 }
 </script>

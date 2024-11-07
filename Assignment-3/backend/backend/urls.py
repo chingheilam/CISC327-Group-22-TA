@@ -20,7 +20,7 @@ from flights.views import FlightSearchView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/users/', include('User.urls')),
-
+    path('api/userpage/', include('UserPage.urls')),
     path('api/flights/', include('flights.urls')),
 
 ]
