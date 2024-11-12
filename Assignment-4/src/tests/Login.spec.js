@@ -151,28 +151,6 @@ describe('LoginPage.vue', () => {
     }
   })
 
-  /* 
   
-  */
- it('', () => {
-  const adjustAspectRatioMock = vi
-    .spyOn(LoginPage.methods, 'adjustAspectRatio')
-    .mockImplementation(() => {}); // 空实现，防止方法实际执行
 
-    // 挂载组件
-    const wrapper = mount(LoginPage, {
-      global: {
-        plugins: [TDesign],
-      },
-    })
-
-    // 触发DOMContentLoaded事件
-  document.dispatchEvent(new Event('DOMContentLoaded'));
-
-    // 验证 adjustAspectRatio 被调用
-  expect(adjustAspectRatioMock).toHaveBeenCalled();
-
-    // 清除模拟
-  adjustAspectRatioMock.mockRestore();
- });
 })

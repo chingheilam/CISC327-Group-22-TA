@@ -420,8 +420,7 @@ body {
   color: #283841; /* Make the active menu item bold and a different color */
 }
 
-.topright {
-}
+
 
 .sign-in,
 .sign-up {

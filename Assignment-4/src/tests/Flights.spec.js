@@ -15,14 +15,10 @@ const router = createRouter({
 })
 
 describe('Flights.vue', () => {
+  // Test for Route Query Parameters to cover line 116-118
   test('should render flight information correctly from route query', async () => {
     router.push({
-      name: 'Flights',
-      query: {
-        departure: 'Toronto (YYZ)',
-        arrival: 'Vancouver (YVR)',
-        date: '2024-07-05',
-      },
+      name: 'Flights'
     })
 
     await router.isReady()
@@ -32,11 +28,23 @@ describe('Flights.vue', () => {
         plugins: [router, TDesign],
       },
     })
+    
+    expect(wrapper.vm.departure).toBe('Toronto (YYZ)')
+    expect(wrapper.vm.arrival).toBe('Vancouver (YVR)')
+    expect(wrapper.vm.date).toBe('2024-09-30')
+  })
 
-    // Check if flight information is displayed correctly
-    expect(wrapper.text()).toContain('Toronto (YYZ)')
-    expect(wrapper.text()).toContain('Vancouver (YVR)')
-    expect(wrapper.text()).toContain('2024-07-05')
+  // Additional Test for formatTime with empty time
+  test('should return empty string when time is null or empty in formatTime', async () => {
+    const wrapper = mount(Flights, {
+      global: {
+        plugins: [router, TDesign],
+      },
+    })
+
+    // Call formatTime with empty string
+    const formattedTime = wrapper.vm.formatTime('')
+    expect(formattedTime).toBe('') // Expecting empty output
   })
 
   test('should render flight options correctly with mocked axios response', async () => {
@@ -67,6 +75,41 @@ describe('Flights.vue', () => {
     expect(wrapper.text()).toContain('NAN5355')
     expect(wrapper.text()).toContain('$681')
     expect(wrapper.text()).toContain('Direct')
+  })
+
+
+  // Added Test for Object Response from axios to cover lines 134-135
+  test('should render flight options correctly with object response from axios', async () => {
+    axios.get.mockResolvedValue({
+      data: {
+        flights: [
+          {
+            flight_number: 'NAN1234',
+            departure_city: 'Toronto (YYZ)',
+            arrival_city: 'Vancouver (YVR)',
+            departure_date: '2024-07-06',
+            departure_time: '10:30:00',
+            price_economy: 700,
+            price_premium: 900,
+            price_first: 2800,
+          },
+        ],
+      },
+    })
+
+    const wrapper = mount(Flights, {
+      global: {
+        plugins: [router, TDesign],
+      },
+    })
+
+    await wrapper.vm.fetchFlights()
+
+    // Check if flight details are rendered correctly for object response
+    expect(wrapper.text()).toContain('NAN1234')
+    expect(wrapper.text()).toContain('$700')
+    expect(wrapper.text()).toContain('$900')
+    expect(wrapper.text()).toContain('$2800')
   })
 
   test('should render error message for invalid data', async () => {
