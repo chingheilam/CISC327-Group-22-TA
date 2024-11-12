@@ -49,8 +49,42 @@ describe('IndexPage.vue', () => {
 
     expect(router.currentRoute.value.name).toBe('Flights')
   })
+
+  // Test for selectOrigin method
+  test('updates departure and calls MessagePlugin.success when selectOrigin is called', async () => {
+
+    const wrapper = mount(IndexPage, {
+      global: {
+        plugins: [router, TDesign],
+      },
+    });
+
+    const testData = { content: 'Toronto (YYZ)' };
+
+    await wrapper.vm.selectOrigin(testData);
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.departure).toBe('Toronto (YYZ)');
+  });
   
-  
+  // Test for selectDestination method
+  test('updates arrival when selectDestination is called', async () => {
+    const wrapper = mount(IndexPage, {
+      global: {
+        plugins: [router, TDesign],
+      },
+    });
+
+    const testData = { content: 'Vancouver (YVR)' };
+
+    await wrapper.vm.selectDestination(testData);
+
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.vm.arrival).toBe('Vancouver (YVR)');
+    
+  });
   
   // Test case for goToLogin method
   test('navigates to login page when goToLogin is called', async () => {
