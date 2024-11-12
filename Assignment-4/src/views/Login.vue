@@ -63,6 +63,7 @@
 <script>
 import axios from 'axios'
 import { MessagePlugin } from 'tdesign-vue-next'
+import { adjustAspectRatio } from '@/utils/adjustAspectRatio'
 
 export default {
   data() {
@@ -92,7 +93,6 @@ export default {
   methods: {
     async onSubmit() {
       this.isLoading = true
-      console.log(this.form)
 
       setTimeout(async () => {
         try {
@@ -115,9 +115,10 @@ export default {
             this.buttonLabel = 'Success'
             this.isLoading = false
 
+            this.loginSuccess()
             // 成功后继续执行后续操作 Do other operations after login success
             setTimeout(() => {
-              this.loginSuccess
+              this.loginSuccess()
             }, 1000)
           }
         } catch (error) {
@@ -142,6 +143,7 @@ export default {
           } else {
             // 如果没有返回特定的错误信息，显示通用错误
             MessagePlugin.error('Login failed, please try again')
+            console.log('Login failed, please try again')
           }
 
           // 重置按钮状态
@@ -155,12 +157,13 @@ export default {
     },
 
     goToHomePage() {
+      console.log('go to Home Page from goToHomePage method')
       this.$router.push('/')
     },
 
     loginSuccess() {
+      console.log('Login successful from loginSuccess method')
       this.$router.push('/')
-      console.log('Login successful')
     },
 
     // 当用户有鼠标点击或键盘按下动作时，恢复按钮状态 Reset button after input
@@ -193,42 +196,36 @@ export default {
         this.emailError = false // 校验通过时清除错误状态 false for success
       }
     },
-  },
+
+    adjustAspectRatioHandler() {
+      const pageContent = document.querySelector('.login-page')
+
+      if (pageContent) {
+        const windowWidth = window.innerWidth
+        const windowHeight = window.innerHeight
+
+        const styles = adjustAspectRatio(windowWidth, windowHeight)
+
+        pageContent.style.width = styles.width
+        pageContent.style.height = styles.height
+        pageContent.style.margin = styles.margin
+      }
+    },
+  }, //methods End
 
   name: 'LoginPage',
-}
 
-document.addEventListener('DOMContentLoaded', function () {
-  adjustAspectRatio() // 页面加载时调用一次
-  window.addEventListener('resize', adjustAspectRatio) // 监听窗口调整事件
-})
-
-function adjustAspectRatio() {
-  const pageContent = document.querySelector('.login-page')
-
-  if (pageContent) {
-    const windowWidth = window.innerWidth
-    const windowHeight = window.innerHeight
-
-    const aspectRatio = 16 / 9 // 目标比例 16:9
-    const windowRatio = windowWidth / windowHeight
-
-    if (windowRatio > aspectRatio) {
-      // 窗口过扁，需要左右留白
-      const contentHeight = windowHeight
-      const contentWidth = contentHeight * aspectRatio // 根据高度调整宽度
-      pageContent.style.width = `${contentWidth}px`
-      pageContent.style.height = `${contentHeight}px`
-      pageContent.style.margin = `0 auto` // 水平居中
-    } else {
-      // 窗口过窄，需要上下留白
-      const contentWidth = windowWidth
-      const contentHeight = contentWidth / aspectRatio // 根据宽度调整高度
-      pageContent.style.width = `${contentWidth}px`
-      pageContent.style.height = `${contentHeight}px`
-      pageContent.style.margin = `auto 0` // 垂直居中
-    }
-  }
+  mounted() {
+    document.addEventListener('DOMContentLoaded', this.adjustAspectRatioHandler)
+    window.addEventListener('resize', this.adjustAspectRatioHandler)
+  },
+  beforeUnmount() {
+    document.removeEventListener(
+      'DOMContentLoaded',
+      this.adjustAspectRatioHandler,
+    )
+    window.removeEventListener('resize', this.adjustAspectRatioHandler)
+  },
 }
 </script>
 
