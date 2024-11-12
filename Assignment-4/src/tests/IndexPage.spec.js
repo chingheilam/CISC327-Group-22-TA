@@ -49,4 +49,65 @@ describe('IndexPage.vue', () => {
 
     expect(router.currentRoute.value.name).toBe('Flights')
   })
+  
+  
+  
+  // Test case for goToLogin method
+  test('navigates to login page when goToLogin is called', async () => {
+    const pushMock = vi.fn()
+
+    const wrapper = mount(IndexPage, {
+      global: {
+        plugins: [TDesign],
+        mocks: {
+          $router: {
+            push: pushMock,
+          },
+        },
+      },
+    })
+
+    await wrapper.vm.goToLogin()
+    expect(pushMock).toHaveBeenCalledWith('/login')
+  })
+
+  // Test case for goToRegister method
+  test('navigates to register page when goToRegister is called', async () => {
+    const pushMock = vi.fn()
+
+    const wrapper = mount(IndexPage, {
+      global: {
+        plugins: [TDesign],
+        mocks: {
+          $router: {
+            push: pushMock,
+          },
+        },
+      },
+    })
+
+    await wrapper.vm.goToRegister()
+    expect(pushMock).toHaveBeenCalledWith('/register')
+  })
+
+    // Test case for goToUserPage method
+    test('navigates to user page when goToUserPage is called', async () => {
+      const pushMock = vi.fn()
+  
+      const wrapper = mount(IndexPage, {
+        global: {
+          plugins: [TDesign],
+          mocks: {
+            $router: {
+              push: pushMock,
+            },
+          },
+        },
+      })
+  
+      await wrapper.vm.goToUserPage()
+      expect(pushMock).toHaveBeenCalledWith('/userPage')
+    })
+  
+
 })
