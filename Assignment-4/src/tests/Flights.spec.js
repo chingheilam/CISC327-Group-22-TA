@@ -1,4 +1,4 @@
-import { describe, test, expect } from 'vitest' // Import Vitest functions
+import { describe, test, expect, vi} from 'vitest' // Import Vitest functions
 import { mount } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
 import Flights from '../views/Flights.vue'
