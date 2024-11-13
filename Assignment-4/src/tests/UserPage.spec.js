@@ -93,6 +93,29 @@ describe('UserPage.vue', () => {
   
     expect(wrapper.vm.isCreditCardDropdownVisible).toBe(true)
   })
+
+  it('displays message when no credit cards are added', async () => {
+    // Ensure creditCards is empty
+    await wrapper.setData({
+      creditCards: [],
+    })
+  
+    // Expand the credit card dropdown
+    const creditCardDropdownTitle = wrapper
+      .findAll('.dropdown-title')
+      .filter((w) => w.text().includes('Credit Card'))
+      .at(0)
+  
+    await creditCardDropdownTitle.trigger('click')
+  
+    // Wait for DOM updates
+    await wrapper.vm.$nextTick()
+  
+    // Check that the message is displayed
+    const message = wrapper.find('.dropdown-content p')
+    expect(message.exists()).toBe(true)
+    expect(message.text()).toBe('No credit cards added yet.')
+  })
   
   it('shows the add card form when "Add New Method" button is clicked', async () => {
     expect(wrapper.vm.isAddCardFormVisible).toBe(false)
@@ -131,6 +154,30 @@ describe('UserPage.vue', () => {
     const cardNumberInput = wrapper.find('input#card-number')
     await cardNumberInput.setValue('4111111111111111')
     expect(wrapper.vm.newCard.cardNumber).toBe('4111111111111111')
+  })
+  
+  it('saves a new card successfully', async () => {
+    axios.post.mockResolvedValue({ data: {} })
+
+    await wrapper.setData({ isAddCardFormVisible: true })
+
+    await wrapper.setData({
+      newCard: {
+        cardholder: 'Jane Smith',
+        cardNumber: '5111111111111111',
+        expiryDate: '11/26',
+        cvv: '456',
+        type: 'debit',
+      },
+    })
+
+    await wrapper.vm.saveCard()
+
+    await flushPromises()
+
+    expect(wrapper.vm.debitCards).toHaveLength(1)
+    expect(wrapper.vm.debitCards[0].cardholder).toBe('Jane Smith')
+    expect(wrapper.vm.errors).toEqual({})
   })
   
   it('renders the form properly', () => {
@@ -219,29 +266,7 @@ describe('UserPage.vue', () => {
     expect(errorText.text()).toBe('Invalid email format')
   })
 
-  it('saves a new card successfully', async () => {
-    axios.post.mockResolvedValue({ data: {} })
-
-    await wrapper.setData({ isAddCardFormVisible: true })
-
-    await wrapper.setData({
-      newCard: {
-        cardholder: 'Jane Smith',
-        cardNumber: '5111111111111111',
-        expiryDate: '11/26',
-        cvv: '456',
-        type: 'debit',
-      },
-    })
-
-    await wrapper.vm.saveCard()
-
-    await flushPromises()
-
-    expect(wrapper.vm.debitCards).toHaveLength(1)
-    expect(wrapper.vm.debitCards[0].cardholder).toBe('Jane Smith')
-    expect(wrapper.vm.errors).toEqual({})
-  })
+  
 
   it('displays an error when saving card with invalid card number', async () => {
     await wrapper.setData({ isAddCardFormVisible: true })
@@ -473,28 +498,7 @@ describe('UserPage.vue', () => {
   })
 
   
-  it('displays message when no credit cards are added', async () => {
-    // Ensure creditCards is empty
-    await wrapper.setData({
-      creditCards: [],
-    })
   
-    // Expand the credit card dropdown
-    const creditCardDropdownTitle = wrapper
-      .findAll('.dropdown-title')
-      .filter((w) => w.text().includes('Credit Card'))
-      .at(0)
-  
-    await creditCardDropdownTitle.trigger('click')
-  
-    // Wait for DOM updates
-    await wrapper.vm.$nextTick()
-  
-    // Check that the message is displayed
-    const message = wrapper.find('.dropdown-content p')
-    expect(message.exists()).toBe(true)
-    expect(message.text()).toBe('No credit cards added yet.')
-  })
 
   it('displays message when no debit cards are added', async () => {
     // Ensure debitCards is empty
