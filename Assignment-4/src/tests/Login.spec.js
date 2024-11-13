@@ -299,7 +299,10 @@ describe('LoginPage.vue', () => {
     })
 
     // 调用 goToHomePage 方法
-    wrapper.vm.goToHomePage()
+    // wrapper.vm.goToHomePage()
+
+    const homeButton = wrapper.find('.home-button')
+    await homeButton.trigger('click')
 
     // 断言 $router.push 被调用，并导航到首页
     expect($router.push).toHaveBeenCalledWith('/')
