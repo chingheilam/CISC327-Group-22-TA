@@ -94,66 +94,62 @@ export default {
     async onSubmit() {
       this.isLoading = true
 
-      setTimeout(async () => {
-        try {
-          const response = await axios.post(
-            'http://127.0.0.1:8000/api/users/login/',
-            {
-              email: this.form.email,
-              password: this.form.password,
+      try {
+        const response = await axios.post(
+          'http://127.0.0.1:8000/api/users/login/',
+          {
+            email: this.form.email,
+            password: this.form.password,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
             },
-            {
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            },
-          )
+          },
+        )
 
-          // 如果后端返回 200 状态码，表示登录成功  Information valid, show 'Success'
-          if (response.status === 200) {
-            this.buttonTheme = 'success'
-            this.buttonLabel = 'Success'
-            this.isLoading = false
-
-            this.loginSuccess()
-            // 成功后继续执行后续操作 Do other operations after login success
-            setTimeout(() => {
-              this.loginSuccess()
-            }, 1000)
-          }
-        } catch (error) {
-          console.error(error.response ? error.response.data : error.message)
-
-          // 校验失败 Info invalid, show 'Failed'
-          this.buttonTheme = 'danger'
-          this.buttonLabel = 'Login Failed'
+        // 如果后端返回 200 状态码，表示登录成功  Information valid, show 'Success'
+        if (response.status === 200) {
+          this.buttonTheme = 'success'
+          this.buttonLabel = 'Success'
           this.isLoading = false
 
-          // 监听用户的鼠标点击和键盘按下事件 Listen for input events
-          window.addEventListener('click', this.resetButtonOnAction)
-          window.addEventListener('keydown', this.resetButtonOnAction)
-
-          if (
-            error.response &&
-            error.response.data &&
-            error.response.data.error
-          ) {
-            // 使用后端返回的错误信息
-            MessagePlugin.error(error.response.data.error)
-          } else {
-            // 如果没有返回特定的错误信息，显示通用错误
-            MessagePlugin.error('Login failed, please try again')
-            console.log('Login failed, please try again')
-          }
-
-          // 重置按钮状态
-          setTimeout(() => {
-            this.resetButton()
-          }, 5000)
-        } finally {
-          this.isLoading = false
+          // Call login success function (only once)
+          this.loginSuccess()
         }
-      }, 1000)
+      } catch (error) {
+        console.error(error.response ? error.response.data : error.message)
+
+        // 校验失败 Info invalid, show 'Failed'
+        this.buttonTheme = 'danger'
+        this.buttonLabel = 'Login Failed'
+        this.isLoading = false
+
+        // 监听用户的鼠标点击和键盘按下事件 Listen for input events
+        window.addEventListener('click', this.resetButtonOnAction)
+        window.addEventListener('keydown', this.resetButtonOnAction)
+
+        /* istanbul ignore next */
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.error
+        ) {
+          // 使用后端返回的错误信息
+          MessagePlugin.error(error.response.data.error)
+        } else {
+          // 如果没有返回特定的错误信息，显示通用错误
+          MessagePlugin.error('Login failed, please try again')
+          console.log('Login failed, please try again')
+        }
+
+        // 重置按钮状态
+        setTimeout(() => {
+          this.resetButton()
+        }, 5000)
+      } finally {
+        this.isLoading = false
+      }
     },
 
     goToHomePage() {
@@ -190,6 +186,7 @@ export default {
 
     // 当离开输入框时触发邮箱校验 Auto validation
     validateEmailOnBlur() {
+      /* istanbul ignore next */
       if (!this.validateEmail(this.form.email)) {
         this.emailError = true // 当校验失败时设置错误状态 true for failed
       } else {

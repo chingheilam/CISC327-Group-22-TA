@@ -92,12 +92,20 @@ describe('LoginPage.vue', () => {
     Test Case 5: Simulate the input of the correct account and password, test the status change of the button and the processing logic after success
   */
   it('Trigger login success on valid credentials 凭证有效，成功登录', async () => {
+    const $router = {
+      push: vi.fn(), // Mock router push
+    }
+
     const wrapper = mount(LoginPage, {
       global: {
         plugins: [TDesign],
+        mocks: {
+          $router,
+        },
       },
     })
 
+    // Mock a successful API response
     axios.post.mockResolvedValue({
       data: { message: 'Login successful' },
       status: 200,
@@ -110,39 +118,17 @@ describe('LoginPage.vue', () => {
       },
     })
 
+    // Trigger the login button click
     await wrapper.findComponent({ name: 'TButton' }).trigger('click')
-    console.log('Button clicked')
+    await flushPromises() // Wait for promises to resolve
 
-    try {
-      const response = await axios.post(
-        'http://127.0.0.1:8000/api/users/login/',
-        {
-          email: wrapper.vm.form.email,
-          password: wrapper.vm.form.password,
-        },
-      )
+    // Assertions for button state and label after a successful login
+    expect(wrapper.vm.buttonTheme).toBe('success')
+    expect(wrapper.vm.buttonLabel).toBe('Success')
+    expect(wrapper.vm.isLoading).toBe(false)
 
-      expect(response.status).toBe(200)
-
-      expect(response.data.message).toBe('Login successful')
-    } catch (error) {
-      console.error('Unexpected error:', error)
-      throw error
-    }
-
-    // 模拟有效的邮箱输入
-    const emailInput = wrapper.find('.t-input__inner')
-    await emailInput.setValue('user@example.com')
-
-    // 触发邮箱验证逻辑
-    wrapper.vm.validateEmailOnBlur()
-    await wrapper.vm.$nextTick()
-
-    // 校验通过时，emailError 应该为 false
-    expect(wrapper.vm.emailError).toBe(false)
-    expect(wrapper.findComponent({ name: 'TInput' }).props('status')).not.toBe(
-      'error',
-    )
+    // Ensure the successful login triggers page navigation
+    expect($router.push).toHaveBeenCalledWith('/')
   })
 
   /* 
@@ -299,12 +285,13 @@ describe('LoginPage.vue', () => {
     })
 
     // 调用 goToHomePage 方法
-    // wrapper.vm.goToHomePage()
+    wrapper.vm.goToHomePage()
+
+    // 断言 $router.push 被调用，并导航到首页
+    expect($router.push).toHaveBeenCalledWith('/')
 
     const homeButton = wrapper.find('.home-button')
     await homeButton.trigger('click')
-
-    // 断言 $router.push 被调用，并导航到首页
     expect($router.push).toHaveBeenCalledWith('/')
   })
 
@@ -438,13 +425,9 @@ describe('LoginPage.vue', () => {
     expect(loginButton.exists()).toBe(true) // 确认按钮存在
     await loginButton.trigger('click')
 
-    wrapper.vm.loginSuccess()
-
     // 确保所有异步请求完成
     await flushPromises()
     await wrapper.vm.$nextTick()
-
-    console.log('Router push called times:', $router.push.mock.calls.length)
 
     // 检查路由跳转是否发生
     expect($router.push).toHaveBeenCalledTimes(1)

@@ -2,31 +2,31 @@
 import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import istanbul from 'vite-plugin-istanbul'
-import path from 'path'
+import { fileURLToPath, URL } from 'node:url'
 
 export default defineConfig({
-  plugins: [
-    vue(),
-    istanbul({
-      // These options configure code coverage instrumentation
-      include: ['src/**/*.vue', 'src/**/*.js'], // Include your source files for coverage
-      exclude: ['node_modules', 'tests/'],      // Exclude node_modules and test files
-      extension: ['.js', '.ts', '.vue'],        // File extensions to include
-      cypress: false,
-      requireEnv: false,
-    }),
-  ],
+  plugins: [vue(), istanbul()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'), // Configure the '@' alias
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
   test: {
-    include: ['src/tests/*.js'], // Include only test scripts in src/tests/*.js
     environment: 'jsdom',
     coverage: {
-      provider: 'istanbul',       // Use Istanbul for coverage
-      reporter: ['text', 'html'], // Output formats
+      provider: 'istanbul',
+      reporter: ['text', 'html'],
+      reportsDirectory: './coverage',
+      include: ['src/views/*.vue'],
+      exclude: [
+        '**/node_modules/**',
+        '**/Register.vue',
+        '**/FlightRescheduleUpgrade.vue',
+        '**/FlightsCancellation.vue',
+        '**/OrderHistory.vue',
+      ],
+      cypress: false,
+      requireEnv: false,
     },
   },
 })

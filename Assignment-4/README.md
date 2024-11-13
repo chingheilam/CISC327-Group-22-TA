@@ -15,6 +15,8 @@ Before running this project, make sure you have the following installed on your 
 
 ### Getting Started
 
+For all commands that are not specified, the execution path is the Assignment root directory
+
 1. Clone the repository:
 
    ```bash
@@ -49,6 +51,12 @@ Before running this project, make sure you have the following installed on your 
 
    ```properties
    npm run test:unit
+   ```
+
+5. Run coverage test script supported by Vitest and Istanbul:
+
+   ```properties
+   npx vitest --coverage
    ```
 
 ### Test Case
