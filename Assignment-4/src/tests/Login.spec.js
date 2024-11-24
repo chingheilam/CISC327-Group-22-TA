@@ -175,24 +175,19 @@ describe('LoginPage.vue', () => {
       attachTo: document.body,
     })
 
-    // 模拟 window 的大小
     window.innerWidth = 1920
     window.innerHeight = 1080
 
-    // 手动触发 window 的 resize 事件
     window.dispatchEvent(new Event('resize'))
     await wrapper.vm.$nextTick()
 
     const pageContent = wrapper.find('.login-page')
-    // 验证内容宽度和高度是否根据目标调整
     expect(pageContent.element.style.width).toBe('1920px')
     expect(pageContent.element.style.height).toBe('1080px')
 
-    // 模拟另一个尺寸
     window.innerWidth = 800
     window.innerHeight = 600
 
-    // 再次触发 resize 事件
     window.dispatchEvent(new Event('resize'))
     await wrapper.vm.$nextTick()
 
@@ -341,15 +336,12 @@ describe('LoginPage.vue', () => {
       },
     })
 
-    // 调用 resetButtonOnAction 方法
     wrapper.vm.resetButtonOnAction()
 
-    // 断言 resetButton 方法被调用
     expect(wrapper.vm.buttonTheme).toBe('primary')
     expect(wrapper.vm.buttonLabel).toBe('Login')
     expect(wrapper.vm.isLoading).toBe(false)
 
-    // 断言 window.removeEventListener 被正确调用
     expect(removeEventListenerSpy).toHaveBeenCalledWith(
       'click',
       wrapper.vm.resetButtonOnAction,
@@ -359,7 +351,6 @@ describe('LoginPage.vue', () => {
       wrapper.vm.resetButtonOnAction,
     )
 
-    // 恢复原始的 removeEventListener
     removeEventListenerSpy.mockRestore()
   })
 
@@ -422,14 +413,12 @@ describe('LoginPage.vue', () => {
     })
 
     const loginButton = wrapper.find('.login-button')
-    expect(loginButton.exists()).toBe(true) // 确认按钮存在
+    expect(loginButton.exists()).toBe(true)
     await loginButton.trigger('click')
 
-    // 确保所有异步请求完成
     await flushPromises()
     await wrapper.vm.$nextTick()
 
-    // 检查路由跳转是否发生
     expect($router.push).toHaveBeenCalledTimes(1)
     expect($router.push).toHaveBeenCalledWith('/')
   })

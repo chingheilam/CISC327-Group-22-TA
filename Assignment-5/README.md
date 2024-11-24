@@ -59,6 +59,13 @@ For all commands that are not specified, the execution path is the Assignment ro
    npx vitest --coverage
    ```
 
+6. Run integration test script supported by Django:
+
+   ```properties
+   cd backend
+   python manage.py test
+   ```
+
 ### Test Case
 
 - Test Case 1: checking the login form rendering
