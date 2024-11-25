@@ -6,7 +6,7 @@ from flights.models import Flight
 import json
 import datetime
 
-class FlightAppIntegrationTest(TestCase):
+class FlightAppIntegrationTest(unittest.TestCase):
     
     @classmethod
     def setUpClass(cls):
