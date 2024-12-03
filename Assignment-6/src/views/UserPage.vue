@@ -292,6 +292,12 @@ export default {
       userDetailsArray: [], // Array to store multiple user info objects
     }
   },
+
+  mounted() {
+    // Expose userDetailsArray to the global window object for testing
+    window.userDetailsArray = this.userDetailsArray;
+  },
+  
   methods: {
     saveChanges() {
       this.errors = {} // Reset errors before validation

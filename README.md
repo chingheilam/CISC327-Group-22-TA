@@ -10,4 +10,4 @@ Zhou, Xuhong --- Violet0725
 | -------------- | ------------------------------------|
 | Lam, Ching Hei | Flight Search End-to-End System Test|
 | Xie, Mingyang  | Login Module                        |
-| Zhou, Xuhong   | User Page Module                    |
+| Zhou, Xuhong   | User Page End-to-End System Test                |
