@@ -21,12 +21,12 @@ For all commands that are not specified, the execution path is the Assignment ro
 
    ```bash
    git clone https://github.com/mentlesoul/CISC327-Group-22-TA.git
-   cd CISC327-Group-22-TA\Assignment-3
+   cd CISC327-Group-22-TA\Assignment-6
    ```
 
 2. Installation dependencies:
 
-   At the root directory, thus `Assignment-3` folder, run bash/shell command below:
+   At the root directory, thus `Assignment-6` folder, run bash/shell command below:
 
    ```properties
    npm install
@@ -53,29 +53,21 @@ For all commands that are not specified, the execution path is the Assignment ro
    npm run test:unit
    ```
 
-5. Run coverage test script supported by Vitest and Istanbul:
+5.	Open a terminal in the project directory and use one of the following commands to run the test script:
+   ```properties
+   npx cypress open
+   ```
+   Opens the Cypress Test Runner UI, where you can manually select the test to run.
+
+   or
 
    ```properties
-   npx vitest --coverage
+   npx cypress run: Runs the test script directly in the terminal, without the UI.
    ```
 
-6. Run integration test script supported by Django:
+| Name           | Work                                        |
+| -------------- | ------------------------------------------- |
+| Lam, Ching Hei | Index Page Module & Flight Searching Module |
+| Xie, Mingyang  | Login Module                                |
+| Zhou, Xuhong   | User Page Module                            |
 
-   ```properties
-   cd backend
-   python manage.py test
-   ```
-
-### Test Case
-
-- Test Case 1: checking the login form rendering
-- Test Case 2-4: Simulate the input of an invalid mailbox and test the mailbox validation logic
-- Test Case 5: Simulate the input of the correct account and password, test the status change of the button and the processing logic after success
-- Test Case 6: Simulate the incorrect account and password, test the status change of the button and the processing logic after the failure
-
-![Test result picture](./screenshot.png)
-| Name | Work |
-| -------------- | ----------------------- |
-| Lam, Ching Hei | Flight Searching Module |
-| Xie, Mingyang | Login Module |
-| Zhou, Xuhong | User Page Module |
