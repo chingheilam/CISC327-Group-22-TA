@@ -6,8 +6,8 @@ Lam, Ching Hei --- chingheilam
 Xie, Mingyang --- mentlesoul  
 Zhou, Xuhong --- Violet0725
 
-| Name           | Work                                        |
-| -------------- | ------------------------------------------- |
-| Lam, Ching Hei | Index Page Module & Flight Searching Module |
-| Xie, Mingyang  | Login Module                                |
-| Zhou, Xuhong   | User Page Module                            |
+| Name           | Work                                |
+| -------------- | ------------------------------------|
+| Lam, Ching Hei | Flight Search End-to-End System Test|
+| Xie, Mingyang  | Login Module                        |
+| Zhou, Xuhong   | User Page Module                    |
