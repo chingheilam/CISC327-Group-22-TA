@@ -1,6 +1,6 @@
 ## Login Page with Vue and TDesign
 
-This project is a simple login page created using `Vue.js` for frontend and use `Django` for backend, and using `vitest` to write test scripts.
+This project is a simple login page created using `Vue.js` for frontend and use `Django` for backend, using `vitest` and `cypress` to write test scripts.
 
 It includes simulated authentication with visual feedback on login status and input validation.
 
@@ -53,21 +53,24 @@ For all commands that are not specified, the execution path is the Assignment ro
    npm run test:unit
    ```
 
-5.	Open a terminal in the project directory and use one of the following commands to run the test script:
+5. Open a terminal in the project directory and use one of the following commands to run the test script:
+
    ```properties
    npx cypress open
    ```
+
    Opens the Cypress Test Runner UI, where you can manually select the test to run.
 
    or
 
    ```properties
-   npx cypress run: Runs the test script directly in the terminal, without the UI.
+   npx cypress run
    ```
+
+   Runs the test script directly in the terminal, without the UI.
 
 | Name           | Work                                        |
 | -------------- | ------------------------------------------- |
 | Lam, Ching Hei | Index Page Module & Flight Searching Module |
 | Xie, Mingyang  | Login Module                                |
 | Zhou, Xuhong   | User Page Module                            |
-
