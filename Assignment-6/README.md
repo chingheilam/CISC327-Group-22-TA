@@ -20,7 +20,7 @@ For all commands that are not specified, the execution path is the Assignment ro
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/mentlesoul/CISC327-Group-22-TA.git
+   git clone https://github.com/chingheilam/CISC327-Group-22-TA.git
    cd CISC327-Group-22-TA\Assignment-6
    ```
 
